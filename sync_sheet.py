@@ -47,12 +47,24 @@ except ImportError:
 # 설정
 # ------------------------------------------------------------------
 # URL의 /d/ 와 /edit 사이 값입니다.
-SPREADSHEET_ID = "1yPOv4d9XSQIdyTKcc1T8A2PnTP3oExwDaZrMyZUtW0A"
-SCHEDULE_SHEET_NAME = "오사카_교토"  # 실제 탭 이름과 다르면 수정하세요
+# 다음 여행에는 코드를 고치지 말고, GitHub 시크릿 SPREADSHEET_ID 값만 새 시트 ID로 바꾸세요.
+SPREADSHEET_ID = os.environ.get("SPREADSHEET_ID", "1yPOv4d9XSQIdyTKcc1T8A2PnTP3oExwDaZrMyZUtW0A")
+
+# 시트 탭 이름 — 앞으로 만드는 모든 여행 시트에서 이 이름을 그대로 써주세요.
+# (다음 여행에도 탭 이름만 똑같이 맞추면 이 파일은 손댈 필요가 없습니다.)
+SCHEDULE_SHEET_NAME = os.environ.get("SCHEDULE_SHEET_NAME", "일정")
 CREDENTIALS_PATH = "credentials.json"
 OUTPUT_PATH = "index.html"
 START_MARKER = "/* ITINERARY_AUTO_START */"
 END_MARKER = "/* ITINERARY_AUTO_END */"
+REF_START_MARKER = "/* REF_AUTO_START */"
+REF_END_MARKER = "/* REF_AUTO_END */"
+# 참고 목록(맛집/쇼핑/관광지) 탭 이름. 이것도 매 여행 시트에서 동일하게 맞춰주세요.
+REF_SHEET_TABS = [
+    ("맛집", "food"),
+    ("쇼핑", "shop"),
+    ("관광지", "sight"),
+]
 GOOGLE_MAPS_API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY", "")
 
 SCOPES = [
@@ -61,7 +73,7 @@ SCOPES = [
 ]
 
 
-def load_sheet():
+def open_spreadsheet():
     """
     인증 우선순위:
       1) GOOGLE_CREDENTIALS_JSON 환경변수 (GitHub Actions 시크릿) — 서비스 계정 키 JSON 전체 문자열
@@ -82,9 +94,7 @@ def load_sheet():
         sys.exit(1)
 
     client = gspread.authorize(creds)
-    sh = client.open_by_key(SPREADSHEET_ID)
-    ws = sh.worksheet(SCHEDULE_SHEET_NAME)
-    return ws.get_all_values()
+    return client.open_by_key(SPREADSHEET_ID)
 
 
 def geocode(place_name):
@@ -138,6 +148,36 @@ def get_directions(origin, destination, mode):
     return None
 
 
+def load_ref_sheet(sh, tab_name):
+    """참고 목록 탭 하나를 읽어옵니다. 탭이 없으면 None을 반환하고 건너뜁니다."""
+    try:
+        ws = sh.worksheet(tab_name)
+    except Exception:
+        print(f"  - '{tab_name}' 탭을 찾지 못해 건너뜁니다 (탭 이름을 확인해주세요).")
+        return None
+    rows = ws.get_all_values()
+    items = []
+    last_region = ""
+    for row in rows[1:]:
+        row = row + [""] * (5 - len(row))
+        region, cat, name, note = [str(x).strip() for x in row[:4]]
+        region = region if region else last_region
+        last_region = region
+        if not name:
+            continue
+        items.append({"region": region, "cat": cat, "name": name, "note": note})
+    return items
+
+
+def geocode_ref_items(items):
+    for it in items:
+        query = f"{it['name']} {it.get('region', '')}".strip()
+        latlng = geocode(query)
+        if latlng is not None:
+            it["lat"], it["lng"] = latlng
+        time.sleep(0.2)
+
+
 def parse_rows_to_days(rows):
     """A~H 8개 컬럼을 읽어 day 단위 리스트로 묶습니다.
     병합된 '일차' 셀은 gspread가 첫 행에만 값을 주고 나머지는 빈 문자열을
@@ -183,14 +223,17 @@ def parse_rows_to_days(rows):
 
 
 def main():
-    print("1. 구글 시트에서 일정 데이터를 불러오는 중...")
-    rows = load_sheet()
+    print("1. 구글 시트에 접속하는 중...")
+    sh = open_spreadsheet()
 
-    print("2. 일자별로 데이터를 정리하는 중...")
+    print("2. 일정 탭을 불러와 정리하는 중...")
+    rows = sh.worksheet(SCHEDULE_SHEET_NAME).get_all_values()
     days = parse_rows_to_days(rows)
 
+    ref_data = {"food": [], "shop": [], "sight": []}
+
     if GOOGLE_MAPS_API_KEY:
-        print("3. Geocoding API로 좌표를 갱신하는 중... (과호출 방지를 위해 0.2초 간격)")
+        print("3. Geocoding API로 일정 좌표를 갱신하는 중... (과호출 방지를 위해 0.2초 간격)")
         for d in days:
             for s in d["stops"]:
                 target = s.get("place") or s.get("title")
@@ -217,10 +260,19 @@ def main():
                         time.sleep(0.2)
                 legs.append(leg_result)
             d["legs"] = legs
-    else:
-        print("3~4. GOOGLE_MAPS_API_KEY가 없어 좌표/경로 계산은 건너뜁니다 (기존 값 유지).")
 
-    print("5. index.html의 일정 데이터 구간을 교체하는 중...")
+        print("5. 맛집/쇼핑/관광지 참고 목록을 불러와 좌표를 계산하는 중... (시간이 걸릴 수 있습니다)")
+        for tab_name, key in REF_SHEET_TABS:
+            items = load_ref_sheet(sh, tab_name)
+            if items is None:
+                continue
+            print(f"  - '{tab_name}' {len(items)}개 항목 좌표 계산 중...")
+            geocode_ref_items(items)
+            ref_data[key] = items
+    else:
+        print("3~5. GOOGLE_MAPS_API_KEY가 없어 좌표/경로/참고목록 계산은 건너뜁니다 (기존 값 유지).")
+
+    print("6. index.html 파일을 갱신하는 중...")
     if not os.path.exists(OUTPUT_PATH):
         sys.exit(f"'{OUTPUT_PATH}' 파일이 없습니다. 먼저 받은 index.html을 이 폴더에 넣어주세요.")
 
@@ -228,20 +280,26 @@ def main():
         html = f.read()
 
     if START_MARKER not in html or END_MARKER not in html:
-        sys.exit("마커를 찾을 수 없습니다. index.html이 원본 그대로인지 확인해주세요.")
+        sys.exit("일정 마커를 찾을 수 없습니다. index.html이 원본 그대로인지 확인해주세요.")
 
     # JSON 직렬화 — 문자열 수동 조립보다 안전 (따옴표/이스케이프 문제 원천 차단)
     js_data = f"const itinerary = {json.dumps(days, ensure_ascii=False, indent=2)};"
-
     start_idx = html.index(START_MARKER) + len(START_MARKER)
     end_idx = html.index(END_MARKER)
-    new_html = html[:start_idx] + "\n" + js_data + "\n" + html[end_idx:]
+    html = html[:start_idx] + "\n" + js_data + "\n" + html[end_idx:]
+
+    if GOOGLE_MAPS_API_KEY and REF_START_MARKER in html and REF_END_MARKER in html:
+        ref_js = f"const refData = {json.dumps(ref_data, ensure_ascii=False, indent=2)};"
+        r_start = html.index(REF_START_MARKER) + len(REF_START_MARKER)
+        r_end = html.index(REF_END_MARKER)
+        html = html[:r_start] + "\n" + ref_js + "\n" + html[r_end:]
 
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
-        f.write(new_html)
+        f.write(html)
 
     total_stops = sum(len(d["stops"]) for d in days)
-    print(f"완료: index.html 갱신됨 (총 {len(days)}일, {total_stops}개 일정)")
+    total_ref = sum(len(v) for v in ref_data.values())
+    print(f"완료: index.html 갱신됨 (일정 {len(days)}일 {total_stops}개, 참고목록 {total_ref}개)")
 
 
 if __name__ == "__main__":
