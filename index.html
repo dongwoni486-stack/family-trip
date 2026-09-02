@@ -1,127 +1,311 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>오사카·교토 가족 여행 가이드</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#1F2A44; --vermillion:#BE4A3C; --moss:#5B7553; --paper:#F6F1E7; --paper-2:#FFFFFF; --line:#E4DACB; --muted:#8A8071; --gold:#C9A24B; }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  body{ margin:0; background:var(--paper); color:var(--ink); font-family:'Noto Sans KR', sans-serif; padding-bottom:40px; }
 
-    <!DOCTYPE html>
-    <html>
-    <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>가족 여행 일정</title>
-    <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 10px; margin: 0; background-color: #f9f9f9; }
-        .header { text-align: center; margin-bottom: 20px; color: #333; }
-        .tab { overflow-x: auto; white-space: nowrap; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 15px; -webkit-overflow-scrolling: touch; }
-        .tab button { background-color: inherit; border: none; outline: none; cursor: pointer; padding: 14px 20px; font-size: 15px; color: #666; font-weight: bold; }
-        .tab button.active { color: #007aff; border-bottom: 3px solid #007aff; }
-        .tabcontent { display: none; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); padding: 15px; overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 600px; }
-        th, td { border-bottom: 1px solid #eee; padding: 10px; text-align: left; }
-        th { background-color: #f4f4f4; color: #555; }
-        a { color: #007aff; text-decoration: none; word-break: break-all; }
-    </style>
-    </head>
-    <body>
-    <div class="header"><h2>✈️ 오사카/교토 가족 여행</h2></div>
-    <div class="tab">
-    <button class="tablinks active" onclick="openTab(event, 'tab0')">1일차 (9/19)</button>
-<button class="tablinks" onclick="openTab(event, 'tab1')">2일차 (9/20)</button>
-<button class="tablinks" onclick="openTab(event, 'tab2')">3일차 (9/21)</button>
-<button class="tablinks" onclick="openTab(event, 'tab3')">4일차 (9/22)</button>
-<button class="tablinks" onclick="openTab(event, 'tab4')">5일차 (9/23)</button>
-<button class="tablinks" onclick="openTab(event, 'tab5')">6일차 (9/24)</button>
-</div>
-<div id="tab0" class="tabcontent" style="display:block">
-<table>
-<tr><th>B: 시간</th><th>C: 제목</th><th>D: 장소 (@스마트칩)</th><th>E: 설명</th><th>F: 후보 (맛집/대안)</th><th>G: 체크리스트</th><th>H: 바우처URL</th></tr>
-<tr><td>11:10</td><td>인천 공항 출발</td><td>@인천국제공항 제1여객터미널</td><td>파라타항공 WE0511</td><td></td><td>여권, 110V 돼지코, 환전금</td><td><a href="https:// (항공권)" target="_blank">링크 연결</a></td></tr>
-<tr><td>12:55</td><td>간사이 공항 도착 및 입국 수속</td><td>간사이 국제공항 (KIX)</td><td>예약번호 AA3SJC / 💡 비짓재팬웹 QR 미리 캡처, 안쪽 키오스크 이용 후 배정된 알파벳 라인 직행</td><td></td><td>비짓재팬 QR 캡처본</td><td></td></tr>
-<tr><td>14:14</td><td>교토 이동</td><td>교토 역</td><td>JR 하루카 30호 (간사이공항 14:14 → 교토역 15:34) / 9호차 1A·1B·1C석</td><td></td><td>하루카 탑승권 QR</td><td><a href="https:// (하루카)" target="_blank">링크 연결</a></td></tr>
-<tr><td>16:30</td><td>교토 숙소 체크인 (시모아타라시초)</td><td>교토 숙소
-340 Shimoatarashichō</td><td>[숙소] 히가시야마 에어비앤비 (택시 5~8분)</td><td></td><td>상비약, 보조배터리</td><td><a href="https:// (에어비앤비)" target="_blank">링크 연결</a></td></tr>
-<tr><td>18:00</td><td>야사카 신사 및 기온 산책</td><td>야사카 신사 및 기온산책
-야사카 신사</td><td>밤의 야사카 신사 (제등 조명)</td><td></td><td></td><td></td></tr>
-<tr><td>19:30</td><td>기온 거리 야간 산책 및 저녁</td><td>기온 거리 야간 산책 및 저녁
-Shinbashi-dori</td><td>기온 신바시 골목 탐방</td><td>- 오반자이 사쿠라가와 (아이 나눠먹기 좋음)
-- 교노지도리야 아키 (가족 단위 무난)
-- 교료리 호잔 (뷔페식)</td><td></td><td></td></tr>
-<tr><td>21:00</td><td>숙소 복귀 및 장보기</td><td>@Fresco Higashiyama Nanajo</td><td>마트 장보기 (도보 5분)</td><td></td><td></td><td></td></tr>
-</table>
-</div>
-<div id="tab1" class="tabcontent" style="display:none">
-<table>
-<tr><th>B: 시간</th><th>C: 제목</th><th>D: 장소 (@스마트칩)</th><th>E: 설명</th><th>F: 후보 (맛집/대안)</th><th>G: 체크리스트</th><th>H: 바우처URL</th></tr>
-<tr><td>7:30</td><td>기요미즈데라(청수사) 개장 직후 관람</td><td>기요미즈데라</td><td>실버위크 혼잡 회피 위해 이른 아침 관람 권장</td><td></td><td></td><td></td></tr>
-<tr><td>9:00</td><td>산넨자카 & 니넨자카 산책</td><td>니넨자카</td><td>교토 시내 전경 감상</td><td></td><td></td><td></td></tr>
-<tr><td>10:00</td><td>스타벅스 니넨자카점(다다미) 카페</td><td>스타벅스 니넨자카 야사카차야점</td><td>다다미석, 이른 시간대라 대기 적음</td><td></td><td></td><td></td></tr>
-<tr><td>11:00</td><td>후시미이나리 신사(여우신사) 이동 및 참배</td><td>후시미 이나리 신사</td><td>붉은 토리이 길 사진 촬영</td><td></td><td></td><td></td></tr>
-<tr><td>13:00</td><td>점심 식사 (후시미이나리 인근)</td><td></td><td></td><td>- 교토가츠규 후시미이나리점 (아이 무난)
-- Fushimi Inari DORAIMON (장어덮밥, 예약가능)
-- 수바 (우동/소바)</td><td></td><td></td></tr>
-<tr><td>15:00</td><td>점심 식사 (후시미이나리 인근)</td><td>SOU·SOU KYOTO 青山店</td><td>신쿄고쿠 거리 본점들 구경 및 쇼핑</td><td></td><td></td><td></td></tr>
-<tr><td>17:00</td><td>숙소 복귀 및 자유시간</td><td>교토 숙소
-340 Shimoatarashichō</td><td>숙소 복귀 및 휴식</td><td></td><td></td><td></td></tr>
-<tr><td>18:00</td><td>마트 장보기</td><td>@Fresco Higashiyama Nanajo</td><td>마트 장보기</td><td></td><td></td><td></td></tr>
-</table>
-</div>
-<div id="tab2" class="tabcontent" style="display:none">
-<table>
-<tr><th>B: 시간</th><th>C: 제목</th><th>D: 장소 (@스마트칩)</th><th>E: 설명</th><th>F: 후보 (맛집/대안)</th><th>G: 체크리스트</th><th>H: 바우처URL</th></tr>
-<tr><td>9:30</td><td>숙소 체크아웃 및 이동</td><td>교토 역</td><td>숙소 체크아웃 후 교토역 코인락커 짐 보관 권장 (택시 2대 분산)</td><td></td><td></td><td></td></tr>
-<tr><td>10:00</td><td>교토 철도박물관 관람</td><td>@교토 철도박물관</td><td>증기기관차 '슬엔호' 탑승 체험</td><td></td><td></td><td><a href="https:// (입장권)" target="_blank">링크 연결</a></td></tr>
-<tr><td>12:30</td><td>점심 식사 (교토역 인근)</td><td>교토 역</td><td></td><td>- 카츠쿠라 이세탄 (한국어 메뉴판)
-- 긴자 텐푸라 텐이치 (자리회전 빠름)
-- 동양정 (경양식)</td><td></td><td></td></tr>
-<tr><td>14:00</td><td>오사카(우메다) 이동</td><td>오사카 역</td><td>약 30분 소요, JR 교토선 신쾌속 이용</td><td></td><td></td><td></td></tr>
-<tr><td>15:30</td><td>오사카 호텔 체크인</td><td>이비스 오사카 우메다</td><td>오사카 숙소 체크인</td><td></td><td></td><td><a href="https:// (호텔)" target="_blank">링크 연결</a></td></tr>
-<tr><td>17:00</td><td>우메다 도심 구경 및 쇼핑</td><td>우메다</td><td>한큐/한신 백화점 구경, 아이들용 캐릭터 스트리트 및 뽑기</td><td></td><td></td><td></td></tr>
-<tr><td>19:00</td><td>우메다 야경 및 저녁 식사</td><td>우메다</td><td></td><td>- 오코노미야키 키지 (아이 추천 철판요리)
-- 야키니쿠 고리짱 우메다 본점
-- 규카츠 모토무라 루쿠아점</td><td></td><td></td></tr>
-</table>
-</div>
-<div id="tab3" class="tabcontent" style="display:none">
-<table>
-<tr><th>B: 시간</th><th>C: 제목</th><th>D: 장소 (@스마트칩)</th><th>E: 설명</th><th>F: 후보 (맛집/대안)</th><th>G: 체크리스트</th><th>H: 바우처URL</th></tr>
-<tr><td>9:00</td><td>유니버설 스튜디오 재팬 (USJ)</td><td>유니버설 스튜디오 재팬</td><td>종일 일정, 유니버설 예약 보통 2개월 전 오픈</td><td></td><td>아이 간식, 물티슈, 모자</td><td><a href="https:// (USJ 티켓)" target="_blank">링크 연결</a></td></tr>
-<tr><td>18:00</td><td>유니버설 스튜디오 재팬 (USJ)</td><td>유니버설 시티 워크 오사카</td><td>호텔 복귀 전 저녁 식사 해결 권장</td><td></td><td></td><td></td></tr>
-</table>
-</div>
-<div id="tab4" class="tabcontent" style="display:none">
-<table>
-<tr><th>B: 시간</th><th>C: 제목</th><th>D: 장소 (@스마트칩)</th><th>E: 설명</th><th>F: 후보 (맛집/대안)</th><th>G: 체크리스트</th><th>H: 바우처URL</th></tr>
-<tr><td>9:30</td><td>유니버설 시티워크 저녁 식사</td><td>이비스 오사카 우메다</td><td>USJ 다음날 피로 고려해 여유로운 아침 정비</td><td></td><td></td><td></td></tr>
-<tr><td>10:00</td><td>링크스 우메다 (LINKS UMEDA) 쇼핑</td><td>LINKS UMEDA</td><td>[쇼핑] 5층 다이소, Standard Products, Threeppy</td><td></td><td>에코백, 동전지갑</td><td></td></tr>
-<tr><td>12:30</td><td>점심 식사 (링크스 우메다 식당가)</td><td>다이마루 우메다점</td><td>7인 대인원 식사 용이 (건물 B1 / 8층 식당가)</td><td></td><td></td><td></td></tr>
-<tr><td>14:00</td><td>다이마루 우메다점 캐릭터 스트리트</td><td></td><td>[쇼핑] 13층 닌텐도 오사카, 포켓몬센터, 산리오</td><td></td><td></td><td></td></tr>
-<tr><td>15:30</td><td>세리아 (Seria) 100엔샵 쇼핑</td><td></td><td>[쇼핑] 디즈니/캐릭터 소품, 문구, DIY 잡화</td><td></td><td></td><td></td></tr>
-<tr><td>16:30</td><td>헵파이브 (HEP FIVE) 가챠 & 관람차</td><td>HEP FIVE</td><td>[쇼핑/놀이] 9층 가샤폰 백화점 (600대) & 대관람차</td><td></td><td></td><td></td></tr>
-<tr><td>18:30</td><td>오사카 마지막 밤 저녁 식사 및 복귀</td><td>이비스 오사카 우메다</td><td>오사카 마지막 밤 저녁 식사 및 복귀</td><td>- 스시일심 (초밥)
-- 이즈모 우나기 (장어 이자카야)
-- 리키마루 로바타야키 이사리비</td><td></td><td></td></tr>
-</table>
-</div>
-<div id="tab5" class="tabcontent" style="display:none">
-<table>
-<tr><th>B: 시간</th><th>C: 제목</th><th>D: 장소 (@스마트칩)</th><th>E: 설명</th><th>F: 후보 (맛집/대안)</th><th>G: 체크리스트</th><th>H: 바우처URL</th></tr>
-<tr><td>11:00</td><td></td><td></td><td>체크아웃 및 공항리무진 탑승</td><td></td><td>여권 챙기기</td><td><a href="https:// (리무진)" target="_blank">링크 연결</a></td></tr>
-<tr><td>13:00</td><td>간사이 공항 도착 및 수속</td><td>간사이 국제공항 (KIX)</td><td>공항 수속 및 면세점 쇼핑
-파라타항공 WE0512 탑승 (16:15 인천 도착)</td><td></td><td></td><td></td></tr>
-</table>
+  .sticky-top { position: sticky; top: 0; z-index: 100; background: var(--paper); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+  header{ background:var(--ink); color:var(--paper); padding:16px 18px; display:flex; justify-content:space-between; align-items:center; }
+  header h1{font-family:'Noto Serif KR', serif; font-size:18px; margin:0;}
+  .weather-widget { text-align:right; font-size:11px; color:#C8CEDB; }
+  .weather-temp { font-size:15px; font-weight:700; color:#fff; }
+
+  .day-tabs{ display:flex; gap:8px; overflow-x:auto; padding:10px 14px; background:var(--ink); scrollbar-width:none; }
+  .day-tab{ padding:8px 14px; border-radius:20px; border:1px solid #3A4763; background:#2A3652; color:#C8CEDB; font-size:12.5px; cursor:pointer; white-space:nowrap; }
+  .day-tab.active{background:var(--vermillion); border-color:var(--vermillion); color:#fff;}
+
+  #map{ height:280px; width:100%; border-bottom:1px solid var(--line);}
+  @media (max-width: 600px) { #map { height: 260px; } }
+  .summary-bar{ padding:10px 18px; background:var(--paper-2); font-size:13px; font-weight:700; color:var(--ink); border-bottom:1px solid var(--line); }
+
+  .checklist-wrap { background:#EEF3E9; padding:10px 16px; border-bottom:1px solid var(--line); font-size:12px; }
+  .checklist-title { font-weight:700; color:var(--moss); margin-bottom:4px; }
+  .check-item { display:inline-flex; align-items:center; gap:4px; margin-right:10px; margin-bottom:4px; cursor:pointer; color:#444;}
+  .check-item.done { text-decoration:line-through; color:var(--muted); opacity:0.6; }
+
+  main{padding:16px;}
+  .stop{ position:relative; display:flex; gap:12px; margin-bottom:4px;}
+  .stop-line{ display:flex; flex-direction:column; align-items:center; width:28px; }
+  .stop-dot{ width:13px; height:13px; border-radius:50%; background:var(--paper-2); border:2.5px solid var(--vermillion); margin-top:4px; z-index:2;}
+  .stop.done .stop-dot{background:var(--vermillion);}
+  .stop-connector{ width:2px; flex:1; background:repeating-linear-gradient(to bottom, var(--line) 0 4px, transparent 4px 8px); min-height:20px;}
+
+  .stop-card{ flex:1; background:var(--paper-2); border:1px solid var(--line); border-radius:12px; padding:12px; margin-bottom:12px; cursor:pointer; }
+  .stop.done .stop-card{opacity:.55;}
+  .stop-time{font-size:11px; color:var(--vermillion); font-weight:700;}
+  .stop-title{font-size:14.5px; font-weight:700; margin:2px 0 2px;}
+  .stop-place{font-size:12px; font-weight:500; color:var(--moss); margin-bottom:4px;}
+  .stop-desc{font-size:12px; color:#5B5647; line-height:1.4; margin-bottom:6px;}
+
+  .btn-group { display:flex; gap:6px; margin-top:8px; border-top:1px dashed var(--line); padding-top:8px; }
+  .action-btn { display:inline-block; padding:5px 9px; background:var(--paper); border:1px solid var(--line); border-radius:6px; font-size:11px; text-decoration:none; font-weight:500; }
+  .action-btn.map-btn { color:#4285F4; border-color:#D2E3FC; background:#E8F0FE; }
+  .action-btn.ticket-btn { color:var(--vermillion); border-color:#FCE8E6; background:#FCE8E6; }
+
+  .cand-chip{ display:flex; justify-content:space-between; padding:7px 9px; border-radius:8px; border:1px solid var(--line); font-size:11.5px; background:var(--paper); margin-top:4px;}
+  .cand-chip.selected{ border-color:var(--moss); background:#EEF3E9;}
+
+  footer{ text-align:center; padding:18px 16px 6px; font-size:11px; color:var(--muted); }
+</style>
+</head>
+<body>
+
+<div class="sticky-top">
+  <header>
+    <h1>오사카·교토 가족 여행 가이드</h1>
+    <div class="weather-widget" id="weather">날씨 확인 중...</div>
+  </header>
+  <nav class="day-tabs" id="dayTabs"></nav>
+  <div id="map"></div>
+  <div class="summary-bar" id="sumTitle">일정</div>
+  <div class="checklist-wrap" id="checklistSection" style="display:none;"></div>
 </div>
 
-    <script>
-    function openTab(evt, tabName) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-        }
-        tablinks = document.getElementsByClassName("tablinks");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-        document.getElementById(tabName).style.display = "block";
-        evt.currentTarget.className += " active";
+<main>
+  <div id="timeline"></div>
+</main>
+
+<footer>구글 스프레드시트 기반 · 완료 체크·준비물·식당 선택은 이 브라우저에만 저장됩니다</footer>
+
+<!-- 브라우저 전용 키: Maps JavaScript API 전용으로 제한된 키를 사용하세요 -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA6TPEOwHL_hNV4jgKPvXwUbKuQRBUk-xY&callback=initMap" async defer></script>
+<script>
+/* ITINERARY_AUTO_START */
+const itinerary = [
+  {
+    "dayLabel": "1일차 (9/19)",
+    "checklist": ["여권", "110V 돼지코", "환전금", "비짓재팬 QR 캡처본", "하루카 탑승권 QR", "상비약", "보조배터리"],
+    "stops": [
+      {"time":"11:10","title":"인천 공항 출발","place":"인천국제공항 제1여객터미널","desc":"파라타항공 WE0511","url":"","lat":37.4602,"lng":126.4407},
+      {"time":"12:55","title":"간사이 공항 도착 및 입국 수속","place":"간사이 국제공항 (KIX)","desc":"예약번호 AA3SJC / 비짓재팬웹 QR 미리 캡처, 안쪽 키오스크 이용 후 배정된 알파벳 라인 직행","url":"","lat":34.4347,"lng":135.2441},
+      {"time":"14:14","title":"교토 이동","place":"교토 역","desc":"JR 하루카 30호 (간사이공항 14:14 → 교토역 15:34) / 9호차 1A·1B·1C석","url":"","lat":34.9858,"lng":135.7588},
+      {"time":"16:30","title":"교토 숙소 체크인 (시모아타라시초)","place":"교토 숙소 340 Shimoatarashichō","desc":"[숙소] 히가시야마 에어비앤비 (택시 5~8분)","url":"","lat":34.9990,"lng":135.7758},
+      {"time":"18:00","title":"야사카 신사 및 기온 산책","place":"야사카 신사","desc":"밤의 야사카 신사 (제등 조명)","url":"","lat":35.0037,"lng":135.7784},
+      {"time":"19:30","title":"기온 거리 야간 산책 및 저녁","place":"기온 거리 (Shinbashi-dori)","desc":"기온 신바시 골목 탐방","candidates":[{"name":"오반자이 사쿠라가와"},{"name":"교노지도리야 아키"},{"name":"교료리 호잔"}],"url":"","lat":35.0031,"lng":135.7756},
+      {"time":"21:00","title":"숙소 복귀 및 장보기","place":"Fresco Higashiyama Nanajo","desc":"마트 장보기 (도보 5분)","url":"","lat":34.9990,"lng":135.7758}
+    ]
+  },
+  {
+    "dayLabel": "2일차 (9/20)",
+    "checklist": [],
+    "stops": [
+      {"time":"7:30","title":"기요미즈데라(청수사) 개장 직후 관람","place":"기요미즈데라","desc":"실버위크 혼잡 회피 위해 이른 아침 관람 권장","url":"","lat":34.9949,"lng":135.7850},
+      {"time":"9:00","title":"산넨자카 & 니넨자카 산책","place":"니넨자카","desc":"교토 시내 전경 감상","url":"","lat":34.9970,"lng":135.7808},
+      {"time":"10:00","title":"스타벅스 니넨자카점(다다미) 카페","place":"스타벅스 니넨자카 야사카차야점","desc":"다다미석, 이른 시간대라 대기 적음","url":"","lat":34.9975,"lng":135.7802},
+      {"time":"11:00","title":"후시미이나리 신사(여우신사) 이동 및 참배","place":"후시미 이나리 대사","desc":"붉은 토리이 길 사진 촬영","url":"","lat":34.9671,"lng":135.7727},
+      {"time":"13:00","title":"점심 식사 (후시미이나리 인근)","place":"이나리 역","desc":"","candidates":[{"name":"교토가츠규 후시미이나리점"},{"name":"Fushimi Inari DORAIMON"},{"name":"수바(Suba)"}],"url":"","lat":34.9680,"lng":135.7720},
+      {"time":"15:00","title":"SOU・SOU 쇼핑 (가와라마치)","place":"SOU・SOU (가와라마치)","desc":"신쿄고쿠 거리 본점들 구경 및 쇼핑","url":"","lat":35.0068,"lng":135.7681},
+      {"time":"17:00","title":"숙소 복귀 및 자유시간","place":"교토 시모아타라시초","desc":"숙소 복귀 및 휴식","url":"","lat":34.9990,"lng":135.7758},
+      {"time":"18:00","title":"마트 장보기","place":"Fresco Higashiyama Nanajo","desc":"마트 장보기","url":"","lat":34.9990,"lng":135.7758}
+    ]
+  },
+  {
+    "dayLabel": "3일차 (9/21)",
+    "checklist": [],
+    "stops": [
+      {"time":"9:30","title":"숙소 체크아웃 및 이동","place":"교토 역","desc":"숙소 체크아웃 후 교토역 코인락커 짐 보관 권장 (택시 2대 분산)","url":"","lat":34.9858,"lng":135.7588},
+      {"time":"10:00","title":"교토 철도박물관 관람","place":"교토 철도박물관","desc":"증기기관차 '슬엔호' 탑승 체험","url":"","lat":34.9858,"lng":135.7397},
+      {"time":"12:30","title":"점심 식사 (교토역 인근)","place":"교토 역","desc":"","candidates":[{"name":"카츠쿠라 (이세탄 11층)"},{"name":"긴자 텐푸라 텐이치"},{"name":"동양정"}],"url":"","lat":34.9858,"lng":135.7588},
+      {"time":"14:00","title":"오사카(우메다) 이동","place":"오사카 역","desc":"약 30분 소요, JR 교토선 신쾌속 이용","url":"","lat":34.7024,"lng":135.4959},
+      {"time":"15:30","title":"오사카 호텔 체크인","place":"이비스 오사카 우메다","desc":"오사카 숙소 체크인","url":"","lat":34.7050,"lng":135.4980},
+      {"time":"17:00","title":"우메다 도심 구경 및 쇼핑","place":"우메다","desc":"한큐/한신 백화점 구경, 아이들용 캐릭터 스트리트 및 뽑기","url":"","lat":34.7025,"lng":135.4966},
+      {"time":"19:00","title":"우메다 야경 및 저녁 식사","place":"우메다","desc":"","candidates":[{"name":"오코노미야키 키지"},{"name":"야키니쿠 고리짱 우메다 본점"},{"name":"규카츠 모토무라 루쿠아점"}],"url":"","lat":34.7042,"lng":135.4959}
+    ]
+  },
+  {
+    "dayLabel": "4일차 (9/22)",
+    "checklist": ["아이 간식", "물티슈", "모자"],
+    "stops": [
+      {"time":"9:00","title":"유니버설 스튜디오 재팬 (USJ)","place":"유니버설 스튜디오 재팬","desc":"종일 일정, 유니버설 예약 보통 2개월 전 오픈","url":"","lat":34.6654,"lng":135.4323},
+      {"time":"18:00","title":"유니버설 시티워크 저녁 식사","place":"유니버설 시티워크 오사카","desc":"호텔 복귀 전 저녁 식사 해결 권장","url":"","lat":34.6688,"lng":135.4328}
+    ]
+  },
+  {
+    "dayLabel": "5일차 (9/23)",
+    "checklist": ["에코백", "동전지갑"],
+    "stops": [
+      {"time":"9:30","title":"아침 정비 및 여유로운 출발","place":"이비스 버젯 오사카 우메다","desc":"USJ 다음날 피로 고려해 여유로운 아침 정비","url":"","lat":34.7050,"lng":135.4980},
+      {"time":"10:00","title":"링크스 우메다 (LINKS UMEDA) 쇼핑","place":"LINKS UMEDA","desc":"[쇼핑] 5층 다이소, Standard Products, Threeppy","url":"","lat":34.7042,"lng":135.4959},
+      {"time":"12:30","title":"점심 식사 (링크스 우메다 식당가)","place":"다이마루 우메다점","desc":"7인 대인원 식사 용이 (건물 B1 / 8층 식당가)","url":"","lat":34.7025,"lng":135.4966},
+      {"time":"14:00","title":"다이마루 우메다점 캐릭터 스트리트","place":"다이마루 우메다점","desc":"[쇼핑] 13층 닌텐도 오사카, 포켓몬센터, 산리오","url":"","lat":34.7025,"lng":135.4966},
+      {"time":"15:30","title":"세리아 (Seria) 100엔샵 쇼핑","place":"Seria","desc":"[쇼핑] 디즈니/캐릭터 소품, 문구, DIY 잡화","url":"","lat":34.7057,"lng":135.5006},
+      {"time":"16:30","title":"헵파이브 (HEP FIVE) 가챠 & 관람차","place":"HEP FIVE","desc":"[쇼핑/놀이] 9층 가샤폰 백화점 (600대) & 대관람차","url":"","lat":34.7047,"lng":135.5011},
+      {"time":"18:30","title":"오사카 마지막 밤 저녁 식사 및 복귀","place":"이비스 오사카 우메다","desc":"","candidates":[{"name":"스시일심"},{"name":"이즈모 우나기"},{"name":"리키마루 로바타야키 이사리비"}],"url":"","lat":34.7042,"lng":135.4959}
+    ]
+  },
+  {
+    "dayLabel": "6일차 (9/24)",
+    "checklist": ["여권 챙기기"],
+    "stops": [
+      {"time":"11:00","title":"체크아웃 및 공항리무진 탑승","place":"신한큐호텔","desc":"신한큐호텔 앞 정류장","url":"","lat":34.7050,"lng":135.4980},
+      {"time":"13:00","title":"간사이 공항 도착 및 수속","place":"간사이 국제공항 (KIX)","desc":"공항 수속 및 면세점 쇼핑, 파라타항공 WE0512 탑승 (16:15 인천 도착)","url":"","lat":34.4347,"lng":135.2441}
+    ]
+  }
+];
+/* ITINERARY_AUTO_END */
+
+let checked = JSON.parse(localStorage.getItem('trip-checked') || '{}');
+let packChecked = JSON.parse(localStorage.getItem('trip-pack') || '{}');
+let mealPicks = JSON.parse(localStorage.getItem('trip-meals') || '{}');
+let activeDay = 0, map, gOverlays = [];
+
+function escapeHtml(value) {
+  return String(value ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+}
+
+function isSafeUrl(url) {
+  try { const u = new URL(url); return u.protocol === 'http:' || u.protocol === 'https:'; } catch { return false; }
+}
+
+function initMap(){
+  map = new google.maps.Map(document.getElementById('map'), { center: {lat:35.0, lng:135.0}, zoom:9, disableDefaultUI:true });
+  renderAll();
+}
+
+async function fetchWeather(lat, lng) {
+  if(!Number.isFinite(lat) || !Number.isFinite(lng)) return;
+  try {
+    const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current_weather=true`);
+    const data = await res.json();
+    const w = data.current_weather;
+    let icon = '☀️/☁️ 맑음';
+    if(w.weathercode > 3 && w.weathercode <= 48) icon = '🌫️ 안개';
+    else if(w.weathercode >= 51 && w.weathercode <= 67) icon = '🌧️ 비';
+    else if(w.weathercode >= 71 && w.weathercode <= 77) icon = '❄️ 눈';
+    else if(w.weathercode >= 80 && w.weathercode <= 82) icon = '🌦️ 소나기';
+    else if(w.weathercode >= 95) icon = '⛈️ 뇌우';
+
+    document.getElementById('weather').innerHTML = `${icon} <span class="weather-temp">${w.temperature}°C</span>`;
+  } catch(e) {
+    document.getElementById('weather').innerHTML = '날씨 정보 없음';
+  }
+}
+
+/* ===== 렌더링 ===== */
+function renderAll(){
+  if(!itinerary || !itinerary.length || !map) return;
+  const day = itinerary[activeDay];
+
+  const tabsEl = document.getElementById('dayTabs');
+  tabsEl.innerHTML = itinerary.map((d,i)=>
+    `<div class="day-tab ${i===activeDay?'active':''}" data-day="${i}">${escapeHtml(d.dayLabel)}</div>`
+  ).join('');
+  tabsEl.querySelectorAll('.day-tab').forEach(el=>{
+    el.addEventListener('click', ()=>{ activeDay = +el.dataset.day; renderAll(); });
+  });
+
+  document.getElementById('sumTitle').textContent = `📅 ${day.dayLabel} 상세 일정`;
+
+  const checkSec = document.getElementById('checklistSection');
+  if(day.checklist && day.checklist.length > 0) {
+    checkSec.style.display = 'block';
+    let cHtml = `<div class="checklist-title">🎒 오늘의 준비물</div>`;
+    day.checklist.forEach((item) => {
+      const isD = packChecked[`pack-${day.dayLabel}-${item}`];
+      cHtml += `<div class="check-item ${isD?'done':''}" data-pack="${escapeHtml(item)}">${isD?'☑':'☐'} ${escapeHtml(item)}</div>`;
+    });
+    checkSec.innerHTML = cHtml;
+    checkSec.querySelectorAll('[data-pack]').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        const k = `pack-${day.dayLabel}-${el.dataset.pack}`;
+        packChecked[k] = !packChecked[k];
+        localStorage.setItem('trip-pack', JSON.stringify(packChecked));
+        renderAll();
+      });
+    });
+  } else {
+    checkSec.style.display = 'none';
+  }
+
+  let html = "";
+  day.stops.forEach((s, i)=>{
+    const k = `${activeDay}-${i}`;
+    const isDone = checked[k];
+
+    const targetQuery = s.place ? s.place : s.title;
+    const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(targetQuery)}`;
+    let btnHtml = `<div class="btn-group"><a href="${escapeHtml(mapUrl)}" target="_blank" rel="noopener noreferrer" class="action-btn map-btn" data-stop-btn>🗺️ 구글맵 안내</a>`;
+    if(isSafeUrl(s.url)) {
+      btnHtml += `<a href="${escapeHtml(s.url)}" target="_blank" rel="noopener noreferrer" class="action-btn ticket-btn" data-stop-btn>🎫 바우처 열기</a>`;
     }
-    </script>
-    </body>
-    </html>
-    
+    btnHtml += `</div>`;
+
+    let candHtml = "";
+    if(s.candidates) {
+      candHtml = s.candidates.map((c, ci) => {
+        const ck = `meal-${k}`;
+        const isSel = mealPicks[ck] === ci;
+        return `<div class="cand-chip ${isSel?'selected':''}" data-cand="${ck}" data-ci="${ci}">
+          <div><b>${escapeHtml(c.name)}</b></div><div>${isSel?'✅':'○'}</div>
+        </div>`;
+      }).join('');
+    }
+
+    html += `
+      <div class="stop ${isDone?'done':''}" data-stop="${k}">
+        <div class="stop-line"><div class="stop-dot"></div><div class="stop-connector"></div></div>
+        <div class="stop-card" data-stop-card="${k}">
+          <div class="stop-time">${escapeHtml(s.time)}</div>
+          ${s.title ? `<div class="stop-title">${escapeHtml(s.title)}</div>` : ""}
+          ${s.place ? `<div class="stop-place">📍 ${escapeHtml(s.place)}</div>` : ""}
+          ${s.desc ? `<div class="stop-desc">${escapeHtml(s.desc)}</div>` : ""}
+          ${candHtml}
+          ${btnHtml}
+        </div>
+      </div>`;
+  });
+  const timelineEl = document.getElementById('timeline');
+  timelineEl.innerHTML = html;
+
+  timelineEl.querySelectorAll('[data-stop-card]').forEach(card=>{
+    card.addEventListener('click', (e)=>{
+      if(e.target.closest('[data-cand], [data-stop-btn]')) return;
+      const k = card.dataset.stopCard;
+      checked[k] = !checked[k];
+      localStorage.setItem('trip-checked', JSON.stringify(checked));
+      renderAll();
+    });
+  });
+  timelineEl.querySelectorAll('[data-cand]').forEach(chip=>{
+    chip.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const ck = chip.dataset.cand;
+      const ci = +chip.dataset.ci;
+      mealPicks[ck] = (mealPicks[ck] === ci) ? null : ci;
+      localStorage.setItem('trip-meals', JSON.stringify(mealPicks));
+      renderAll();
+    });
+  });
+
+  gOverlays.forEach(o=>o.setMap(null)); gOverlays = [];
+  const bounds = new google.maps.LatLngBounds();
+  const pathCoords = [];
+
+  day.stops.forEach((s,i)=>{
+    if(Number.isFinite(s.lat) && Number.isFinite(s.lng)){
+      const pos = {lat:s.lat, lng:s.lng};
+      pathCoords.push(pos);
+      bounds.extend(pos);
+      gOverlays.push(new google.maps.Marker({position:pos, map, label:{text:String(i+1), color:'white'}}));
+    }
+  });
+
+  if(pathCoords.length > 1) {
+    const routeLine = new google.maps.Polyline({
+      path: pathCoords, strokeColor: '#BE4A3C', strokeOpacity: 0.6, strokeWeight: 3, map: map
+    });
+    gOverlays.push(routeLine);
+  }
+
+  if(day.stops.length > 0 && !bounds.isEmpty()) map.fitBounds(bounds);
+  if(pathCoords.length > 0) fetchWeather(pathCoords[0].lat, pathCoords[0].lng);
+}
+</script>
+</body>
+</html>
