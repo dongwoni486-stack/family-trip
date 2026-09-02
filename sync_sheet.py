@@ -22,7 +22,6 @@ def main():
     processed_data = {}
     current_day = ""
 
-    # 병합된 셀 빈칸 채우기 및 일차별 그룹화
     for row in rows:
         while len(row) < 8:
             row.append("")
@@ -33,12 +32,12 @@ def main():
             if current_day not in processed_data:
                 processed_data[current_day] = []
         
-        if not any(row):
+        # 날짜를 아직 못 찾았거나 완전히 빈 줄이면 건너뛰기 (에러 방지)
+        if not any(row) or current_day == "":
             continue
             
         processed_data[current_day].append(row)
 
-    # 모바일 최적화 웹앱 HTML 생성
     html_content = """
     <!DOCTYPE html>
     <html>
