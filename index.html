@@ -60,6 +60,22 @@
   .my-loc-btn{ position:absolute; right:10px; bottom:10px; z-index:5; background:#fff; border:1px solid var(--line); border-radius:50%; width:34px; height:34px; display:flex; align-items:center; justify-content:center; box-shadow:0 1px 4px rgba(0,0,0,.2); cursor:pointer; font-size:16px; }
   #mapWrap{ position:relative; }
 
+  .mode-tabs{ display:flex; background:var(--ink); padding:0 14px; }
+  .mode-tab{ padding:9px 12px; font-size:12.5px; color:#8894AC; cursor:pointer; border-bottom:2px solid transparent; }
+  .mode-tab.active{ color:#fff; border-bottom-color:var(--vermillion); font-weight:700; }
+
+  .ref-filters{ padding:10px 14px; background:var(--paper-2); border-bottom:1px solid var(--line); display:flex; gap:6px; flex-wrap:wrap; }
+  .ref-chip{ padding:6px 11px; border-radius:14px; border:1px solid var(--line); background:var(--paper); font-size:11.5px; cursor:pointer; color:#5B5647; }
+  .ref-chip.active{ background:var(--ink); border-color:var(--ink); color:#fff; }
+
+  .ref-group-title{ font-size:13px; font-weight:700; color:var(--ink); margin:18px 0 8px; padding-bottom:4px; border-bottom:1px solid var(--line); }
+  .ref-group-title:first-child{ margin-top:2px; }
+  .ref-card{ background:var(--paper-2); border:1px solid var(--line); border-radius:12px; padding:11px 12px; margin-bottom:8px; }
+  .ref-card .cat{ font-size:10.5px; color:var(--vermillion); font-weight:700; }
+  .ref-card .name{ font-size:13.5px; font-weight:700; margin:2px 0 3px; }
+  .ref-card .note{ font-size:11.5px; color:#5B5647; line-height:1.4; margin-bottom:7px; }
+  .ref-card .rlink{ display:inline-block; padding:5px 9px; background:#E8F0FE; color:#4285F4; border:1px solid #D2E3FC; border-radius:6px; font-size:11px; text-decoration:none; font-weight:500; }
+
   footer{ text-align:center; padding:18px 16px 6px; font-size:11px; color:var(--muted); }
 </style>
 </head>
@@ -70,6 +86,10 @@
     <h1>오사카·교토 가족 여행 가이드</h1>
     <div class="weather-widget" id="weather">날씨 확인 중...</div>
   </header>
+  <div class="mode-tabs" id="modeTabs">
+    <div class="mode-tab active" data-mode="itinerary">📅 일정</div>
+    <div class="mode-tab" data-mode="ref">📍 맛집·쇼핑·관광</div>
+  </div>
   <nav class="day-tabs" id="dayTabs"></nav>
   <div id="mapWrap">
     <div id="map"></div>
@@ -77,10 +97,12 @@
   </div>
   <div class="summary-bar" id="sumTitle">일정</div>
   <div class="checklist-wrap" id="checklistSection" style="display:none;"></div>
+  <div class="ref-filters" id="refFilters" style="display:none;"></div>
 </div>
 
 <main>
   <div id="timeline"></div>
+  <div id="refList" style="display:none;"></div>
 </main>
 
 <footer>구글 스프레드시트 기반 · 완료 체크·준비물·식당 선택은 이 브라우저에만 저장됩니다</footer>
@@ -162,12 +184,210 @@ const itinerary = [
 ];
 /* ITINERARY_AUTO_END */
 
+/* REF_AUTO_START */
+const refData = {
+  food: [
+    {region:"교토 - 기온/히가시야마", name:"오반자이 사쿠라가와", cat:"교토 가정식(오반자이)", note:"다카세강변, 반찬 소분 제공이라 아이 나눠먹기 좋음"},
+    {region:"교토 - 기온/히가시야마", name:"교노지도리야 아키", cat:"토종닭 요리", note:"구이/전골류, 가족 단위 이용 무난"},
+    {region:"교토 - 기온/히가시야마", name:"교료리 호잔", cat:"교토요리 런치뷔페", note:"뷔페식이라 아이 취향껏 담아먹기 좋음"},
+    {region:"교토 - 기온/히가시야마", name:"분노스케 찻집", cat:"디저트/카페", note:"고사리떡 디저트, 기요미즈 근처, 좌석 여유"},
+    {region:"교토 - 기온/히가시야마", name:"우메조노 시미즈", cat:"디저트(경단)", note:"미타라시당고 등 아이 간식용 메뉴 다양"},
+    {region:"교토 - 기온/히가시야마", name:"기온 텐단", cat:"야키니쿠(고기구이)", note:"1일차 19:30 저녁 예정"},
+    {region:"교토 - 기온/히가시야마", name:"Fresco Higashiyama Nanajo", cat:"마트(장보기)", note:"1일차 21:00 / 2일차 18:00 장보기"},
+    {region:"교토 - 기온/히가시야마", name:"스타벅스 니넨자카점", cat:"카페", note:"다다미석, 이른 시간대라 대기 적음"},
+    {region:"교토 - 후시미이나리 인근", name:"Restaurant Namaste", cat:"인도 카레", note:"전 좌석 금연, 맵기 단계 조절 가능해 아이 동반 무난"},
+    {region:"교토 - 후시미이나리 인근", name:"교토가츠규 후시미이나리점", cat:"규카츠(소고기 커틀릿)", note:"덮밥류라 아이도 먹기 편함"},
+    {region:"교토 - 후시미이나리 인근", name:"ABOUT US COFFEE", cat:"카페", note:"이나리역 도보 5분, 가벼운 휴식용"},
+    {region:"교토 - 후시미이나리 인근", name:"이나리역 인근 우동집", cat:"우동", note:"카케우동/키츠네우동, 저렴하고 빠른 식사"},
+    {region:"교토 - 후시미이나리 인근", name:"Fushimi Inari DORAIMON", cat:"장어덮밥(우나기동)", note:"예약 가능, 좌석 여유 있어 대기 부담 적음"},
+    {region:"교토 - 후시미이나리 인근", name:"수바(Suba)", cat:"우동/소바", note:"후시미이나리 인근 대안 맛집"},
+    {region:"교토역 인근", name:"카츠쿠라 (이세탄 11층)", cat:"돈카츠", note:"한국어 메뉴판 있음, 백화점 내 위치로 쾌적"},
+    {region:"교토역 인근", name:"나카무라 토키치 혼텐", cat:"말차 디저트/파르페", note:"교토역 인근 명물 디저트, 대기시간 감안 필요"},
+    {region:"교토역 인근", name:"긴자 텐푸라 텐이치 (교토 포르타점)", cat:"텐동/튀김", note:"지하상가, 자리 회전 빠른 편"},
+    {region:"교토역 인근", name:"동양정", cat:"경양식(함박스테이크)", note:"3일차 12:30 점심 예정"},
+    {region:"교토역 인근", name:"551호라이 (이세탄 지하)", cat:"중화 간식", note:"부타망 등 간식류, 짧게 들르기 좋음"},
+    {region:"오사카 - 우메다", name:"XEX WEST (하비스오사카 최상층)", cat:"일식 다이닝(개별룸)", note:"완전 개별룸 있어 아이 있는 가족도 편안하게 이용"},
+    {region:"오사카 - 우메다", name:"오코노미야키 키지", cat:"오코노미야키", note:"우메다 대표 맛집, 아이도 좋아하는 철판요리"},
+    {region:"오사카 - 우메다", name:"회전초밥 사카에", cat:"회전초밥", note:"우메다역 도보 5분, 접시당 135엔대로 부담 적음"},
+    {region:"오사카 - 우메다", name:"우동 우무기", cat:"우동(튀김우동)", note:"푸짐한 튀김우동, 여성/아이도 부담 없는 분위기"},
+    {region:"오사카 - 우메다", name:"하카타 하나미도리 (우메다 힐튼점)", cat:"미즈타키(닭고기전골)", note:"단체룸 있어 가족 모임에 적합"},
+    {region:"오사카 - 우메다", name:"야키니쿠 고리짱 우메다 본점", cat:"야키니쿠(고기구이)", note:"3일차 19:00 저녁 예정"},
+    {region:"오사카 - 우메다", name:"Mitsui", cat:"오코노미야끼", note:"평점 4.8 (61) · 저녁 5시 영업 시작"},
+    {region:"오사카 - 우메다", name:"야키니쿠 우시가타리", cat:"야키니쿠", note:"평점 4.8 (1,032)"},
+    {region:"오사카 - 우메다", name:"이즈모 우나기", cat:"이자카야(우나기)", note:"평점 4.7 (3,205)"},
+    {region:"오사카 - 우메다", name:"야키니쿠 리키마루 우메다-오하츠텐진점", cat:"야키니쿠", note:"평점 4.4 (1,415)"},
+    {region:"오사카 - 우메다", name:"야키니쿠 리키마루 우메다 히가시도리점", cat:"야키니쿠", note:"평점 4.8 (8,006)"},
+    {region:"오사카 - 우메다", name:"리키마루 로바타야키 이사리비", cat:"이자카야(로바타야키)", note:"평점 3.5 (1,980)"},
+    {region:"오사카 - 우메다", name:"규카츠 모토무라 루쿠아점", cat:"돈까스", note:"평점 4.9 (8,420)"},
+    {region:"오사카 - 우메다", name:"코하쿠 루쿠아오사카", cat:"프랑스 요리", note:"평점 4.1 (696), 와인샵 겸함"},
+    {region:"오사카 - 우메다", name:"신키라쿠", cat:"튀김", note:"평점 4.2 (305)"},
+    {region:"오사카 - 우메다", name:"스시사카바 사시스 화이티 우메다점", cat:"초밥", note:"평점 4.0 (895)"},
+    {region:"오사카 - 우메다", name:"Gensei", cat:"소바", note:"평점 4.0 (649)"},
+    {region:"오사카 - 우메다", name:"타유타유 이자카야", cat:"이자카야", note:"평점 4.2 (249)"},
+    {region:"오사카 - 우메다", name:"스시일심", cat:"초밥", note:"평점 4.5 (760)"},
+    {region:"오사카 - 우메다", name:"Sushi Nakamise", cat:"초밥", note:"평점 4.6 (227)"},
+    {region:"오사카 - 우메다", name:"하브스 다이마루 우메다점", cat:"카페/디저트", note:"평점 4.2 (533)"},
+    {region:"오사카 - 우메다", name:"Hinata Mediterranean & Japanese Food", cat:"지중해·일식", note:"평점 4.5 (75)"},
+    {region:"오사카 - 우메다", name:"이모야 킨지로 그랜드프론트 오사카점", cat:"디저트", note:"평점 4.5 (243)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"Yakiniku Haguregumo Namba", cat:"야키니쿠", note:"평점 4.9 (6,943)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"엔야야끼도리", cat:"야키토리", note:"평점 4.4 (993)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"나기카츠", cat:"돈까스", note:"평점 4.8 (1,569)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"돈카츠 뉴베이브 난바점", cat:"돈까스", note:"평점 4.7 (1,928)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"키탄 히비키", cat:"스테이크", note:"평점 4.3 (781)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"이자카야 몽조", cat:"야키토리", note:"평점 4.4 (701)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"Unotake Kasu Udon", cat:"우동", note:"평점 4.7 (832)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"규카츠 모토무라 난바 분점", cat:"돈까스", note:"평점 4.9 (25,849)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"쿠시카츠 다루마 도톤보리점", cat:"꼬치·튀김", note:"평점 3.8 (2,324)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"야키니쿠 리키마루 난카이 난바점", cat:"야키니쿠", note:"평점 4.4 (1,415)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"스시 사카바 사시스 난바점", cat:"초밥", note:"평점 4.3 (2,431)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"우라난바 야키니쿠 토라니츠노 난바 본점", cat:"야키니쿠", note:"평점 4.7 (527)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"돈카츠 시가", cat:"돈까스", note:"평점 4.7 (597)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"스미야 코바코", cat:"야키토리", note:"평점 4.3 (704)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"하브스 난바파크스점", cat:"카페/디저트", note:"평점 4.2 (1,209)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"츠루동탄 소에몬초점", cat:"우동", note:"평점 4.0 (4,864)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"나미요시안", cat:"일본 디저트", note:"평점 4.2 (1,209)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"우오이치 쇼쿠도", cat:"해산물 돈부리", note:"평점 4.3 (1,267)"},
+    {region:"교토 - 아라시야마", name:"아라시야마 키주로", cat:"스테이크", note:"평점 4.5 (1,772)"},
+    {region:"교토 - 아라시야마", name:"타이쇼 하나나", cat:"일식", note:"평점 4.4 (1,965)"},
+    {region:"교토 - 아라시야마", name:"히로코 타코야키", cat:"타코야키", note:"평점 4.4 (604)"},
+    {region:"교토 - 아라시야마", name:"% 아라비카 교토 아라시야마점", cat:"카페", note:"평점 4.2 (5,664)"},
+    {region:"교토 - 아라시야마", name:"빵과 에스프레소와 아라시야마 정원", cat:"빵·카페", note:"평점 4.1 (1,462)"},
+    {region:"교토 - 시조/가와라마치", name:"혼케 오와리야 본점", cat:"소바", note:"평점 4.3 (2,369), 폐업 확인 필요"},
+    {region:"교토 - 시조/가와라마치", name:"Dontsuki", cat:"해산물 요리", note:"평점 4.3 (160)"},
+    {region:"교토 - 시조/가와라마치", name:"마루키 베이커리", cat:"제과점", note:"평점 4.5 (2,419)"},
+    {region:"교토 - 시조/가와라마치", name:"Le Labo Cafe Kyoto Machiya", cat:"카페", note:"평점 3.8 (351)"},
+    {region:"교토 - 시조/가와라마치", name:"스시사카바 사시스 교토 요도바시점", cat:"초밥", note:"평점 4.2 (807)"},
+    {region:"교토 - 시조/가와라마치", name:"수타 우동&텐푸라 멘쿠이 킨야", cat:"우동·튀김", note:"평점 4.6 (768)"},
+    {region:"교토 - 시조/가와라마치", name:"Gyoza Hohei", cat:"만두", note:"평점 4.2 (1,203)"},
+    {region:"교토 - 시조/가와라마치", name:"Tsuke-yasai Isoism", cat:"채소 요리", note:"평점 4.4 (953)"},
+    {region:"교토 - 시조/가와라마치", name:"Sugitora", cat:"디저트", note:"평점 4.3 (335)"},
+    {region:"교토 - 시조/가와라마치", name:"Takedatsu-tei", cat:"우동덮밥", note:"평점 4.2 (213)"},
+    {region:"교토 - 기온/히가시야마(추가)", name:"히키니쿠토 코메 교토", cat:"일식당", note:"평점 4.5 (2,284)"},
+    {region:"교토 - 기온/히가시야마(추가)", name:"燒肉の名門 天壇 祇園本店", cat:"야키니쿠", note:"평점 4.1 (1,456)"},
+    {region:"교토 - 기온/히가시야마(추가)", name:"우즈라야", cat:"야키니쿠", note:"평점 4.2 (256)"},
+    {region:"교토 - 기온/히가시야마(추가)", name:"오멘 긴카쿠지 본점", cat:"우동", note:"평점 4.3 (1,966)"},
+    {region:"교토 - 기온/히가시야마(추가)", name:"tabanenoshi ginkakuji", cat:"크레프리", note:"평점 4.8 (760)"}
+  ],
+  shop: [
+    {region:"오사카 - 우메다", name:"랄프로렌", cat:"의류점", note:"평점 3.7 (116)"},
+    {region:"오사카 - 우메다", name:"KALDI COFFEE FARM", cat:"커피용품", note:"평점 3.8 (173)"},
+    {region:"오사카 - 우메다", name:"루쿠아 오사카", cat:"쇼핑몰", note:"평점 4.0 (3,825)"},
+    {region:"오사카 - 우메다", name:"그랑 프론트 오사카", cat:"쇼핑몰", note:"평점 4.0 (21,645)"},
+    {region:"오사카 - 우메다", name:"LIFE Nakazakichō Ekimaeten", cat:"식료품점", note:"평점 3.8 (399)"},
+    {region:"오사카 - 우메다", name:"Gachagacha no mori Osaka Umeda Chayamachi", cat:"장난감", note:"평점 4.1 (283)"},
+    {region:"오사카 - 우메다", name:"포켓몬센터 오사카", cat:"캐릭터샵", note:"평점 4.3 (2,856)"},
+    {region:"오사카 - 우메다", name:"다이마루 우메다점", cat:"백화점", note:"평점 4.0 (6,499)"},
+    {region:"오사카 - 우메다", name:"다이소 우메다점", cat:"천원샵", note:"평점 4.0 (2,133)"},
+    {region:"오사카 - 우메다", name:"돈키호테 우메다 본점", cat:"할인점", note:"평점 3.6 (7,714), 24시간"},
+    {region:"오사카 - 우메다", name:"한큐 우메다 본점", cat:"백화점", note:"평점 4.2 (37,411)"},
+    {region:"오사카 - 우메다", name:"링크스 우메다", cat:"쇼핑몰", note:"평점 4.0 (5,812)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"파르코 신사이바시", cat:"쇼핑몰", note:"평점 4.2 (4,903)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"Sanrio Gift Gate 난바 에비스바시점", cat:"캐릭터샵", note:"평점 4.1 (318)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"Fanbi Wholesale TERAUCHI Co., Ltd.", cat:"의류 도매", note:"평점 3.8 (190)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"Liquor Mountain Suomachi", cat:"주류 판매점", note:"평점 4.6 (429)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"라이프 센트럴 스퀘어 난바점", cat:"식료품", note:"평점 4.1 (2,989)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"다이소 난바난산도리점", cat:"천원샵", note:"평점 3.9 (2,147)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"포켓몬 카페 오사카 신사이바시", cat:"카페", note:"평점 4.1 (1,405)"},
+    {region:"교토 - 시조/가와라마치", name:"SOU・SOU 타비", cat:"의류·잡화", note:"평점 4.4 (342)"},
+    {region:"교토 - 시조/가와라마치", name:"Seria Kawaramachi Opa Shop", cat:"천원샵", note:"평점 3.9 (258)"},
+    {region:"교토 - 시조/가와라마치", name:"DAISO (가와라마치)", cat:"천원샵", note:"평점 4.0 (1,452)"},
+    {region:"교토 - 시조/가와라마치", name:"Bento&co Kyoto", cat:"선물가게", note:"평점 4.2 (135)"},
+    {region:"교토 - 시조/가와라마치", name:"니시키 시장", cat:"시장", note:"평점 4.3 (53,556)"},
+    {region:"교토 - 후시미/기타", name:"돈키호테 미야코지마점", cat:"할인점", note:"평점 4.0 (2,542)"},
+    {region:"교토 - 기온/히가시야마", name:"Happy Rokuhara", cat:"슈퍼마켓", note:"평점 4.2 (457)"}
+  ],
+  sight: [
+    {region:"교토", name:"야사카 신사", cat:"관광지", note:"밤의 야사카 신사 (제등 조명)"},
+    {region:"교토", name:"기온 거리", cat:"관광지", note:"기온 신바시 골목 탐방"},
+    {region:"교토", name:"기요미즈데라(청수사)", cat:"관광지", note:"실버위크 혼잡 회피 위해 이른 아침 관람 권장"},
+    {region:"교토", name:"산넨자카 & 니넨자카", cat:"관광지", note:"교토 시내 전경 감상"},
+    {region:"교토", name:"후시미이나리 신사", cat:"관광지", note:"붉은 토리이 길 사진 촬영"},
+    {region:"교토", name:"교토 철도박물관", cat:"관광지", note:"증기기관차 '슬엔호' 탑승 체험"},
+    {region:"오사카", name:"유니버설 스튜디오 재팬 (USJ)", cat:"관광지", note:"유니버설 예약 보통 2개월전 오픈"},
+    {region:"오사카", name:"유니버설 시티워크", cat:"쇼핑/식당", note:"호텔 복귀 전 식사 해결 권장"},
+    {region:"오사카", name:"닌텐도 오사카", cat:"쇼핑", note:"다이마루 우메다점 13층, 포켓몬센터·산리오 인근"},
+    {region:"오사카", name:"세리아 (Seria)", cat:"쇼핑", note:"NU 차야마치 / 우메다 인근, 디즈니/캐릭터 소품·문구"},
+    {region:"오사카", name:"헵파이브 (HEP FIVE)", cat:"쇼핑/놀이", note:"9층 가샤폰 백화점 (600대) & 대관람차"}
+  ]
+};
+/* REF_AUTO_END */
+
 let checked = JSON.parse(localStorage.getItem('trip-checked') || '{}');
 let packChecked = JSON.parse(localStorage.getItem('trip-pack') || '{}');
 let mealPicks = JSON.parse(localStorage.getItem('trip-meals') || '{}');
 let legPicks = JSON.parse(localStorage.getItem('trip-legmode') || '{}'); // { "0-2": "walking" }
 let activeDay = 0, map, gOverlays = [];
 let myLocMarker = null, myLocWatchId = null;
+let appMode = 'itinerary';
+let refCategory = 'all';
+let refRegion = 'all';
+
+const CAT_LABEL = { food: '🍽️ 맛집', shop: '🛍️ 쇼핑', sight: '📷 관광지' };
+
+function mapsSearchUrl(name){
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name)}`;
+}
+
+function setMode(mode){
+  appMode = mode;
+  document.querySelectorAll('.mode-tab').forEach(t=>t.classList.toggle('active', t.dataset.mode===mode));
+  const showItinerary = mode === 'itinerary';
+  document.getElementById('dayTabs').style.display = showItinerary ? '' : 'none';
+  document.getElementById('mapWrap').style.display = showItinerary ? '' : 'none';
+  document.getElementById('checklistSection').style.display = showItinerary && document.getElementById('checklistSection').dataset.hasItems === '1' ? 'block' : 'none';
+  document.getElementById('timeline').style.display = showItinerary ? '' : 'none';
+  document.getElementById('refFilters').style.display = showItinerary ? 'none' : 'flex';
+  document.getElementById('refList').style.display = showItinerary ? 'none' : '';
+  document.getElementById('sumTitle').textContent = showItinerary
+    ? `📅 ${itinerary[activeDay].dayLabel} 상세 일정`
+    : '📍 근처 맛집·쇼핑·관광지 모음';
+  if(!showItinerary) renderRef();
+}
+
+document.querySelectorAll('.mode-tab').forEach(t=>{
+  t.addEventListener('click', ()=> setMode(t.dataset.mode));
+});
+
+function renderRef(){
+  const all = [...refData.food.map(x=>({...x,type:'food'})), ...refData.shop.map(x=>({...x,type:'shop'})), ...refData.sight.map(x=>({...x,type:'sight'}))];
+  const byCat = refCategory === 'all' ? all : all.filter(x=>x.type===refCategory);
+  const regions = [...new Set(byCat.map(x=>x.region))];
+  if(refRegion !== 'all' && !regions.includes(refRegion)) refRegion = 'all';
+
+  const catChips = ['all','food','shop','sight'].map(c=>
+    `<div class="ref-chip ${refCategory===c?'active':''}" data-refcat="${c}">${c==='all'?'전체':CAT_LABEL[c]}</div>`
+  ).join('');
+  const regionChips = ['all', ...regions].map(r=>
+    `<div class="ref-chip ${refRegion===r?'active':''}" data-refregion="${escapeHtml(r)}">${r==='all'?'전체 지역':escapeHtml(r)}</div>`
+  ).join('');
+  const filtersEl = document.getElementById('refFilters');
+  filtersEl.innerHTML = catChips + `<div style="flex-basis:100%;height:2px;"></div>` + regionChips;
+  filtersEl.querySelectorAll('[data-refcat]').forEach(el=>{
+    el.addEventListener('click', ()=>{ refCategory = el.dataset.refcat; refRegion='all'; renderRef(); });
+  });
+  filtersEl.querySelectorAll('[data-refregion]').forEach(el=>{
+    el.addEventListener('click', ()=>{ refRegion = el.dataset.refregion; renderRef(); });
+  });
+
+  const shown = byCat.filter(x => refRegion==='all' || x.region===refRegion);
+  const grouped = {};
+  shown.forEach(x=>{ (grouped[x.region] = grouped[x.region] || []).push(x); });
+
+  let html = '';
+  Object.keys(grouped).forEach(region=>{
+    html += `<div class="ref-group-title">${escapeHtml(region)}</div>`;
+    grouped[region].forEach(x=>{
+      html += `
+        <div class="ref-card">
+          <div class="cat">${CAT_LABEL[x.type]} · ${escapeHtml(x.cat)}</div>
+          <div class="name">${escapeHtml(x.name)}</div>
+          <div class="note">${escapeHtml(x.note)}</div>
+          <a class="rlink" href="${escapeHtml(mapsSearchUrl(x.name))}" target="_blank" rel="noopener noreferrer">🗺️ 지도에서 보기</a>
+        </div>`;
+    });
+  });
+  document.getElementById('refList').innerHTML = html || '<p style="color:var(--muted);font-size:13px;">해당 조건의 장소가 없습니다.</p>';
+}
 
 const MODE_LABEL = { walking: '🚶 도보', transit: '🚃 대중교통', driving: '🚕 택시' };
 
@@ -266,11 +486,14 @@ function renderAll(){
     el.addEventListener('click', ()=>{ activeDay = +el.dataset.day; renderAll(); });
   });
 
-  document.getElementById('sumTitle').textContent = `📅 ${day.dayLabel} 상세 일정`;
+  if(appMode === 'itinerary'){
+    document.getElementById('sumTitle').textContent = `📅 ${day.dayLabel} 상세 일정`;
+  }
 
   const checkSec = document.getElementById('checklistSection');
+  checkSec.dataset.hasItems = (day.checklist && day.checklist.length > 0) ? '1' : '0';
   if(day.checklist && day.checklist.length > 0) {
-    checkSec.style.display = 'block';
+    checkSec.style.display = appMode === 'itinerary' ? 'block' : 'none';
     let cHtml = `<div class="checklist-title">🎒 오늘의 준비물</div>`;
     day.checklist.forEach((item) => {
       const isD = packChecked[`pack-${day.dayLabel}-${item}`];
