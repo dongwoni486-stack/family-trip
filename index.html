@@ -16,6 +16,8 @@
   .weather-widget { text-align:right; font-size:11px; color:#C8CEDB; }
   .weather-temp { font-size:15px; font-weight:700; color:#fff; }
 
+  .info-bar{ display:flex; justify-content:space-between; padding:5px 18px; background:#2A3652; color:#C8CEDB; font-size:10.5px; }
+
   .day-tabs{ display:flex; gap:8px; overflow-x:auto; padding:10px 14px; background:var(--ink); scrollbar-width:none; }
   .day-tab{ padding:8px 14px; border-radius:20px; border:1px solid #3A4763; background:#2A3652; color:#C8CEDB; font-size:12.5px; cursor:pointer; white-space:nowrap; }
   .day-tab.active{background:var(--vermillion); border-color:var(--vermillion); color:#fff;}
@@ -32,8 +34,8 @@
   main{padding:16px;}
   .stop{ position:relative; display:flex; gap:12px; margin-bottom:4px;}
   .stop-line{ display:flex; flex-direction:column; align-items:center; width:28px; }
-  .stop-dot{ width:13px; height:13px; border-radius:50%; background:var(--paper-2); border:2.5px solid var(--vermillion); margin-top:4px; z-index:2;}
-  .stop.done .stop-dot{background:var(--vermillion);}
+  .stop-dot{ width:20px; height:20px; border-radius:50%; background:var(--vermillion); border:2px solid var(--vermillion); margin-top:2px; z-index:2; display:flex; align-items:center; justify-content:center; font-size:10.5px; font-weight:700; color:#fff; }
+  .stop.done .stop-dot{background:var(--moss); border-color:var(--moss);}
   .stop-connector{ width:2px; flex:1; background:repeating-linear-gradient(to bottom, var(--line) 0 4px, transparent 4px 8px); min-height:20px;}
 
   .stop-card{ flex:1; background:var(--paper-2); border:1px solid var(--line); border-radius:12px; padding:12px; margin-bottom:12px; cursor:pointer; }
@@ -86,6 +88,10 @@
     <h1>오사카·교토 가족 여행 가이드</h1>
     <div class="weather-widget" id="weather">날씨 확인 중...</div>
   </header>
+  <div class="info-bar" id="infoBar">
+    <span id="localTime">🕒 --:--</span>
+    <span id="fxRate">💴 100엔 = -- 원</span>
+  </div>
   <div class="mode-tabs" id="modeTabs">
     <div class="mode-tab active" data-mode="itinerary">📅 일정</div>
     <div class="mode-tab" data-mode="ref">📍 맛집·쇼핑·관광</div>
@@ -98,6 +104,8 @@
   <div class="summary-bar" id="sumTitle">일정</div>
   <div class="checklist-wrap" id="checklistSection" style="display:none;"></div>
   <div class="ref-filters" id="refFilters" style="display:none;"></div>
+  <div id="refMap" style="display:none; height:220px; width:100%; border-bottom:1px solid var(--line);"></div>
+  <div id="refMapNote" style="display:none; font-size:11px; color:var(--muted); padding:4px 14px; background:var(--paper-2);"></div>
 </div>
 
 <main>
@@ -324,6 +332,53 @@ let refRegion = 'all';
 
 const CAT_LABEL = { food: '🍽️ 맛집', shop: '🛍️ 쇼핑', sight: '📷 관광지' };
 
+let refMapInstance = null;
+let refMapOverlays = [];
+
+function renderRefMap(items){
+  const withCoords = items.filter(x => Number.isFinite(x.lat) && Number.isFinite(x.lng));
+  const mapEl = document.getElementById('refMap');
+  const noteEl = document.getElementById('refMapNote');
+
+  if(withCoords.length === 0){
+    mapEl.innerHTML = '<div style="padding:14px;font-size:12px;color:var(--muted);">이 목록은 아직 좌표가 준비되지 않았습니다 (다음 자동 동기화 후 지도에 표시됩니다). 아래 목록의 "지도에서 보기"는 계속 사용하실 수 있습니다.</div>';
+    noteEl.style.display = 'none';
+    return;
+  }
+
+  if(!refMapInstance){
+    mapEl.innerHTML = '';
+    refMapInstance = new google.maps.Map(mapEl, { center:{lat:35.0,lng:135.0}, zoom:9, disableDefaultUI:true });
+  }
+  refMapOverlays.forEach(o=>o.setMap(null));
+  refMapOverlays = [];
+
+  const bounds = new google.maps.LatLngBounds();
+  const infoWin = new google.maps.InfoWindow();
+  withCoords.forEach(x=>{
+    const pos = {lat:x.lat, lng:x.lng};
+    bounds.extend(pos);
+    const marker = new google.maps.Marker({
+      position: pos, map: refMapInstance,
+      icon: { path: google.maps.SymbolPath.CIRCLE, scale:7, fillColor: x.type==='food'?'#BE4A3C':(x.type==='shop'?'#4285F4':'#C9A24B'), fillOpacity:1, strokeColor:'#fff', strokeWeight:2 }
+    });
+    marker.addListener('click', ()=>{
+      infoWin.setContent(`<div style="font-size:12px;"><b>${escapeHtml(x.name)}</b><br>${escapeHtml(x.cat)}</div>`);
+      infoWin.open(refMapInstance, marker);
+    });
+    refMapOverlays.push(marker);
+  });
+  if(withCoords.length === 1){ refMapInstance.setCenter(bounds.getCenter()); refMapInstance.setZoom(15); }
+  else refMapInstance.fitBounds(bounds, 30);
+
+  if(withCoords.length < items.length){
+    noteEl.textContent = `일부 ${items.length - withCoords.length}곳은 좌표 준비 중이라 지도에는 안 뜹니다 (목록에서 확인 가능)`;
+    noteEl.style.display = 'block';
+  } else {
+    noteEl.style.display = 'none';
+  }
+}
+
 function mapsSearchUrl(name){
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name)}`;
 }
@@ -337,6 +392,8 @@ function setMode(mode){
   document.getElementById('checklistSection').style.display = showItinerary && document.getElementById('checklistSection').dataset.hasItems === '1' ? 'block' : 'none';
   document.getElementById('timeline').style.display = showItinerary ? '' : 'none';
   document.getElementById('refFilters').style.display = showItinerary ? 'none' : 'flex';
+  document.getElementById('refMap').style.display = showItinerary ? 'none' : 'block';
+  if(showItinerary) document.getElementById('refMapNote').style.display = 'none';
   document.getElementById('refList').style.display = showItinerary ? 'none' : '';
   document.getElementById('sumTitle').textContent = showItinerary
     ? `📅 ${itinerary[activeDay].dayLabel} 상세 일정`
@@ -372,6 +429,8 @@ function renderRef(){
   const shown = byCat.filter(x => refRegion==='all' || x.region===refRegion);
   const grouped = {};
   shown.forEach(x=>{ (grouped[x.region] = grouped[x.region] || []).push(x); });
+
+  renderRefMap(shown);
 
   let html = '';
   Object.keys(grouped).forEach(region=>{
@@ -436,6 +495,34 @@ function initMap(){
   map = new google.maps.Map(document.getElementById('map'), { center: {lat:35.0, lng:135.0}, zoom:9, disableDefaultUI:true });
   setupMyLocation();
   renderAll();
+  startLocalClock();
+  fetchExchangeRate();
+}
+
+function startLocalClock(){
+  const update = ()=>{
+    const now = new Date();
+    const jpTime = new Intl.DateTimeFormat('ko-KR', {
+      timeZone: 'Asia/Tokyo', hour: '2-digit', minute: '2-digit', hour12: false
+    }).format(now);
+    document.getElementById('localTime').textContent = `🕒 일본 현지시간 ${jpTime}`;
+  };
+  update();
+  setInterval(update, 30000);
+}
+
+async function fetchExchangeRate(){
+  const el = document.getElementById('fxRate');
+  try {
+    const res = await fetch('https://api.frankfurter.app/latest?from=JPY&to=KRW');
+    const data = await res.json();
+    const rate = data.rates && data.rates.KRW;
+    if(!rate) throw new Error('no rate');
+    const per100 = (rate * 100).toFixed(1);
+    el.textContent = `💴 100엔 ≈ ${per100}원`;
+  } catch(e) {
+    el.textContent = '💴 환율 정보 없음';
+  }
 }
 
 async function fetchWeather(lat, lng) {
@@ -538,7 +625,7 @@ function renderAll(){
 
     html += `
       <div class="stop ${isDone?'done':''}" data-stop="${k}">
-        <div class="stop-line"><div class="stop-dot"></div><div class="stop-connector"></div></div>
+        <div class="stop-line"><div class="stop-dot">${i+1}</div><div class="stop-connector"></div></div>
         <div class="stop-card" data-stop-card="${k}">
           <div class="stop-time">${escapeHtml(s.time)}</div>
           ${s.title ? `<div class="stop-title">${escapeHtml(s.title)}</div>` : ""}
