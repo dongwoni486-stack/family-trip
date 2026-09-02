@@ -51,6 +51,15 @@
   .cand-chip{ display:flex; justify-content:space-between; padding:7px 9px; border-radius:8px; border:1px solid var(--line); font-size:11.5px; background:var(--paper); margin-top:4px;}
   .cand-chip.selected{ border-color:var(--moss); background:#EEF3E9;}
 
+  .leg-picker{ display:flex; align-items:center; gap:6px; margin:-2px 0 12px 40px; flex-wrap:wrap; }
+  .leg-mode{ border:1px solid var(--line); background:var(--paper-2); color:var(--muted); border-radius:14px; padding:4px 10px; font-size:11px; cursor:pointer; font-family:'Noto Sans KR', sans-serif; }
+  .leg-mode.active{ background:var(--ink); border-color:var(--ink); color:#fff; }
+  .leg-mode:disabled{ opacity:.35; cursor:default; }
+  .leg-info{ font-size:11px; color:var(--muted); }
+
+  .my-loc-btn{ position:absolute; right:10px; bottom:10px; z-index:5; background:#fff; border:1px solid var(--line); border-radius:50%; width:34px; height:34px; display:flex; align-items:center; justify-content:center; box-shadow:0 1px 4px rgba(0,0,0,.2); cursor:pointer; font-size:16px; }
+  #mapWrap{ position:relative; }
+
   footer{ text-align:center; padding:18px 16px 6px; font-size:11px; color:var(--muted); }
 </style>
 </head>
@@ -62,7 +71,10 @@
     <div class="weather-widget" id="weather">날씨 확인 중...</div>
   </header>
   <nav class="day-tabs" id="dayTabs"></nav>
-  <div id="map"></div>
+  <div id="mapWrap">
+    <div id="map"></div>
+    <button type="button" class="my-loc-btn" id="myLocBtn" title="내 위치">📍</button>
+  </div>
   <div class="summary-bar" id="sumTitle">일정</div>
   <div class="checklist-wrap" id="checklistSection" style="display:none;"></div>
 </div>
@@ -74,7 +86,7 @@
 <footer>구글 스프레드시트 기반 · 완료 체크·준비물·식당 선택은 이 브라우저에만 저장됩니다</footer>
 
 <!-- 브라우저 전용 키: Maps JavaScript API 전용으로 제한된 키를 사용하세요 -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA6TPEOwHL_hNV4jgKPvXwUbKuQRBUk-xY&callback=initMap" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA6TPEOwHL_hNV4jgKPvXwUbKuQRBUk-xY&libraries=geometry&callback=initMap" async defer></script>
 <script>
 /* ITINERARY_AUTO_START */
 const itinerary = [
@@ -153,7 +165,44 @@ const itinerary = [
 let checked = JSON.parse(localStorage.getItem('trip-checked') || '{}');
 let packChecked = JSON.parse(localStorage.getItem('trip-pack') || '{}');
 let mealPicks = JSON.parse(localStorage.getItem('trip-meals') || '{}');
+let legPicks = JSON.parse(localStorage.getItem('trip-legmode') || '{}'); // { "0-2": "walking" }
 let activeDay = 0, map, gOverlays = [];
+let myLocMarker = null, myLocWatchId = null;
+
+const MODE_LABEL = { walking: '🚶 도보', transit: '🚃 대중교통', driving: '🚕 택시' };
+
+function setupMyLocation(){
+  const btn = document.getElementById('myLocBtn');
+  if(!navigator.geolocation){
+    btn.style.display = 'none';
+    return;
+  }
+  const updatePos = (pos)=>{
+    const p = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+    if(!myLocMarker){
+      myLocMarker = new google.maps.Marker({
+        position: p, map,
+        icon: {
+          path: google.maps.SymbolPath.CIRCLE, scale: 8,
+          fillColor: '#4285F4', fillOpacity: 1, strokeColor: '#fff', strokeWeight: 2
+        },
+        zIndex: 999, title: '내 위치'
+      });
+    } else {
+      myLocMarker.setPosition(p);
+    }
+  };
+  btn.addEventListener('click', ()=>{
+    navigator.geolocation.getCurrentPosition((pos)=>{
+      updatePos(pos);
+      map.panTo({lat: pos.coords.latitude, lng: pos.coords.longitude});
+      map.setZoom(15);
+    }, ()=>{ alert('위치 권한을 허용해주세요.'); }, {enableHighAccuracy:true});
+    if(myLocWatchId === null){
+      myLocWatchId = navigator.geolocation.watchPosition(updatePos, ()=>{}, {enableHighAccuracy:true});
+    }
+  });
+}
 
 function escapeHtml(value) {
   return String(value ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
@@ -165,6 +214,7 @@ function isSafeUrl(url) {
 
 function initMap(){
   map = new google.maps.Map(document.getElementById('map'), { center: {lat:35.0, lng:135.0}, zoom:9, disableDefaultUI:true });
+  setupMyLocation();
   renderAll();
 }
 
@@ -185,6 +235,22 @@ async function fetchWeather(lat, lng) {
   } catch(e) {
     document.getElementById('weather').innerHTML = '날씨 정보 없음';
   }
+}
+
+/* ===== 구간별 이동수단 선택 (사전 계산된 데이터만 사용, 실시간 호출 없음) ===== */
+function renderLegPicker(dayIdx, i, legData){
+  const lk = `${dayIdx}-${i}`;
+  const available = legData ? Object.keys(legData).filter(m => legData[m]) : [];
+  if(available.length === 0){
+    return `<div class="leg-picker"><span class="leg-info">🚶 구간 정보 미동기화 (다음 자동 동기화 시 반영)</span></div>`;
+  }
+  const picked = legPicks[lk] && available.includes(legPicks[lk]) ? legPicks[lk] : available[0];
+  const buttons = ['walking','transit','driving'].map(m=>{
+    const has = available.includes(m);
+    return `<button type="button" class="leg-mode ${picked===m?'active':''}" data-legkey="${lk}" data-mode="${m}" ${has?'':'disabled'}>${MODE_LABEL[m]}</button>`;
+  }).join('');
+  const info = legData[picked] ? `<span class="leg-info">${legData[picked].duration} · ${legData[picked].distance}</span>` : '';
+  return `<div class="leg-picker">${buttons}${info}</div>`;
 }
 
 /* ===== 렌더링 ===== */
@@ -259,6 +325,9 @@ function renderAll(){
           ${btnHtml}
         </div>
       </div>`;
+    if(i < day.stops.length - 1){
+      html += renderLegPicker(activeDay, i, day.legs && day.legs[i]);
+    }
   });
   const timelineEl = document.getElementById('timeline');
   timelineEl.innerHTML = html;
@@ -282,6 +351,15 @@ function renderAll(){
       renderAll();
     });
   });
+  timelineEl.querySelectorAll('.leg-mode').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(btn.disabled) return;
+      const lk = btn.dataset.legkey;
+      legPicks[lk] = btn.dataset.mode;
+      localStorage.setItem('trip-legmode', JSON.stringify(legPicks));
+      renderAll();
+    });
+  });
 
   gOverlays.forEach(o=>o.setMap(null)); gOverlays = [];
   const bounds = new google.maps.LatLngBounds();
@@ -293,18 +371,32 @@ function renderAll(){
       pathCoords.push(pos);
       bounds.extend(pos);
       gOverlays.push(new google.maps.Marker({position:pos, map, label:{text:String(i+1), color:'white'}}));
+    } else {
+      pathCoords.push(null);
     }
   });
 
-  if(pathCoords.length > 1) {
-    const routeLine = new google.maps.Polyline({
-      path: pathCoords, strokeColor: '#BE4A3C', strokeOpacity: 0.6, strokeWeight: 3, map: map
-    });
-    gOverlays.push(routeLine);
+  for(let i=0; i<pathCoords.length-1; i++){
+    const a = pathCoords[i], b = pathCoords[i+1];
+    if(!a || !b) continue;
+    const lk = `${activeDay}-${i}`;
+    const legData = day.legs && day.legs[i];
+    const available = legData ? Object.keys(legData).filter(m => legData[m]) : [];
+    const picked = legPicks[lk] && available.includes(legPicks[lk]) ? legPicks[lk] : available[0];
+    if(picked && legData[picked] && legData[picked].poly && google.maps.geometry){
+      const path = google.maps.geometry.encoding.decodePath(legData[picked].poly);
+      gOverlays.push(new google.maps.Polyline({ path, map, strokeColor:'#BE4A3C', strokeOpacity:0.75, strokeWeight:4 }));
+    } else {
+      gOverlays.push(new google.maps.Polyline({
+        path:[a,b], map, strokeOpacity:0,
+        icons:[{icon:{path:'M 0,-1 0,1', strokeOpacity:.6, scale:3, strokeColor:'#BE4A3C'}, offset:'0', repeat:'10px'}]
+      }));
+    }
   }
 
   if(day.stops.length > 0 && !bounds.isEmpty()) map.fitBounds(bounds);
-  if(pathCoords.length > 0) fetchWeather(pathCoords[0].lat, pathCoords[0].lng);
+  const firstValid = pathCoords.find(Boolean);
+  if(firstValid) fetchWeather(firstValid.lat, firstValid.lng);
 }
 </script>
 </body>
