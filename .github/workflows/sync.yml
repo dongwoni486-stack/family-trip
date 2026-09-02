@@ -1,13 +1,12 @@
 name: 여행 일정 자동 동기화
 
-# 매일 한국시간 06:00에 자동 실행 + 수동 실행(Actions 탭 > Run workflow) 둘 다 가능
 on:
-  schedule:
-    - cron: "0 21 * * *"   # UTC 21:00 = KST 06:00 (다음날)
   workflow_dispatch: {}
+  schedule:
+    - cron: '0 0 * * *'
 
 permissions:
-  contents: write   # 변경된 index.html을 저장소에 커밋하기 위해 필요
+  contents: write
 
 jobs:
   sync:
@@ -30,7 +29,7 @@ jobs:
           GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
         run: python sync_sheet.py
 
-- name: 변경사항 있으면 자동 커밋 & 푸시
+      - name: 변경사항 있으면 자동 커밋 & 푸시
         run: |
           git config user.name "trip-sync-bot"
           git config user.email "trip-sync-bot@users.noreply.github.com"
