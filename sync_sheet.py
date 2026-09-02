@@ -115,24 +115,28 @@ def geocode(place_name):
     return None
 
 
-def get_directions(origin, destination, mode):
+def get_directions(origin, destination, mode, transit_mode=None):
     """서버 쪽에서 딱 한 번 경로를 계산해 결과를 저장합니다.
     브라우저는 이 결과를 그리기만 하므로 사용자가 앱을 몇 번을 열어도
-    Directions API가 추가로 호출되지 않습니다."""
+    Directions API가 추가로 호출되지 않습니다.
+    transit_mode: mode가 'transit'일 때만 'train' 또는 'bus'로 세분화 가능."""
     if not GOOGLE_MAPS_API_KEY:
         return None
     import requests
     try:
+        params = {
+            "origin": f"{origin[0]},{origin[1]}",
+            "destination": f"{destination[0]},{destination[1]}",
+            "mode": mode,
+            "key": GOOGLE_MAPS_API_KEY,
+            "language": "ko",
+            "region": "jp",
+        }
+        if mode == "transit" and transit_mode:
+            params["transit_mode"] = transit_mode
         resp = requests.get(
             "https://maps.googleapis.com/maps/api/directions/json",
-            params={
-                "origin": f"{origin[0]},{origin[1]}",
-                "destination": f"{destination[0]},{destination[1]}",
-                "mode": mode,
-                "key": GOOGLE_MAPS_API_KEY,
-                "language": "ko",
-                "region": "jp",
-            },
+            params=params,
             timeout=10,
         ).json()
         if resp.get("status") == "OK" and resp.get("routes"):
@@ -242,8 +246,14 @@ def main():
                     s["lat"], s["lng"] = latlng
                 time.sleep(0.2)
 
-        print("4. 구간별 이동 경로(도보/대중교통/택시)를 미리 계산하는 중...")
-        MODE_MAP = {"walking": "walking", "transit": "transit", "driving": "driving"}
+        print("4. 구간별 이동 경로(도보/기차/버스/택시)를 미리 계산하는 중...")
+        # key: (구글 mode, transit_mode 또는 None)
+        MODE_MAP = {
+            "walking": ("walking", None),
+            "train": ("transit", "train"),
+            "bus": ("transit", "bus"),
+            "driving": ("driving", None),
+        }
         for d in days:
             legs = []
             stops = d["stops"]
@@ -253,8 +263,8 @@ def main():
                 if all(k in a for k in ("lat", "lng")) and all(k in b for k in ("lat", "lng")):
                     origin = (a["lat"], a["lng"])
                     destination = (b["lat"], b["lng"])
-                    for key, gmode in MODE_MAP.items():
-                        r = get_directions(origin, destination, gmode)
+                    for key, (gmode, tmode) in MODE_MAP.items():
+                        r = get_directions(origin, destination, gmode, tmode)
                         if r:
                             leg_result[key] = r
                         time.sleep(0.2)
