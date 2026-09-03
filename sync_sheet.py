@@ -5,11 +5,11 @@ sync_sheet.py
 구글 스프레드시트를 읽어 index.html을 자동으로 갱신하는 스크립트입니다.
 GitHub Actions에서 매일 자동 실행되며, 아래 두 구간을 갱신합니다.
   - ITINERARY_AUTO_START~END : '일정' 탭 → 날짜별 여행 일정
-  - REF_AUTO_START~END       : '맛집'/'쇼핑'/'관광지' 탭 → 참고 목록
+  - REF_AUTO_START~END       : '맛집'/'쇼핑'/'관광' 탭 → 참고 목록
 
 시트 탭별 컬럼 구조:
   [일정] A 일차 및 날짜 | B 시간 | C 제목 | D 장소 | E 설명 | F 후보(맛집/대안, "- "로 구분) | G 체크리스트(콤마 구분) | H 바우처URL
-  [맛집/쇼핑/관광지] A 지역 | B 종류 | C 가게명(구글맵 명칭) | D 참고사항 | E 구글지도(사람이 보는 용도, 스크립트는 안 씀)
+  [맛집/쇼핑/관광] A 지역 | B 종류 | C 가게명(구글맵 명칭) | D 참고사항 | E 구글지도(사람이 보는 용도, 스크립트는 안 씀)
 
 이동수단 계산: 좌표가 있는 두 지점 사이마다 도보/기차/버스/택시 4가지를
 Directions API(transit_mode로 기차·버스 구분)로 미리 계산해 저장합니다.
@@ -31,7 +31,7 @@ API가 추가로 호출되지 않습니다.
      Geocoding·Directions API 하루 호출 한도를 낮게 설정해두는 걸 권장합니다.
 
 다음 여행에 재사용하는 법: 새 스프레드시트를 만들 때 탭 이름을
-'일정'/'맛집'/'쇼핑'/'관광지'로 동일하게 맞추고, GitHub 시크릿
+'일정'/'맛집'/'쇼핑'/'관광'으로 동일하게 맞추고, GitHub 시크릿
 SPREADSHEET_ID 값만 새 시트 ID로 바꾸세요. 이 파일은 그대로 재사용됩니다.
 
 설치:
@@ -71,12 +71,16 @@ START_MARKER = "/* ITINERARY_AUTO_START */"
 END_MARKER = "/* ITINERARY_AUTO_END */"
 REF_START_MARKER = "/* REF_AUTO_START */"
 REF_END_MARKER = "/* REF_AUTO_END */"
-# 참고 목록(맛집/쇼핑/관광지) 탭 이름. 이것도 매 여행 시트에서 동일하게 맞춰주세요.
+# 참고 목록(맛집/쇼핑/관광) 탭 이름. 이것도 매 여행 시트에서 동일하게 맞춰주세요.
 REF_SHEET_TABS = [
     ("맛집", "food"),
     ("쇼핑", "shop"),
-    ("관광지", "sight"),
+    ("관광", "sight"),
 ]
+# 필수정보(숙소/항공/바우처/긴급연락처) 탭 이름과 마커
+INFO_SHEET_NAME = os.environ.get("INFO_SHEET_NAME", "필수정보")
+INFO_START_MARKER = "/* INFO_AUTO_START */"
+INFO_END_MARKER = "/* INFO_AUTO_END */"
 GOOGLE_MAPS_API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY", "")
 
 SCOPES = [
@@ -182,6 +186,25 @@ def load_ref_sheet(sh, tab_name):
         if not name:
             continue
         items.append({"region": region, "cat": cat, "name": name, "note": note})
+    return items
+
+
+def load_info_sheet(sh, tab_name):
+    """필수정보 탭(유형|항목|내용|상세/예약번호|링크)을 읽어옵니다.
+    탭이 없으면 빈 리스트를 반환합니다 (필수정보는 선택 기능이라 없어도 에러 내지 않음)."""
+    try:
+        ws = sh.worksheet(tab_name)
+    except Exception:
+        print(f"  - '{tab_name}' 탭을 찾지 못해 건너뜁니다 (선택 기능이라 없어도 정상입니다).")
+        return []
+    rows = ws.get_all_values()
+    items = []
+    for row in rows[1:]:
+        row = row + [""] * (5 - len(row))
+        kind, label, value, detail, link = [str(x).strip() for x in row[:5]]
+        if not label and not value:
+            continue
+        items.append({"kind": kind, "label": label, "value": value, "detail": detail, "link": link})
     return items
 
 
@@ -297,7 +320,7 @@ def main():
                 legs.append(leg_result)
             d["legs"] = legs
 
-        print("5. 맛집/쇼핑/관광지 참고 목록을 불러와 좌표를 계산하는 중... (시간이 걸릴 수 있습니다)")
+        print("5. 맛집/쇼핑/관광 참고 목록을 불러와 좌표를 계산하는 중... (시간이 걸릴 수 있습니다)")
         for tab_name, key in REF_SHEET_TABS:
             items = load_ref_sheet(sh, tab_name)
             if items is None:
@@ -308,7 +331,11 @@ def main():
     else:
         print("3~5. GOOGLE_MAPS_API_KEY가 없어 좌표/경로/참고목록 계산은 건너뜁니다 (기존 값 유지).")
 
-    print("6. index.html 파일을 갱신하는 중...")
+    print("6. 필수정보(숙소/항공/바우처/긴급연락처) 탭을 불러오는 중... (좌표 계산 없이 그대로 사용)")
+    info_data = load_info_sheet(sh, INFO_SHEET_NAME)
+    print(f"  - {len(info_data)}개 항목 로드")
+
+    print("7. index.html 파일을 갱신하는 중...")
     if not os.path.exists(OUTPUT_PATH):
         sys.exit(f"'{OUTPUT_PATH}' 파일이 없습니다. 먼저 받은 index.html을 이 폴더에 넣어주세요.")
 
@@ -330,12 +357,18 @@ def main():
         r_end = html.index(REF_END_MARKER)
         html = html[:r_start] + "\n" + ref_js + "\n" + html[r_end:]
 
+    if INFO_START_MARKER in html and INFO_END_MARKER in html:
+        info_js = f"const infoData = {json.dumps(info_data, ensure_ascii=False, indent=2)};"
+        i_start = html.index(INFO_START_MARKER) + len(INFO_START_MARKER)
+        i_end = html.index(INFO_END_MARKER)
+        html = html[:i_start] + "\n" + info_js + "\n" + html[i_end:]
+
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         f.write(html)
 
     total_stops = sum(len(d["stops"]) for d in days)
     total_ref = sum(len(v) for v in ref_data.values())
-    print(f"완료: index.html 갱신됨 (일정 {len(days)}일 {total_stops}개, 참고목록 {total_ref}개)")
+    print(f"완료: index.html 갱신됨 (일정 {len(days)}일 {total_stops}개, 참고목록 {total_ref}개, 필수정보 {len(info_data)}개)")
 
 
 if __name__ == "__main__":
