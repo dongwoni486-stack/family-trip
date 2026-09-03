@@ -36,8 +36,8 @@
   .day-tab{ padding:8px 14px; border-radius:20px; border:1px solid #3A4763; background:#2A3652; color:#C8CEDB; font-size:12.5px; cursor:pointer; white-space:nowrap; }
   .day-tab.active{background:var(--vermillion); border-color:var(--vermillion); color:#fff;}
 
-  #map{ height:240px; width:100%; border-bottom:1px solid var(--line);}
-  @media (max-width: 600px) { #map { height: 200px; } }
+  #map{ height:260px; width:100%; border-bottom:1px solid var(--line);}
+  @media (max-width: 600px) { #map { height: 230px; } }
   .summary-bar{ padding:10px 18px; background:var(--paper-2); font-size:13px; font-weight:700; color:var(--ink); border-bottom:1px solid var(--line); }
 
   .checklist-wrap { background:#EEF3E9; padding:10px 16px; border-bottom:1px solid var(--line); font-size:12px; }
@@ -85,11 +85,11 @@
   .mode-tab{ padding:9px 12px; font-size:12.5px; color:#8894AC; cursor:pointer; border-bottom:2px solid transparent; }
   .mode-tab.active{ color:#fff; border-bottom-color:var(--vermillion); font-weight:700; }
 
-  .ref-filters{ padding:8px 0 8px 14px; background:var(--paper-2); border-bottom:1px solid var(--line); }
-  .ref-cat-row{ display:flex; gap:6px; flex-wrap:wrap; padding-right:14px; margin-bottom:6px; }
-  .ref-region-row{ display:flex; gap:5px; overflow-x:auto; padding-right:14px; scrollbar-width:none; white-space:nowrap; }
+  .ref-filters{ padding:8px 0 8px 14px; background:var(--paper-2); border-bottom:1px solid var(--line); display:block; }
+  .ref-cat-row{ display:flex; gap:6px; flex-wrap:wrap; padding-right:14px; margin-bottom:6px; align-items:flex-start; }
+  .ref-region-row{ display:flex; gap:5px; overflow-x:auto; padding-right:14px; scrollbar-width:none; white-space:nowrap; align-items:flex-start; }
   .ref-region-row::-webkit-scrollbar{ display:none; }
-  .ref-region-row .ref-chip{ flex:0 0 auto; }
+  .ref-region-row .ref-chip{ flex:0 0 auto; align-self:flex-start; }
   .ref-chip.ref-chip-sm{ padding:4px 8px; font-size:10px; border-radius:11px; }
   .ref-chip{ padding:6px 11px; border-radius:14px; border:1px solid var(--line); background:var(--paper); font-size:11.5px; cursor:pointer; color:#5B5647; }
   .ref-chip.active{ background:var(--ink); border-color:var(--ink); color:#fff; }

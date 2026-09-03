@@ -2,25 +2,37 @@
 """
 sync_sheet.py
 -----------------------------------------------------------------
-구글 스프레드시트("오사카_교토_여행일정_공유용" - 새 버전)의 '오사카_교토' 시트를
-읽어 index.html의 ITINERARY_AUTO_START~END 구간을 자동으로 다시 생성합니다.
+구글 스프레드시트를 읽어 index.html을 자동으로 갱신하는 스크립트입니다.
+GitHub Actions에서 매일 자동 실행되며, 아래 두 구간을 갱신합니다.
+  - ITINERARY_AUTO_START~END : '일정' 탭 → 날짜별 여행 일정
+  - REF_AUTO_START~END       : '맛집'/'쇼핑'/'관광지' 탭 → 참고 목록
 
-시트 컬럼 구조 (A~H):
-  A 일차 및 날짜 | B 시간 | C 제목 | D 장소(@스마트칩) | E 설명 | F 후보(맛집/대안) | G 체크리스트 | H 바우처URL
+시트 탭별 컬럼 구조:
+  [일정] A 일차 및 날짜 | B 시간 | C 제목 | D 장소 | E 설명 | F 후보(맛집/대안, "- "로 구분) | G 체크리스트(콤마 구분) | H 바우처URL
+  [맛집/쇼핑/관광지] A 지역 | B 종류 | C 가게명(구글맵 명칭) | D 참고사항 | E 구글지도(사람이 보는 용도, 스크립트는 안 씀)
+
+이동수단 계산: 좌표가 있는 두 지점 사이마다 도보/기차/버스/택시 4가지를
+Directions API(transit_mode로 기차·버스 구분)로 미리 계산해 저장합니다.
+브라우저는 이미 계산된 값을 그리기만 하므로, 사용자가 앱을 몇 번을 열어도
+API가 추가로 호출되지 않습니다.
 
 사용 전 준비물 (본인 구글 계정에서 직접 진행):
   1. Google Cloud Console에서 프로젝트 생성 (이미 있다면 재사용)
-  2. "Google Sheets API" 활성화 (지도/장소 표시는 이미 있는
-     Maps JavaScript API 브라우저 키를 그대로 쓰고, 이 서버 스크립트는
-     별도의 "서버 전용 API 키"를 새로 만들어 쓰는 걸 권장합니다 —
-     브라우저 파일 안에 절대 노출되지 않으므로 훨씬 안전합니다.)
+  2. 서버 전용 API 키 발급: 애플리케이션 제한사항 "없음", API 제한사항은
+     Geocoding API + Directions API 2개만. (브라우저용 키와는 반드시 분리 —
+     브라우저 키는 리퍼러 제한이 걸려 있어 서버 요청엔 애초에 쓸 수 없습니다.)
   3. 서비스 계정 생성 → JSON 키 다운로드 → 이 파일과 같은 폴더에 credentials.json 으로 저장
+     (또는 GitHub Actions에서는 GOOGLE_CREDENTIALS_JSON 시크릿으로 대체)
   4. 서비스 계정 이메일(xxx@xxx.iam.gserviceaccount.com)을
      구글 스프레드시트 "공유"에 뷰어 권한으로 추가
-  5. (선택) Geocoding API로 좌표를 자동 갱신하려면 GOOGLE_MAPS_API_KEY 환경변수에
-     "서버 전용" 키를 설정하세요. 설정하지 않으면 기존 index.html의 좌표를 그대로 둡니다.
+  5. 위 2번 서버 키를 GOOGLE_MAPS_API_KEY 환경변수(시크릿)로 설정
+     — 없으면 좌표/경로/참고목록 계산을 건너뛰고 기존 값을 그대로 둡니다.
   6. ⚠️ 과금 방지: Google Cloud Console > API 및 서비스 > 할당량에서
-     Geocoding API 하루 호출 한도를 낮게(예: 하루 300회) 설정해두세요.
+     Geocoding·Directions API 하루 호출 한도를 낮게 설정해두는 걸 권장합니다.
+
+다음 여행에 재사용하는 법: 새 스프레드시트를 만들 때 탭 이름을
+'일정'/'맛집'/'쇼핑'/'관광지'로 동일하게 맞추고, GitHub 시크릿
+SPREADSHEET_ID 값만 새 시트 ID로 바꾸세요. 이 파일은 그대로 재사용됩니다.
 
 설치:
     pip install gspread google-auth requests --break-system-packages
