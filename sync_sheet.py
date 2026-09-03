@@ -8,7 +8,10 @@ GitHub Actions에서 매일 자동 실행되며, 아래 두 구간을 갱신합�
   - REF_AUTO_START~END       : '맛집'/'쇼핑'/'관광' 탭 → 참고 목록
 
 시트 탭별 컬럼 구조:
-  [일정] A 일차 및 날짜 | B 시간 | C 제목 | D 장소 | E 설명 | F 후보(맛집/대안, "- "로 구분) | G 체크리스트(콤마 구분) | H 바우처URL
+  [일정] A 일차 및 날짜 | B 시간 | C 제목 | D 장소 | E 설명 | F 후보(맛집/대안, "- "로 구분) | G 체크리스트(콤마 구분)
+    ※ H열(바우처URL)은 예약정보 노출 우려로 더 이상 읽지 않습니다. 시트가
+      공개 저장소로 배포되는 구조라, 바우처·예약관리 링크는 앱에 절대
+      넣지 마세요 (필요하면 가족 단체방 등 비공개 채널로 따로 공유하세요).
   [맛집/쇼핑/관광] A 지역 | B 종류 | C 가게명(구글맵 명칭) | D 참고사항 | E 구글지도(사람이 보는 용도, 스크립트는 안 씀)
 
 이동수단 계산: 좌표가 있는 두 지점 사이마다 도보/기차/버스/택시 4가지를
@@ -77,10 +80,6 @@ REF_SHEET_TABS = [
     ("쇼핑", "shop"),
     ("관광", "sight"),
 ]
-# 필수정보(숙소/항공/바우처/긴급연락처) 탭 이름과 마커
-INFO_SHEET_NAME = os.environ.get("INFO_SHEET_NAME", "필수정보")
-INFO_START_MARKER = "/* INFO_AUTO_START */"
-INFO_END_MARKER = "/* INFO_AUTO_END */"
 GOOGLE_MAPS_API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY", "")
 
 SCOPES = [
@@ -189,70 +188,6 @@ def load_ref_sheet(sh, tab_name):
     return items
 
 
-def load_info_sheet(sh, tab_name):
-    """필수정보 탭(유형|항목|내용|상세/예약번호|링크)을 읽어옵니다.
-    탭이 없으면 빈 리스트를 반환합니다 (필수정보는 선택 기능이라 없어도 에러 내지 않음).
-    A열(유형)이 병합 셀이면 gspread가 첫 행에만 값을 주므로, 마지막으로 본
-    유형을 이어받습니다 (일정/참고목록 탭과 동일한 처리)."""
-    try:
-        ws = sh.worksheet(tab_name)
-    except Exception:
-        print(f"  - '{tab_name}' 탭을 찾지 못해 건너뜁니다 (선택 기능이라 없어도 정상입니다).")
-        return []
-    rows = ws.get_all_values()
-    items = []
-    last_kind = ""
-    for row in rows[1:]:
-        row = row + [""] * (5 - len(row))
-        kind, label, value, detail, link = [str(x).strip() for x in row[:5]]
-        kind = kind if kind else last_kind
-        last_kind = kind
-        if not label and not value:
-            continue
-        items.append({"kind": kind, "label": label, "value": value, "detail": detail, "link": link})
-    return items
-
-
-def is_real_url(u):
-    """일정 탭 H열의 'https:// (항공권)' 같은 자리표시자를 걸러내고
-    실제로 열리는 링크만 True로 판단합니다."""
-    if not u:
-        return False
-    u = u.strip()
-    if " " in u or "(" in u:
-        return False
-    return u.lower().startswith(("http://", "https://")) and len(u) > len("https://")
-
-
-def extract_auto_vouchers(days):
-    """일정 탭에서 H열(바우처URL)에 실제 링크가 채워진 일정을 찾아
-    필수정보의 '바우처' 항목으로 자동 변환합니다.
-    (수동으로 필수정보 탭에 직접 입력할 필요 없이, 일정 탭에 이미
-    적어둔 링크를 그대로 재활용합니다.)
-
-    한 칸(셀) 안에 줄바꿈으로 링크를 여러 개 넣으면(예: 가족 3명분
-    티켓 링크 3줄) 각각 별도의 바우처 항목으로 나뉩니다."""
-    items = []
-    for d in days:
-        for s in d["stops"]:
-            raw = s.get("url", "")
-            lines = [ln.strip() for ln in raw.split("\n") if ln.strip()]
-            valid_links = [ln for ln in lines if is_real_url(ln)]
-            total = len(valid_links)
-            for idx, link in enumerate(valid_links, start=1):
-                label = s.get("title", "")
-                if total > 1:
-                    label = f"{label} ({idx}/{total})"
-                items.append({
-                    "kind": "바우처",
-                    "label": label,
-                    "value": s.get("place") or s.get("desc") or "",
-                    "detail": "",
-                    "link": link,
-                })
-    return items
-
-
 def geocode_ref_items(items):
     for it in items:
         query = f"{it['name']} {it.get('region', '')}".strip()
@@ -272,7 +207,7 @@ def parse_rows_to_days(rows):
 
     for row in rows[1:]:  # 헤더 제외
         row = row + [""] * (8 - len(row))
-        day_label, time_val, title, place, desc, cands, checklist, url = [
+        day_label, time_val, title, place, desc, cands, checklist, _url_unused = [
             str(x).strip() for x in row[:8]
         ]
         if not title and not place and not desc:
@@ -290,7 +225,9 @@ def parse_rows_to_days(rows):
                 [item.strip() for item in checklist.split(",") if item.strip()]
             )
 
-        stop = {"time": time_val, "title": title, "place": place, "desc": desc, "url": url}
+        # H열(바우처URL)은 개인정보/예약정보 노출 우려로 더 이상 읽지 않습니다.
+        # (사이트가 공개 저장소라 링크를 아는 사람 누구나 볼 수 있어서 제외했습니다.)
+        stop = {"time": time_val, "title": title, "place": place, "desc": desc}
 
         if cands:
             names = [n.strip() for n in re.findall(r"[-•]\s*([^\n]+)", cands) if n.strip()]
@@ -376,16 +313,7 @@ def main():
     else:
         print("3~5. GOOGLE_MAPS_API_KEY가 없어 좌표/경로/참고목록 계산은 건너뜁니다 (기존 값 유지).")
 
-    print("6. 필수정보(숙소/항공/바우처/긴급연락처) 탭을 불러오는 중... (좌표 계산 없이 그대로 사용)")
-    manual_info = load_info_sheet(sh, INFO_SHEET_NAME)
-    auto_vouchers = extract_auto_vouchers(days)
-    # 같은 링크가 필수정보 탭에 이미 수동으로 있으면 자동 추출분은 건너뛰어 중복 방지
-    existing_links = {it["link"] for it in manual_info if it.get("link")}
-    auto_vouchers = [v for v in auto_vouchers if v["link"] not in existing_links]
-    info_data = auto_vouchers + manual_info
-    print(f"  - 일정 탭에서 자동 추출된 바우처 {len(auto_vouchers)}개 + 필수정보 탭 직접 입력 {len(manual_info)}개 = 총 {len(info_data)}개")
-
-    print("7. index.html 파일을 갱신하는 중...")
+    print("6. index.html 파일을 갱신하는 중...")
     if not os.path.exists(OUTPUT_PATH):
         sys.exit(f"'{OUTPUT_PATH}' 파일이 없습니다. 먼저 받은 index.html을 이 폴더에 넣어주세요.")
 
@@ -407,18 +335,12 @@ def main():
         r_end = html.index(REF_END_MARKER)
         html = html[:r_start] + "\n" + ref_js + "\n" + html[r_end:]
 
-    if INFO_START_MARKER in html and INFO_END_MARKER in html:
-        info_js = f"const infoData = {json.dumps(info_data, ensure_ascii=False, indent=2)};"
-        i_start = html.index(INFO_START_MARKER) + len(INFO_START_MARKER)
-        i_end = html.index(INFO_END_MARKER)
-        html = html[:i_start] + "\n" + info_js + "\n" + html[i_end:]
-
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         f.write(html)
 
     total_stops = sum(len(d["stops"]) for d in days)
     total_ref = sum(len(v) for v in ref_data.values())
-    print(f"완료: index.html 갱신됨 (일정 {len(days)}일 {total_stops}개, 참고목록 {total_ref}개, 필수정보 {len(info_data)}개)")
+    print(f"완료: index.html 갱신됨 (일정 {len(days)}일 {total_stops}개, 참고목록 {total_ref}개)")
 
 
 if __name__ == "__main__":
