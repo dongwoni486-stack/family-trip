@@ -191,7 +191,9 @@ def load_ref_sheet(sh, tab_name):
 
 def load_info_sheet(sh, tab_name):
     """필수정보 탭(유형|항목|내용|상세/예약번호|링크)을 읽어옵니다.
-    탭이 없으면 빈 리스트를 반환합니다 (필수정보는 선택 기능이라 없어도 에러 내지 않음)."""
+    탭이 없으면 빈 리스트를 반환합니다 (필수정보는 선택 기능이라 없어도 에러 내지 않음).
+    A열(유형)이 병합 셀이면 gspread가 첫 행에만 값을 주므로, 마지막으로 본
+    유형을 이어받습니다 (일정/참고목록 탭과 동일한 처리)."""
     try:
         ws = sh.worksheet(tab_name)
     except Exception:
@@ -199,9 +201,12 @@ def load_info_sheet(sh, tab_name):
         return []
     rows = ws.get_all_values()
     items = []
+    last_kind = ""
     for row in rows[1:]:
         row = row + [""] * (5 - len(row))
         kind, label, value, detail, link = [str(x).strip() for x in row[:5]]
+        kind = kind if kind else last_kind
+        last_kind = kind
         if not label and not value:
             continue
         items.append({"kind": kind, "label": label, "value": value, "detail": detail, "link": link})
