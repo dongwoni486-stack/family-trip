@@ -275,11 +275,25 @@ def main():
                 if all(k in a for k in ("lat", "lng")) and all(k in b for k in ("lat", "lng")):
                     origin = (a["lat"], a["lng"])
                     destination = (b["lat"], b["lng"])
+
+                    # 필터 없는 일반 대중교통 결과를 먼저 구해서 안전망으로 둔다.
+                    # (구글이 특급열차/공항철도 등을 transit_mode=train으로
+                    #  못 알아채고 결과 없음을 주는 경우가 있어서, 그럴 때는
+                    #  이 일반 결과로 기차 버튼을 대신 채운다.)
+                    general_transit = get_directions(origin, destination, "transit")
+                    time.sleep(0.2)
+
                     for key, (gmode, tmode) in MODE_MAP.items():
-                        r = get_directions(origin, destination, gmode, tmode)
+                        if gmode == "transit":
+                            r = get_directions(origin, destination, gmode, tmode)
+                            time.sleep(0.2)
+                            if not r:
+                                r = general_transit  # 필터링 실패 시 일반 대중교통으로 대체
+                        else:
+                            r = get_directions(origin, destination, gmode, tmode)
+                            time.sleep(0.2)
                         if r:
                             leg_result[key] = r
-                        time.sleep(0.2)
                 legs.append(leg_result)
             d["legs"] = legs
 
