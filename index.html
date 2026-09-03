@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>오사카·교토 가족 여행 가이드</title>
+
+<!-- 홈 화면에 추가 시 앱처럼 동작하도록 -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1F2A44">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="오사카·교토 가이드">
+<meta name="mobile-web-app-capable" content="yes">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{ --ink:#1F2A44; --vermillion:#BE4A3C; --moss:#5B7553; --paper:#F6F1E7; --paper-2:#FFFFFF; --line:#E4DACB; --muted:#8A8071; --gold:#C9A24B; }
@@ -153,757 +163,71 @@
 const itinerary = [
   {
     "dayLabel": "1일차 (9/19)",
-    "checklist": [
-      "여권",
-      "110V 돼지코",
-      "환전금",
-      "비짓재팬 QR 캡처본",
-      "하루카 탑승권 QR",
-      "상비약",
-      "보조배터리"
-    ],
+    "checklist": ["여권", "110V 돼지코", "환전금", "비짓재팬 QR 캡처본", "하루카 탑승권 QR", "상비약", "보조배터리"],
     "stops": [
-      {
-        "time": "11:10",
-        "title": "인천 공항 출발",
-        "place": "Incheon International Airport",
-        "desc": "1터미널 파라타항공 WE0511",
-        "lat": 37.458666,
-        "lng": 126.4419679
-      },
-      {
-        "time": "12:55",
-        "title": "간사이 공항 도착 및 입국 수속",
-        "place": "간사이 국제공항 (KIX)",
-        "desc": "예약번호 AA3SJC / 💡 비짓재팬웹 QR 미리 캡처, 안쪽 키오스크 이용 후 배정된 알파벳 라인 직행",
-        "lat": 34.4319994,
-        "lng": 135.2366019
-      },
-      {
-        "time": "14:14",
-        "title": "교토 이동",
-        "place": "교토 역",
-        "desc": "JR 하루카 30호 (간사이공항 14:14 → 교토역 15:34) / 9호차 1A·1B·1C석",
-        "lat": 34.985849,
-        "lng": 135.7587667
-      },
-      {
-        "time": "16:30",
-        "title": "교토 숙소 체크인 (시모아타라시초)",
-        "place": "교토 숙소\n340 Shimoatarashichō",
-        "desc": "[숙소] 히가시야마 에어비앤비 (택시 5~8분)",
-        "lat": 34.993785,
-        "lng": 135.7724216
-      },
-      {
-        "time": "18:00",
-        "title": "야사카 신사 및 기온 산책",
-        "place": "야사카 신사 및 기온산책\n야사카 신사",
-        "desc": "밤의 야사카 신사 (제등 조명)",
-        "lat": 35.0036559,
-        "lng": 135.7785534
-      },
-      {
-        "time": "19:30",
-        "title": "기온 거리 야간 산책 및 저녁",
-        "place": "Shinbashi-dori",
-        "desc": "기온 신바시 골목 탐방",
-        "lat": 35.0057413,
-        "lng": 135.7752556
-      },
-      {
-        "time": "20:00",
-        "title": "장보기",
-        "place": "Fresco Higashiyama Yasui",
-        "desc": "마트 장보기 (도보 5분)",
-        "lat": 34.9989756,
-        "lng": 135.7770997
-      },
-      {
-        "time": "21:00",
-        "title": "숙소 복귀",
-        "place": "교토 숙소\n340 Shimoatarashichō",
-        "desc": "",
-        "lat": 34.993785,
-        "lng": 135.7724216
-      }
-    ],
-    "legs": [
-      {},
-      {
-        "walking": {
-          "distance": "105 km",
-          "duration": "20시간 21분",
-          "poly": "_`dqEwjlxXzCbFdAvDm@|BrFlKxBvB|D}Bv@jAT~BbBtCwBtBi@JeDkDmBaD}IiOwKmSwByDlA_B^gAIsOqHqMuL}OaIeAqEaD{JiTqAga@t@gHgBa@i@xFw@|GSM?}BwAKCJA?_@xCMlDiBbAyCsBe@cH~BsGI_EwVuYi_@wQkk@mLsV}B{h@z@ay@xL{sGhy@idCnWapB|JexBh@qlAY{r@eDogBuCep@j@gXnEuKrGeOfT{Ot[yPra@wBxUvBxMbG`FxMf@`@iGlB}@[mJIsCoDViIh@yJ`AuLfE_QvIgKhFee@~Tuy@|a@q`@jS_TjKjChLxEpO}AnAcAt@gCrCiA`@s@nDoDxEsUtQiIzCoMbBqIxCmC`EEsA{Bh@eHyBaB`@kDkBkHoDkHmDuGeE}MeNkLoPy@g@Nu@Sm@}AcAaMgFuM}a@gG_NaFsSeIsYoGkY}UeaAwWsgAmEoa@yFk\\aFcPsIu`@}UejAsUseAkKee@_Fk]aNsgA}QgfA{Dm`@C{K_DuA{Ck@eC?{DCaBAkBCSaCQyBk@aDsDPoD{GoM}\\uNa[eNgVmFiHoG_BmGk@kCeDeM}V{MsK}DkEeDmFkCsO[kL@mMcAoBb@iTuWkD_HoDuDaIyCqK_H}L{JmRiCcDyDoL}HkMuG}IkPwT}GoKySwX}i@so@}V}XoD_WqDmh@uDc\\O{E{CkEeL{^sOcb@{DyREeGeAuDcJkAoAkBqD_Jq@wL[o@[LmCgCEi@i@_BmAwE_BgG}GoWcI}NsXcf@ml@u_AmHoSoBeMoJsf@_Qsf@_G_ZiAqX]qd@m@{}@wAamBa@kd@MgFmAoAuAyGmJeTyAoIl@eFdDcRu@_HgBiFcDcc@{@kN|@uC_DyMoByWiM}p@aCoLoBcHuCeP_GyV}DaEuAkGcCg`@aGwS}EqSqAsXkBYLsJTaO\\SXNj@R|@oB?q@e@{AkAgCaG_LWmXGoYBwVoB{NaJ}XmPch@yK_]mE}IsJqJi`@i_@aVkUsMcMwOqP_x@ev@aL{JmMuK{EcI{GyLwQyLiY}PgJkLuDa@}DuDsC}P{IkSyMcViFmEpAeFc@mD}D_EkL}JsWoMaQcFwGgAeC}BeOsNyKsMBuQc@wAwCIsFo@mGaAcFeCyGcHuTgVyRwUcEwE[kBs@AkBPgEs@sBQgLy@mEwTy@eRcFJgK_DyFkBaM_BeEcFgDuHiE@_LoQoF{GmHiKuAqC_EUwH[iN_ByLsOgDwE}CmHmC_EcIBwHK_QFmUGyOQeG?sK{@HbHd@H"
-        },
-        "driving": {
-          "distance": "101 km",
-          "duration": "1시간 29분",
-          "poly": "ebdqEqklxXw@fAGRfAvCzCjF`AfBHz@aBlCuCpCuA~@wAS}GsKkB}CqA_@wAv@g@x@pArDe@dBgCzAoE~DUQmAkC^gAvEsE`AwAEm@oCgF@w@jBqBfBe@dD~F~I~NnCjD~@EfBwAhDiDFy@uAaCoEyHmFmL_d@eu@eKmSwB{Li@gSb@wKtA{H~BuGjBiDlFeGpVkVb_@yg@lb@an@ji@}v@lWc`@rCqGXiEoAyFuDsKsB}L}@wMkC{b@cDgSaDiNkFyMoI{NgXu^qVeVoRgMwIcIgSeK{OoGqH_D{CgCwFcKeA}Ey@sLmAqHwCqJkH_OeKwMwMmKwVgQgNmIu]gVmZwTuG}H}EkLmEiMkCeFyBaCyIwGeLkIeHsCeHqA}EQkF^oHl@{HIiPcDag@aK{]qH}IgF}NkSwHqOiGsM}IiIiFkJiKua@KkQ{@eJuBoGaFkIcGoMgEyOoJmMgHuHyF{DgBsAOoAf@cB|EoI`DgMvGec@lOsqAnFce@bEob@[qo@{@mu@e@{a@WgNiAoKwAmGsDkJyKiP_GgIcB_FsBmH{GmEqFmFoIcMmIeWoHeXsQ_q@oN_h@iHoXeBcMkD_b@_DcWcQ{k@kTar@uKg]wDoLqF{MuDmFgJcJ{WwVsKgFoHsAqHMoQtAu`@nDei@bFu^tCwEc@eI{DiLqMoUqYcQuSsFyE}EeBwHQaMdBmu@lKoPl@oReAeSkCqKw@oW]uS]{IaBgGeCwSuKmHuGmIqLgI}RsFsMwH_MqIgKaKiIkNeFsXmGwGw@}RsFg]mHuUAwx@bA_d@j@uPv@yMhCuu@dO{d@fJcIpAuKLe`@GeZGuQFaFn@gCbAuIpFkD|EsBfDoCf@wB_B_@aCEyFwDqKoFuNkIiQ_G_G_NqIo^qTgh@ie@eZi\\sI_KsH_LeNk\\qE}L}HaPmNsW}LqUoYos@oEmH}EeFsR{OcOaMiQiSk[i`@iWy[cPaUiIiRwJoa@mMqm@mD{LgEkIkTqZsU{[oMiQeLqM}]wXqcAiw@kWyRiSsMeLuDeLcBo\\Yyj@B_WFcIgA}DeA{IoEyImIsXe]kIoImHsCs[{A}Ou@}HeCsVgU_b@ya@mKeKaKiIiF_BwE_@iOKo[Wg{@k@cy@i@yfAs@_e@_Aqe@cC_O}@gMO}XWuw@gBcbAqA_n@sCyE{@wBkBqBuDYkFVeLqAeFuJiI{LmHyBuBs@[u@VGlB|Aj@xAcAQyAsAoAaCcA_Nq@gd@aA{PK}HHkEB]dABdPD`C@rB`@@FK?kBz@AWZYVPlAbAZ"
-        }
-      },
-      {
-        "walking": {
-          "distance": "2.0 km",
-          "duration": "29분",
-          "poly": "sfptEakr{XANc@@?UAs@?kCCs@Aq@AEGAI??i@GG]Kc@Y]a@I?MQS?I@?QK@@YF??[Aw@Ey@?iCKA?G@a@J@?MAy@?s@WAu@E?IK?QGk@a@eACs@SYGm@DQ@?a@c@??UQ?Aq@R??eABM?_AAkAAqBCqA@yACuDEAAg@BADA?[AqBBSAMAk@?iA@KAGFkC?i@B}A@O?EC?Ba@cAAw@EwBA_@@O?YEY@]Eu@A]Ee@?s@GECIDcAKa@Ek@GIBAFWEe@Ey@I{AG?KEA@EF@Dm@J_B"
-        },
-        "driving": {
-          "distance": "2.2 km",
-          "duration": "9분",
-          "poly": "uhptE}pr{XGBe@AyA?AaACeDEiDC}I@iBBg@IKO@U?eCAcMAkIBk@Eu@SqCgAuCmA{BiAcDoBeB}@DaAF}@j@qGZkFr@qJJqA~@B|ADr@Df@BDg@LqB"
-        }
-      },
-      {
-        "walking": {
-          "distance": "1.6 km",
-          "duration": "23분",
-          "poly": "uvqtEw`u{XNqBDWP[R]GGOOGCo@QJOf@{@Jq@e@KCABE\\uBXyAsA}@LWEEBIa@_@CBIEc@]GECQWCBLCA]Ke@M{B[{@MOA?CKA?@oDg@_De@I?mEc@YEaBO?IAAMAAJGGSAeAMwBQUGa@EMA?BI?uAFqAHgAFYFm@Ns@RAsBAg@DS?q@O?AKs@?s@EC?AN?@E@E?A@MCSLK@G?"
-        },
-        "driving": {
-          "distance": "2.5 km",
-          "duration": "10분",
-          "poly": "yvqtEw`u{XSxCs@EyCKk@ABOFi@ASDg@Fe@TaB\\sBt@iEh@}DDkAGi@{@_@}B_@sFu@yEq@uBSwCYuAOeEc@{AOoFX{DbAW?eAK{@I]KiAa@QCqAU_AIWCq@EBi@PqBBSf@qFJ_@Vm@Nq@RuBNe@HJL^HPTNl@TY`Bc@fBQh@ALDAJAvAZ@EBCBAF@BH?HEF"
-        }
-      },
-      {
-        "walking": {
-          "distance": "0.5 km",
-          "duration": "7분",
-          "poly": "}sstEwev{XYESPI@BXw@LGp@EZDHLR@FSESC]E[GgAO]Eq@GQ?E@K?A^F?AJCn@ItBCdAOtE"
-        },
-        "driving": {
-          "distance": "1.1 km",
-          "duration": "5분",
-          "poly": "_vstE}jv{XDOAIECG@A@ABA?c@Gm@OM?IBLg@p@mCL}@BMa@OEAQIOSQg@IKM^CLE`@OzAOj@Wl@I^g@jFWjDuDQYCC?EvAMzEG`BExAZBx@FhA?`@A"
-        }
-      },
-      {
-        "walking": {
-          "distance": "1.0 km",
-          "duration": "14분",
-          "poly": "_attEkru{Xd@sMHB?Gh@FpAJbBVfA^\\LD@?f@b@B?WJ@d@Br@FZEz@SDGJ?p@M^OPETE\\CrAItBKHBF@t@Dn@FDBhAL~@JTBDAdAJL@"
-        },
-        "driving": {
-          "distance": "1.0 km",
-          "duration": "4분",
-          "poly": "{`ttEkru{XVkHHcCDs@|@Df@DbBRn@LfBl@rANt@FNAz@SfBg@x@KtBMvAGz@HpCVhD`@"
-        }
-      },
-      {
-        "walking": {
-          "distance": "1.0 km",
-          "duration": "13분",
-          "poly": "qvrtEg~u{Xx@JjBN~AN?BHArIlA|Ep@CFFB@C@EJBXJ^RVZLHCBKRCDl@RB@BGDMr@f@\\TLJKd@k@fDb@HADKp@g@z@KNn@PFBNNFFS\\INGJEVOpB"
-        },
-        "driving": {
-          "distance": "1.1 km",
-          "duration": "4분",
-          "poly": "ovrtEw~u{XrCXtBRxEp@rFt@|B^z@^p@f@PPK^I\\E^e@lDKbAm@tD_@`CIPSlBAJEb@R@fADT?r@Df@BDg@LqB"
-        }
-      }
+      {"time":"11:10","title":"인천 공항 출발","place":"인천국제공항 제1여객터미널","desc":"파라타항공 WE0511","url":"","lat":37.4602,"lng":126.4407},
+      {"time":"12:55","title":"간사이 공항 도착 및 입국 수속","place":"간사이 국제공항 (KIX)","desc":"예약번호 AA3SJC / 비짓재팬웹 QR 미리 캡처, 안쪽 키오스크 이용 후 배정된 알파벳 라인 직행","url":"","lat":34.4347,"lng":135.2441},
+      {"time":"14:14","title":"교토 이동","place":"교토 역","desc":"JR 하루카 30호 (간사이공항 14:14 → 교토역 15:34) / 9호차 1A·1B·1C석","url":"","lat":34.9858,"lng":135.7588},
+      {"time":"16:30","title":"교토 숙소 체크인 (시모아타라시초)","place":"교토 숙소 340 Shimoatarashichō","desc":"[숙소] 히가시야마 에어비앤비 (택시 5~8분)","url":"","lat":34.9990,"lng":135.7758},
+      {"time":"18:00","title":"야사카 신사 및 기온 산책","place":"야사카 신사","desc":"밤의 야사카 신사 (제등 조명)","url":"","lat":35.0037,"lng":135.7784},
+      {"time":"19:30","title":"기온 거리 야간 산책 및 저녁","place":"기온 거리 (Shinbashi-dori)","desc":"기온 신바시 골목 탐방","candidates":[{"name":"오반자이 사쿠라가와"},{"name":"교노지도리야 아키"},{"name":"교료리 호잔"}],"url":"","lat":35.0031,"lng":135.7756},
+      {"time":"21:00","title":"숙소 복귀 및 장보기","place":"Fresco Higashiyama Nanajo","desc":"마트 장보기 (도보 5분)","url":"","lat":34.9990,"lng":135.7758}
     ]
   },
   {
     "dayLabel": "2일차 (9/20)",
     "checklist": [],
     "stops": [
-      {
-        "time": "7:30",
-        "title": "기요미즈데라(청수사) 개장 직후 관람",
-        "place": "기요미즈데라",
-        "desc": "실버위크 혼잡 회피 위해 이른 아침 관람 권장",
-        "lat": 34.9946662,
-        "lng": 135.784661
-      },
-      {
-        "time": "9:00",
-        "title": "산넨자카 & 니넨자카 산책",
-        "place": "니넨자카",
-        "desc": "교토 시내 전경 감상",
-        "lat": 34.9983989,
-        "lng": 135.7808431
-      },
-      {
-        "time": "10:00",
-        "title": "스타벅스 니넨자카점(다다미) 카페",
-        "place": "스타벅스 니넨자카 야사카차야점",
-        "desc": "다다미석, 이른 시간대라 대기 적음",
-        "lat": 34.9983013,
-        "lng": 135.7808012
-      },
-      {
-        "time": "11:00",
-        "title": "후시미이나리 신사(여우신사) 이동 및 참배",
-        "place": "후시미 이나리 신사",
-        "desc": "붉은 토리이 길 사진 촬영",
-        "lat": 34.9676945,
-        "lng": 135.7791876
-      },
-      {
-        "time": "13:00",
-        "title": "점심 식사 (후시미이나리 인근)",
-        "place": "Fushimi Inari Taisha",
-        "desc": "",
-        "lat": 34.9676945,
-        "lng": 135.7791876
-      },
-      {
-        "time": "15:00",
-        "title": "신쿄고쿠 상점가 구경\n-SOU・SOU 타비/세리아 쇼핑",
-        "place": "SOU・SOU Tabi\nKyoto Shinkyogoku Shopping Street",
-        "desc": "전철로 이동 필요",
-        "lat": 35.0043763,
-        "lng": 135.7681438
-      },
-      {
-        "time": "17:00",
-        "title": "마트 장보기",
-        "place": "Fresco Higashiyama Yasui",
-        "desc": "마트 장보기 (도보 5분)",
-        "lat": 34.9989756,
-        "lng": 135.7770997
-      },
-      {
-        "time": "18:00",
-        "title": "숙소 복귀 및 자유시간",
-        "place": "교토 숙소\n340 Shimoatarashichō",
-        "desc": "숙소 복귀 및 휴식",
-        "lat": 34.993785,
-        "lng": 135.7724216
-      }
-    ],
-    "legs": [
-      {
-        "walking": {
-          "distance": "0.7 km",
-          "duration": "10분",
-          "poly": "c{qtE_mw{X?d@@f@c@xAIr@E`AEFMHSHGC]CGBYRU?I??LBf@@bACb@IX_@p@Wj@Sb@Od@]rAcA_@[G]?qACy@Ac@@[DORGLABG@QIW@a@B"
-        },
-        "driving": {
-          "distance": "1.2 km",
-          "duration": "8분",
-          "poly": "_artEubw{X@hBCt@Sh@_@t@k@nAi@xB}B~DUt@o@nC{@hEW|BARcBQqBQYCiBSTiHAwCAw@?kDv@Ip@MbAC"
-        }
-      },
-      {
-        "walking": {
-          "distance": "11 m",
-          "duration": "1분",
-          "poly": "_srtEeuv{XR?"
-        },
-        "driving": {
-          "distance": "11 m",
-          "duration": "1분",
-          "poly": "_srtEguv{XRA"
-        }
-      },
-      {
-        "walking": {
-          "distance": "4.6 km",
-          "duration": "1시간 5분",
-          "poly": "krrtEeuv{Xd@CPHDMLUJILEb@C~@?nADd@@LDpAd@B@GRAFDDDPN`ATfAj@fBTh@Tt@TfAPj@Tf@x@tAZx@t@jCH`@CRD@P@BPZVXPBCXVFFCH~@n@TR^ThBlA^LDB@QPBAJvBLnCNjDRj@Hd@@~@D?EB?J??DR@nBFjCJl@@p@D`AH~ALpCTFCb@@JFFC\\@DBDCN?V@pCD`A?^@vANt@DzALT@f@FVB\\DFBHe@BIF@TBF@n@FN@d@B^HNF~@Lb@DlABTCd@WpAIZORONO`@SLG@PJABj@@`@AvB@rA@J\\A~AA\\CHCTMPC~ADTHh@BTAhCFjFLN?@y@@O?K@GDANCRCnAQj@C`A@rAHlBHZ@JGNI`@A`@Bn@FF?BCFO@IBB?BD?d@@`ABhEJDAEe@CWIIAe@ZBlA@LLBDd@AB??G\\@jADDEXITAXBzA@FC^?J@RJH?H@f@G^?Ck@E{@B[DOHO[_@[e@AS@m@M{@Qi@AQBWFU?IKo@Mi@D{@Qe@COA[?k@BYH[?K[q@M_AAMLH`@NP@BCDa@FM"
-        },
-        "driving": {
-          "distance": "6.2 km",
-          "duration": "21분",
-          "poly": "krrtEiuv{Xu@Ba@@a@FODw@H@hEB`AAnBEdCObD|@HdALpBPbBP~Cb@xDj@fALzCb@p@Tt@f@d@`@hBpAdCbB`@NNB`H`@pDTrFTxGZbF^vBJx@@fFHfADfGf@X@H@TDNLFHLL^d@dE~Fp@~@HLR\\D^Ht@D~@DxAH~BJdDFtAD`AHABAH?lCWtCSxBC~BDvAJbBXjDv@nBX~@DbAAf@Er@M|Ao@f@UJEFMJGVMb@EjCG`F?`F@jQBxGBbF?`G@H?R@@m@@o@@eAB{@@_AH{E?]O?sA?eB?_B@I?A{A?y@?O?_ABUDO\\e@|@mALa@DwAgAEqAEUKEOCYEOAEC@E@{@A]?C}@CoAa@aAK_@AcDA_BAqAEi@De@BwANk@DS@w@"
-        }
-      },
-      {
-        "walking": {
-          "distance": "1 m",
-          "duration": "1분",
-          "poly": "gtltEsgv{X"
-        },
-        "driving": {
-          "distance": "1 m",
-          "duration": "1분",
-          "poly": "seltEafv{X"
-        }
-      },
-      {
-        "walking": {
-          "distance": "5.3 km",
-          "duration": "1시간 13분",
-          "poly": "gtltEsgv{XKVAVCBA?A?_@I]Q@VHd@Tr@HTENGn@?t@DVN`@C`AHb@Nz@Kf@@\\Tz@Fd@@d@AVHRX`@TVEFEJCJCTHlB_@?g@FODG?WMa@?Ap@AJGAC\\Sh@ETC\\w@Eg@ECEg@CQt@IXCXkA?eC??hAEACRY?[CGB_ABc@@?Bg@@_@A@l@ANGFcCDGr@Mh@?T?VC?i@@s@@gCBc@CK??D{@?g@?a@Aa@@{BAcB?cC@}@BmDJa@Bg@?y@B[??L[@[Ba@Ds@FyABg@B}@HgABs@DkD@}@AE?IFo@Cs@Bi@@sABM@Ib@K\\KROVWRqGRu@BoBNkANQFUEQCQOq@q@?NK??E@OE?m@BUB}AJeDJ_CFAKBE]AC??J{@?s@@uDCkBEgAEGAALKA_AC{BGaAEqFWq@EaAI}@IALaAOKpAEA?HD@Kj@Ep@E^?j@BPYIOb@f@NCJK|@M`BMCAND@K~@AJE?u@@gCFQFMEcAYq@O{CaA{@YGEWQAAAHWKaC}@aA_@EAIEK`@ABw@[o@YyB{@IA?C{@_@w@[a@MeAY]AEBM?SCo@FY@]Cy@D_@E@T?b@?R]@m@@?LCDC@D\\@F?DGFKRA\\AD"
-        },
-        "driving": {
-          "distance": "5.6 km",
-          "duration": "19분",
-          "poly": "seltEafv{XC`AOd@EX?x@Ed@AXFbAB~E?tADPVn@Nd@D|A@d@E?O?Q@{@?WXF|A@tAGl@@d@?zC?hAEjA_@NKBgBDw@@qB@{@A?Z?fA?BALa@zBOp@Sb@O\\AN?hBANa@?kBA{D?aFAaF?kCFI@K@AR?NQ?c@VoAl@i@T_ATy@L]Bu@?u@CwAQuGyAcBWqAIq@?m@?gADsAHaALeBTs@DgA?q@Ii@Ia@KiBe@c@Ei@E]GoB[g@?_DNaBJ}D`@}D\\oAPa@AMAa@FiAFmAHqDJ{AF_@C{@DqBHo@@oAFkB@wAEeDUeIk@a@G}Dw@O~@QdC?v@OzDwB_AoDkA}GuBmAa@oEcBsJ{Do@Wq@S]A}CBeA@Aj@?b@?NS?y@BO@?NOFq@b@"
-        }
-      },
-      {
-        "walking": {
-          "distance": "1.4 km",
-          "duration": "19분",
-          "poly": "cxstE{et{XB[HYFE?MEa@@IAODAfAED?AS@[AUS@Q??CAk@h@AAkAAiACk@?WC??K?CD??GV?B??FT@x@@hA?x@?P@VHLFDMHWZqAH_@BUGAJ]BKFBJ[BQHeBFiAC?@IP@B@Fu@F[J}@CAFQLiBLoBR@`ANZBD?@K?iBAc@?O?W~@L~@LFABa@BS`ANB?@GH}@Fu@XsAT{AFk@pAN"
-        },
-        "driving": {
-          "distance": "1.4 km",
-          "duration": "7분",
-          "poly": "qystEcht{Xp@c@NG?ONAx@CR??O?c@A_BA}BEsDAoC?}F?gQFcCBmBrANt@FNAz@SfBg@x@KtBMvAGz@HpCV|BXj@F"
-        }
-      },
-      {
-        "walking": {
-          "distance": "1.0 km",
-          "duration": "13분",
-          "poly": "qvrtEg~u{Xx@JjBN~AN?BHArIlA|Ep@CFFB@C@EJBXJ^RVZLHCBKRCDl@RB@BGDMr@f@\\TLJKd@k@fDb@HADKp@g@z@KNn@PFBNNFFS\\INGJEVOpB"
-        },
-        "driving": {
-          "distance": "1.1 km",
-          "duration": "4분",
-          "poly": "ovrtEw~u{XrCXtBRxEp@rFt@|B^z@^p@f@PPK^I\\E^e@lDKbAm@tD_@`CIPSlBAJEb@R@fADT?r@Df@BDg@LqB"
-        }
-      }
+      {"time":"7:30","title":"기요미즈데라(청수사) 개장 직후 관람","place":"기요미즈데라","desc":"실버위크 혼잡 회피 위해 이른 아침 관람 권장","url":"","lat":34.9949,"lng":135.7850},
+      {"time":"9:00","title":"산넨자카 & 니넨자카 산책","place":"니넨자카","desc":"교토 시내 전경 감상","url":"","lat":34.9970,"lng":135.7808},
+      {"time":"10:00","title":"스타벅스 니넨자카점(다다미) 카페","place":"스타벅스 니넨자카 야사카차야점","desc":"다다미석, 이른 시간대라 대기 적음","url":"","lat":34.9975,"lng":135.7802},
+      {"time":"11:00","title":"후시미이나리 신사(여우신사) 이동 및 참배","place":"후시미 이나리 대사","desc":"붉은 토리이 길 사진 촬영","url":"","lat":34.9671,"lng":135.7727},
+      {"time":"13:00","title":"점심 식사 (후시미이나리 인근)","place":"이나리 역","desc":"","candidates":[{"name":"교토가츠규 후시미이나리점"},{"name":"Fushimi Inari DORAIMON"},{"name":"수바(Suba)"}],"url":"","lat":34.9680,"lng":135.7720},
+      {"time":"15:00","title":"SOU・SOU 쇼핑 (가와라마치)","place":"SOU・SOU (가와라마치)","desc":"신쿄고쿠 거리 본점들 구경 및 쇼핑","url":"","lat":35.0068,"lng":135.7681},
+      {"time":"17:00","title":"숙소 복귀 및 자유시간","place":"교토 시모아타라시초","desc":"숙소 복귀 및 휴식","url":"","lat":34.9990,"lng":135.7758},
+      {"time":"18:00","title":"마트 장보기","place":"Fresco Higashiyama Nanajo","desc":"마트 장보기","url":"","lat":34.9990,"lng":135.7758}
     ]
   },
   {
     "dayLabel": "3일차 (9/21)",
     "checklist": [],
     "stops": [
-      {
-        "time": "9:30",
-        "title": "숙소 체크아웃 및 이동",
-        "place": "교토 역",
-        "desc": "숙소 체크아웃 후 교토역 코인락커 짐 보관 권장 (택시 2대 분산)",
-        "lat": 34.985849,
-        "lng": 135.7587667
-      },
-      {
-        "time": "10:00",
-        "title": "교토 철도박물관 관람",
-        "place": "Kyoto Railway Museum",
-        "desc": "증기기관차 '슬엔호' 탑승 체험 - 운행시간 확인",
-        "lat": 34.9870986,
-        "lng": 135.7422732
-      },
-      {
-        "time": "12:30",
-        "title": "점심 식사 (교토역 인근)",
-        "place": "교토 역",
-        "desc": "",
-        "lat": 34.985849,
-        "lng": 135.7587667
-      },
-      {
-        "time": "14:00",
-        "title": "오사카(우메다) 이동",
-        "place": "오사카 역",
-        "desc": "약 30분 소요, JR 교토선 신쾌속 이용",
-        "lat": 34.7024854,
-        "lng": 135.4959506
-      },
-      {
-        "time": "15:30",
-        "title": "오사카 호텔 체크인",
-        "place": "이비스 오사카 우메다",
-        "desc": "오사카 숙소 체크인",
-        "lat": 34.70217239999999,
-        "lng": 135.5010434
-      },
-      {
-        "time": "17:00",
-        "title": "우메다 도심 구경 및 쇼핑",
-        "place": "우메다",
-        "desc": "한큐/한신 백화점 구경, 아이들용 캐릭터 스트리트 및 뽑기",
-        "lat": 34.7005588,
-        "lng": 135.4957339
-      },
-      {
-        "time": "19:00",
-        "title": "우메다 야경 및 저녁 식사",
-        "place": "우메다",
-        "desc": "",
-        "lat": 34.7005588,
-        "lng": 135.4957339
-      },
-      {
-        "time": "20:30",
-        "title": "호텔 복귀",
-        "place": "이비스 오사카 우메다",
-        "desc": "",
-        "lat": 34.70217239999999,
-        "lng": 135.5010434
-      }
-    ],
-    "legs": [
-      {
-        "walking": {
-          "distance": "1.8 km",
-          "duration": "25분",
-          "poly": "sfptEakr{XANc@@@dA?PABJ@?\\PRNDBXFLAr@@tB?b@Ax@?nA@jCBP@lC?`@CDQFWIUAG@CX@NAp@FH^?~@Bf@DNJHFD?@B?R?j@?n@DlG?tCCt@GjACj@CB?N?NIzAEl@Q\\IH?^ALALGl@?HSBQ@ALMTGJOn@IzAAf@Hh@AXKVONm@JCBWFI?YGW?@J@TElBAj@?f@GVQPPVGT?hB[h@gApBHv@F^HCPdADCB@^n@B?BG\\dAJN"
-        },
-        "driving": {
-          "distance": "2.1 km",
-          "duration": "8분",
-          "poly": "uhptE}pr{XGBe@AyA??UcB?Q?IHw@?uA@}ABo@?@h@?zA?jLAjIDlMDvK@~D?fEBlLC~E?zFBdC?nAp@AJ@HFLd@FFVHr@R~@b@dAr@f@d@`@f@"
-        }
-      },
-      {
-        "walking": {
-          "distance": "1.8 km",
-          "duration": "25분",
-          "poly": "_lptEudo{XKO]eACFc@o@CAEBQeAIBG_@Iw@fAqBZi@?G@gBDONKHMBI?yBEOAEIE@[?_AAOX?ZHZGDEFA`@EPOJWBWEa@EWBQF}ALo@Vg@BQd@E?WBQDa@@g@PUL]@QDuABo@BIBo@HkB@aBCmIAiB?OKC_@S}BEGMAu@Da@BAJ?L@PFJ?HABE@e@AmCCQAkC?oA@y@?c@AuB@s@GMCYOEQS?]KA@G?MAeAb@A@O"
-        },
-        "driving": {
-          "distance": "2.2 km",
-          "duration": "10분",
-          "poly": "mmptE{bo{Xq@w@o@i@_Ak@gAa@i@OMEKe@EIMEw@@AaCAcC?kE@{A?oH?qDAoJIcNAyI?yL?iPAaAfAAdD?l@?HHP?bB?AM`@ABA@G?mBHEr@@BF@HCDMDY@EBEJ@jA@BJ@fAB@PCF"
-        }
-      },
-      {
-        "walking": {
-          "distance": "44.0 km",
-          "duration": "10시간 3분",
-          "poly": "sfptEakr{Xe@P?UAs@?kCOeB|JLp@n@d@K^NnBDf@OzBJ`CKhBLrB?lA@xA@x@?f@Ul@X`@AnHDtC?hC?NOz@Nf@AjF?tAElBK`@@BXp@EnA@tAAdEAhA?DM`@IF\\nA|CLZfBfEt@dBBOFd@f@r@`@j@hFvGnE~FpA|AbAr@@\\SDXf@@VlBL`DP~ETnMt@vGVfLd@pDNj@PLOb@@b@Xd@j@HVhBvGTt@l@xB\\p@ZXp@ZpBz@rAzCxBfF~@p@~BPT\\@Xl@ABNDJf@FfDFbPNz@BnA@rA@@c@V?D`@bBBdURnFBr@@BUn@@zAVnA@~A@l@?Jn@l@@dA@|HFtC?x@TfBQrGFvCB~@Fh@p@nFxF~DbEpOjPhB|BGVf@Fh@\\bDlDlL`M~LtM`GjGzNtOvD~DpBtBNYrExEtC|CfCjCrJfKtSrTvB|BfAdAFQBR`@REXfBjBvAzAt@v@~GlHpAlB|EfHl\\xn@rFfJzJ|MjCbDpBhA|BNdCMdNq@hD@~Nt@kAlTJzO|@~S`AlMrBtH`EhJvElGpExE`GvEjGxCjDl@tChAtDbAlCXbDFdDd@lDlBhAr@v@b@r@FlGrCpA`@xErAjIjBhHFrHQjDv@pAr@?TPG~BhBnGxCfCt@RXd@E|DdA~LhD`MfElOxH|AxAt@hA|E|CbMrFtHfDfF|BxD|BbFzEvRdQ`[`YfSlKrElBpIbCvGvBjDrBnHvGdLzKhEbE|Br@zKUbE?bDj@~Cn@~ClAnEpEpAnChBbIvC|NhD`F`HpLtGzPp@zDb@~G^~HDt@Dn@VBn@\\N`Af@tCrBxHZtA`AfEhBxEtEnJd@jAZ^~AjCzMnL~CvAbFbAfLpBjAt@n@dA`H|BrCbBnGzChTbGlGlBnHRzD?rBXhBt@dItF~HbGlHvQ`H~HfFvJtMnTrIfL`LpLjIfGhExHlFjH`DhD`NbOrGpG~BjBnKtJ~JtLvF~MbRna@dEjMzDdKfEnS|@nDfBnMjCnJtCjH~E~HpClC`EhBhEv@`GX~DG`J?xHf@|Fz@tG~BjInFdL`MbJnOjGfQvE|UdBlNl@bHp@IJnBN`C`@CzBM|Fg@`BMX~Fd@zJ^rDlE~NxCbKxEbItEbHhKzOjTl\\bE`KrB|FpDrLvAtGr@pGTjBpAF|IdA~EdAbAfCZhAMh@lBA\\f@Jl@`DfFlCrDvHfKh@|@L`A\\hC`@|Ca@TJ`CDxANvDNjApB^fC`AbAt@XHdA`AhCfFTl@|@@p@RL]Ld@nAfDjAhBdBzENp@"
-        },
-        "driving": {
-          "distance": "53.8 km",
-          "duration": "53분",
-          "poly": "uhptE}pr{Xm@@yA?AaACeDEiDC}IDqCBUt@Cr@?vBCzBCvDEzBJlBBbHJpINzQ`@vO^tENt@IZFfAb@V`@f@`@|DdD~A|@jB|AtDnDh@h@p@j@hBhAz@v@z@x@f@r@Xl@f@rBLdCSpFIbEZrCb@pAfB|BlBzAj@Tz@LbERxBJ`JVdFL`HZ~FZtK^pKJbVRhOZ|[t@nUf@~M^pBCbB@xFFpPP|CDlGTjKv@dOr@jXtAtIVnYV|PHnPFxEJdNHbTLb`@VtYRtQHvQLla@V`OJdDJfCZ`B^jBp@|BpArBbB`FzEjOdOre@fe@lFhFzBnBhBhAjChArBf@vARjH\\zEPpUx@rD`@pBh@`A^~ChBr@j@xBzBfEhF~FlHjJhLhDdE~D~DfClBtC`BxClAfFpAnCP`DLdCD`CRjBA|GAxDAlHAlOAf`@AnJVdCVdCb@rEdApBb@lBp@tCnAx@b@pCzA~CrBxOlL~HdGxQnNjKfItn@df@fOjLfIzG~E`FnAxArDzEjFnHpLbPtSlYjEbG|FlIlCrE`CrFz@nCbAdErAfG|Gr[|ElUnCrLpAvErBzF|ApDrCzFvEpHfM~OnNjQzVd[lPnSvGfHjExDbG~ElDrCjNbLrEbErBhCbCvDfE`KjBbF|BfGbItSbErIxDhHdE|HtRj^nCbGhBzE|GjRjDpIn@vA|AxCfChEvElGhC|CfInJnL~MxHzHjLhKvRlQ|GpFnHzEtGxDdItEtD|B|FfDdFvDrClCdAzArAdC~BvF~CxGnA|DxAxDj@t@x@tA|@`A`BbAbCv@`AFdAAfB_@rCsAjB}@~CgAtCm@~BS`FKrBBvB@j@JrIBnJ@vSBv[F`FSnJcB~MoCn]_H|MmCd@KZQbBe@jFsApEw@|FiApGoA|@c@n@y@NgAS}@i@a@g@Cm@Tc@t@SvAEdNi@dLIvIEbAIhA?fB?dDA~A@rEFhBFvBQbEKfDKtOQvVGvLH|Dr@vIr@hHVvDHtEKbNMlUYlKmArT_E~m@qCzb@sA`Sk@|ISvEI~LEvLId_@@zMZzYNvMSrL}@te@MdZGfBKX?xAAjCCrGAtGCtPEp@?`A?~DQbB_@v@q@d@}@PaD?wDLIFCFKDoCBmB?{DA}I^iERoDRoBFEJEDaBLiA@{@Xg@h@Wt@KhA@vAGfASp@s@t@gCb@y@^_@\\_@p@S`BOx@I~@Gh@OZm@d@m@VeB^_C^k@H[OaAmC_@yAq@gD[yCEmA{AGyCMeBGkFSw@Cw@Pg@\\k@\\QBMCSk@?E"
-        }
-      },
-      {
-        "walking": {
-          "distance": "0.6 km",
-          "duration": "8분",
-          "poly": "yvxrE{a_zXFEl@Kr@_@VQEUPYEaAuAgEW}HC{ACgAPED?@HM@?YAM]BGsAM?"
-        },
-        "train": {
-          "distance": "0.6 km",
-          "duration": "8분",
-          "poly": "yvxrE{a_zXFEl@Kr@_@VQEUPYEaAuAgEW}HC{ACgAPED?@HM@?YAM]BGsAM?"
-        },
-        "bus": {
-          "distance": "0.6 km",
-          "duration": "8분",
-          "poly": "yvxrE{a_zXFEl@Kr@_@VQEUPYEaAuAgEW}HC{ACgAPED?@HM@?YAM]BGsAM?"
-        },
-        "driving": {
-          "distance": "0.8 km",
-          "duration": "5분",
-          "poly": "etxrEo~~yXf@]d@GPFNb@k@^OJAJ?HDTNZLd@`Ao@Z[H]BaAAO]qAwAcDoAaDe@oABaAEaAM_BCiAMkG"
-        }
-      },
-      {
-        "walking": {
-          "distance": "0.6 km",
-          "duration": "9분",
-          "poly": "qwxrEm``zXL?DxA`@A?D?XLAAIE?QDBfABzAR|Ef@lBRh@r@hBPd@NRf@\\JBABCDDNC@AEEDCGj@rATj@PbA"
-        },
-        "train": {
-          "distance": "0.6 km",
-          "duration": "9분",
-          "poly": "qwxrEm``zXL?DxA`@A?D?XLAAIE?QDBfABzAR|Ef@lBRh@r@hBPd@NRf@\\JBABCDDNC@AEEDCGj@rATj@PbA"
-        },
-        "bus": {
-          "distance": "0.6 km",
-          "duration": "9분",
-          "poly": "qwxrEm``zXL?DxA`@A?D?XLAAIE?QDBfABzAR|Ef@lBRh@r@hBPd@NRf@\\JBABCDDNC@AEEDCGj@rATj@PbA"
-        },
-        "driving": {
-          "distance": "1.3 km",
-          "duration": "5분",
-          "poly": "svxrEm``zXLjGBhAd@C`@IpA_@z@QF?BBDFHEdA[p@SpBq@dBi@dAUlA[ZG?NAtCAz@?~BEhFS~GGdCeAEeBGkFSa@A"
-        }
-      },
-      {
-        "walking": {
-          "distance": "1 m",
-          "duration": "1분",
-          "poly": "cmxrEk__zX"
-        },
-        "driving": {
-          "distance": "1 m",
-          "duration": "1분",
-          "poly": "omxrEi__zX"
-        }
-      },
-      {
-        "walking": {
-          "distance": "0.6 km",
-          "duration": "9분",
-          "poly": "cmxrEk__zX@FE_@Y_As@gBBJDE@DBAEODIKCg@]Ua@e@kAm@_BSWc@uGCc@G}CVE@HM@?_@AG]BGsAG?E?"
-        },
-        "train": {
-          "distance": "0.6 km",
-          "duration": "9분",
-          "poly": "cmxrEk__zX@FE_@Y_As@gBBJDE@DBAEODIKCg@]Ua@e@kAm@_BSWc@uGCc@G}CVE@HM@?_@AG]BGsAG?E?"
-        },
-        "bus": {
-          "distance": "0.6 km",
-          "duration": "9분",
-          "poly": "cmxrEk__zX@FE_@Y_As@gBBJDE@DBAEODIKCg@]Ua@e@kAm@_BSWc@uGCc@G}CVE@HM@?_@AG]BGsAG?E?"
-        },
-        "driving": {
-          "distance": "0.5 km",
-          "duration": "3분",
-          "poly": "omxrEi__zXUAKg@}@_CeA_CcAiCUo@AEBq@CaAC[MqBG_EGwB"
-        }
-      }
+      {"time":"9:30","title":"숙소 체크아웃 및 이동","place":"교토 역","desc":"숙소 체크아웃 후 교토역 코인락커 짐 보관 권장 (택시 2대 분산)","url":"","lat":34.9858,"lng":135.7588},
+      {"time":"10:00","title":"교토 철도박물관 관람","place":"교토 철도박물관","desc":"증기기관차 '슬엔호' 탑승 체험","url":"","lat":34.9858,"lng":135.7397},
+      {"time":"12:30","title":"점심 식사 (교토역 인근)","place":"교토 역","desc":"","candidates":[{"name":"카츠쿠라 (이세탄 11층)"},{"name":"긴자 텐푸라 텐이치"},{"name":"동양정"}],"url":"","lat":34.9858,"lng":135.7588},
+      {"time":"14:00","title":"오사카(우메다) 이동","place":"오사카 역","desc":"약 30분 소요, JR 교토선 신쾌속 이용","url":"","lat":34.7024,"lng":135.4959},
+      {"time":"15:30","title":"오사카 호텔 체크인","place":"이비스 오사카 우메다","desc":"오사카 숙소 체크인","url":"","lat":34.7050,"lng":135.4980},
+      {"time":"17:00","title":"우메다 도심 구경 및 쇼핑","place":"우메다","desc":"한큐/한신 백화점 구경, 아이들용 캐릭터 스트리트 및 뽑기","url":"","lat":34.7025,"lng":135.4966},
+      {"time":"19:00","title":"우메다 야경 및 저녁 식사","place":"우메다","desc":"","candidates":[{"name":"오코노미야키 키지"},{"name":"야키니쿠 고리짱 우메다 본점"},{"name":"규카츠 모토무라 루쿠아점"}],"url":"","lat":34.7042,"lng":135.4959}
     ]
   },
   {
     "dayLabel": "4일차 (9/22)",
-    "checklist": [
-      "아이 간식",
-      "물티슈",
-      "모자"
-    ],
+    "checklist": ["아이 간식", "물티슈", "모자"],
     "stops": [
-      {
-        "time": "9:00",
-        "title": "유니버설 스튜디오 재팬 (USJ)",
-        "place": "유니버설 스튜디오 재팬",
-        "desc": "종일 일정, 유니버설 예약 보통 2개월 전 오픈",
-        "lat": 34.6656768,
-        "lng": 135.4323185
-      },
-      {
-        "time": "18:00",
-        "title": "유니버설 스튜디오 재팬 (USJ)",
-        "place": "유니버설 시티 워크 오사카",
-        "desc": "호텔 복귀 전 저녁 식사 해결 권장",
-        "lat": 34.6685808,
-        "lng": 135.4377782
-      }
-    ],
-    "legs": [
-      {
-        "walking": {
-          "distance": "0.8 km",
-          "duration": "12분",
-          "poly": "usqrEesryXR]?Q?q@UOW[oBoDAIFaADeCyBWw@Iu@IBQJQLKk@_BWR]o@Wg@k@aD[aDKQaA}@SQU^EJVn@AT"
-        },
-        "train": {
-          "distance": "0.8 km",
-          "duration": "12분",
-          "poly": "usqrEesryXR]?Q?q@UOW[oBoDAIFaADeCyBWw@Iu@IBQJQLKk@_BWR]o@Wg@k@aD[aDKQaA}@SQU^EJVn@AT"
-        },
-        "bus": {
-          "distance": "0.8 km",
-          "duration": "12분",
-          "poly": "usqrEesryXR]?Q?q@UOW[oBoDAIFaADeCyBWw@Iu@IBQJQLKk@_BWR]o@Wg@k@aD[aDKQaA}@SQU^EJVn@AT"
-        },
-        "driving": {
-          "distance": "2.3 km",
-          "duration": "7분",
-          "poly": "{`rrEsbryXbFrHn@nBnBeAvJ}E`@Wt@k@zA{Ar@m@|DyBr@a@PULWFa@?_@CWWy@uDcKyA}Di@iAw@iA_A_Ac@[gIeEsAs@s@g@c@[][u@s@c@dA{BxFEJSb@c@r@OTKQs@_BoDeIpA_A"
-        }
-      }
+      {"time":"9:00","title":"유니버설 스튜디오 재팬 (USJ)","place":"유니버설 스튜디오 재팬","desc":"종일 일정, 유니버설 예약 보통 2개월 전 오픈","url":"","lat":34.6654,"lng":135.4323},
+      {"time":"18:00","title":"유니버설 시티워크 저녁 식사","place":"유니버설 시티워크 오사카","desc":"호텔 복귀 전 저녁 식사 해결 권장","url":"","lat":34.6688,"lng":135.4328}
     ]
   },
   {
     "dayLabel": "5일차 (9/23)",
-    "checklist": [],
+    "checklist": ["에코백", "동전지갑"],
     "stops": [
-      {
-        "time": "9:30",
-        "title": "호텔 조식",
-        "place": "이비스 오사카 우메다",
-        "desc": "USJ 다음날 피로 고려해 여유로운 아침 정비",
-        "lat": 34.70217239999999,
-        "lng": 135.5010434
-      },
-      {
-        "time": "10:00",
-        "title": "링크스 우메다 (LINKS UMEDA) 쇼핑",
-        "place": "LINKS UMEDA",
-        "desc": "[쇼핑] 5층 다이소, Standard Products, Threeppy",
-        "lat": 34.704704,
-        "lng": 135.4965441
-      },
-      {
-        "time": "12:30",
-        "title": "점심 식사 (링크스 우메다 식당가)",
-        "place": "다이마루 우메다점",
-        "desc": "7인 대인원 식사 용이 (건물 B1 / 8층 식당가)",
-        "lat": 34.701789,
-        "lng": 135.4965763
-      },
-      {
-        "time": "14:00",
-        "title": "다이마루 우메다점 캐릭터 스트리트",
-        "place": "다이마루 우메다점",
-        "desc": "[쇼핑] 13층 닌텐도 오사카, 포켓몬센터, 산리오",
-        "lat": 34.701789,
-        "lng": 135.4965763
-      },
-      {
-        "time": "15:30",
-        "title": "세리아 (Seria) 100엔샵 쇼핑",
-        "place": "",
-        "desc": "[쇼핑] 디즈니/캐릭터 소품, 문구, DIY 잡화"
-      },
-      {
-        "time": "16:30",
-        "title": "헵파이브 (HEP FIVE) 가챠 & 관람차",
-        "place": "HEP FIVE",
-        "desc": "[쇼핑/놀이] 9층 가샤폰 백화점 (600대) & 대관람차",
-        "lat": 34.7040897,
-        "lng": 135.5004632
-      },
-      {
-        "time": "18:30",
-        "title": "오사카 마지막 밤 저녁 식사 및 복귀",
-        "place": "",
-        "desc": "오사카 마지막 밤 저녁 식사",
-        "lat": 34.6952474,
-        "lng": 135.5012079
-      },
-      {
-        "time": "20:00",
-        "title": "호텔 복귀",
-        "place": "이비스 오사카 우메다",
-        "desc": "",
-        "lat": 34.70217239999999,
-        "lng": 135.5010434
-      }
-    ],
-    "legs": [
-      {
-        "walking": {
-          "distance": "0.8 km",
-          "duration": "11분",
-          "poly": "qwxrEm``zXL?DxA@FOLG??BL@MBBpBSd@KTWHaAFET?N?LNPAb@?DL?J?DD?J?Ng@??LQBIREFEdADb@e@RwAd@iA^w@HSHy@JuARI@Hj@F|@BXB@B@HL"
-        },
-        "train": {
-          "distance": "0.8 km",
-          "duration": "11분",
-          "poly": "qwxrEm``zXL?DxA@FOLG??BL@MBBpBSd@KTWHaAFET?N?LNPAb@?DL?J?DD?J?Ng@??LQBIREFEdADb@e@RwAd@iA^w@HSHy@JuARI@Hj@F|@BXB@B@HL"
-        },
-        "bus": {
-          "distance": "0.8 km",
-          "duration": "11분",
-          "poly": "qwxrEm``zXL?DxA@FOLG??BL@MBBpBSd@KTWHaAFET?N?LNPAb@?DL?J?DD?J?Ng@??LQBIREFEdADb@e@RwAd@iA^w@HSHy@JuARI@Hj@F|@BXB@B@HL"
-        },
-        "driving": {
-          "distance": "0.7 km",
-          "duration": "3분",
-          "poly": "svxrEm``zXLjGBhAL~AD`AC`AiAd@gErAyBr@k@Fi@@aANc@FcAJDf@Fz@LAHHDF"
-        }
-      },
-      {
-        "walking": {
-          "distance": "0.6 km",
-          "duration": "8분",
-          "poly": "qhyrEcd_zXMOCACYG}@tAQ`AQZ?`@G\\@f@OtBq@^OJn@r@dAj@l@@AFH?@D?x@_@VFz@rATI"
-        },
-        "train": {
-          "distance": "0.6 km",
-          "duration": "8분",
-          "poly": "qhyrEcd_zXMOCACYG}@tAQ`AQZ?`@G\\@f@OtBq@^OJn@r@dAj@l@@AFH?@D?x@_@VFz@rATI"
-        },
-        "bus": {
-          "distance": "0.6 km",
-          "duration": "8분",
-          "poly": "qhyrEcd_zXMOCACYG}@tAQ`AQZ?`@G\\@f@OtBq@^OJn@r@dAj@l@@AFH?@D?x@_@VFz@rATI"
-        },
-        "driving": {
-          "distance": "0.9 km",
-          "duration": "4분",
-          "poly": "kiyrE_d_zXTpDHhAF?FAZG|@UpAU\\KZQJOFU?SE_@Qe@kAmCM_@Um@x@I`Cy@hDmAd@Q`Aa@LKCp@Rl@j@vAt@jB"
-        }
-      },
-      {
-        "walking": {
-          "distance": "1 m",
-          "duration": "1분",
-          "poly": "}rxrEud_zX"
-        },
-        "driving": {
-          "distance": "1 m",
-          "duration": "1분",
-          "poly": "{qxrEag_zX"
-        }
-      },
-      {},
-      {},
-      {
-        "walking": {
-          "distance": "1.2 km",
-          "duration": "17분",
-          "poly": "ydyrEy{_zX^nAf@jAr@Kd@Gj@AlBNV??nBANDB`@??Fv@BFOzDcABDXFLA\\?VGl@IXCRYD?TILJpAYJEf@QJ?HCxAg@^QR_@HKVIjAg@FM?KbAYjA]hDaA^AtAHFErAD"
-        },
-        "train": {
-          "distance": "1.2 km",
-          "duration": "17분",
-          "poly": "ydyrEy{_zX^nAf@jAr@Kd@Gj@AlBNV??nBANDB`@??Fv@BFOzDcABDXFLA\\?VGl@IXCRYD?TILJpAYJEf@QJ?HCxAg@^QR_@HKVIjAg@FM?KbAYjA]hDaA^AtAHFErAD"
-        },
-        "bus": {
-          "distance": "1.2 km",
-          "duration": "17분",
-          "poly": "ydyrEy{_zX^nAf@jAr@Kd@Gj@AlBNV??nBANDB`@??Fv@BFOzDcABDXFLA\\?VGl@IXCRYD?TILJpAYJEf@QJ?HCxAg@^QR_@HKVIjAg@FM?KbAYjA]hDaA^AtAHFErAD"
-        },
-        "driving": {
-          "distance": "1.0 km",
-          "duration": "4분",
-          "poly": "kayrEc}_zXx@CPMHKV^V\\n@~@\\d@`@b@pAr@HBVHR?NAVGlBg@n@MD@FHj@SvBo@~Ai@|Bo@dAYrBc@~EwAzAc@|BJxAD"
-        }
-      },
-      {
-        "walking": {
-          "distance": "0.9 km",
-          "duration": "13분",
-          "poly": "olwrEqa`zX?LsAEGDuAI_@@eAZO}@IG{By@M@_@Oa@SQAIFGAO?W@IGMFIIQ@ID]@KA?GM?cBAg@@YA{@LW@yBBkGD_@FBZ?PD`A@VG?E?"
-        },
-        "train": {
-          "distance": "0.9 km",
-          "duration": "13분",
-          "poly": "olwrEqa`zX?LsAEGDuAI_@@eAZO}@IG{By@M@_@Oa@SQAIFGAO?W@IGMFIIQ@ID]@KA?GM?cBAg@@YA{@LW@yBBkGD_@FBZ?PD`A@VG?E?"
-        },
-        "bus": {
-          "distance": "0.9 km",
-          "duration": "13분",
-          "poly": "olwrEqa`zX?LsAEGDuAI_@@eAZO}@IG{By@M@_@Oa@SQAIFGAO?W@IGMFIIQ@ID]@KA?GM?cBAg@@YA{@LW@yBBkGD_@FBZ?PD`A@VG?E?"
-        },
-        "driving": {
-          "distance": "1.9 km",
-          "duration": "8분",
-          "poly": "ilwrEqa`zXdCL|@D?jC?dH@vBPzDVnEDn@Db@I@[Fy@J_BNuFl@qBPiBCaCK_GUkFSw@C]qAwAcDoAaDe@oABaAEaAM_BIiEGkC"
-        }
-      }
+      {"time":"9:30","title":"아침 정비 및 여유로운 출발","place":"이비스 버젯 오사카 우메다","desc":"USJ 다음날 피로 고려해 여유로운 아침 정비","url":"","lat":34.7050,"lng":135.4980},
+      {"time":"10:00","title":"링크스 우메다 (LINKS UMEDA) 쇼핑","place":"LINKS UMEDA","desc":"[쇼핑] 5층 다이소, Standard Products, Threeppy","url":"","lat":34.7042,"lng":135.4959},
+      {"time":"12:30","title":"점심 식사 (링크스 우메다 식당가)","place":"다이마루 우메다점","desc":"7인 대인원 식사 용이 (건물 B1 / 8층 식당가)","url":"","lat":34.7025,"lng":135.4966},
+      {"time":"14:00","title":"다이마루 우메다점 캐릭터 스트리트","place":"다이마루 우메다점","desc":"[쇼핑] 13층 닌텐도 오사카, 포켓몬센터, 산리오","url":"","lat":34.7025,"lng":135.4966},
+      {"time":"15:30","title":"세리아 (Seria) 100엔샵 쇼핑","place":"Seria","desc":"[쇼핑] 디즈니/캐릭터 소품, 문구, DIY 잡화","url":"","lat":34.7057,"lng":135.5006},
+      {"time":"16:30","title":"헵파이브 (HEP FIVE) 가챠 & 관람차","place":"HEP FIVE","desc":"[쇼핑/놀이] 9층 가샤폰 백화점 (600대) & 대관람차","url":"","lat":34.7047,"lng":135.5011},
+      {"time":"18:30","title":"오사카 마지막 밤 저녁 식사 및 복귀","place":"이비스 오사카 우메다","desc":"","candidates":[{"name":"스시일심"},{"name":"이즈모 우나기"},{"name":"리키마루 로바타야키 이사리비"}],"url":"","lat":34.7042,"lng":135.4959}
     ]
   },
   {
     "dayLabel": "6일차 (9/24)",
-    "checklist": [
-      "여권"
-    ],
+    "checklist": ["여권 챙기기"],
     "stops": [
-      {
-        "time": "11:00",
-        "title": "숙소 체크아웃",
-        "place": "이비스 오사카 우메다",
-        "desc": "체크아웃 및 공항리무진 탑승",
-        "lat": 34.70217239999999,
-        "lng": 135.5010434
-      },
-      {
-        "time": "13:00",
-        "title": "간사이 공항 도착 및 수속",
-        "place": "간사이 국제공항 (KIX)",
-        "desc": "공항 수속 및 면세점 쇼핑\n파라타항공 WE0512 탑승 (16:15 인천 도착)",
-        "lat": 34.4319994,
-        "lng": 135.2366019
-      }
-    ],
-    "legs": [
-      {
-        "walking": {
-          "distance": "68.3 km",
-          "duration": "11시간 53분",
-          "poly": "qwxrEm``zXRxA`@BLVGIMlAVxHN`ChAdDtAdFd@Dx@hCz@lCf@bA`GjJ`FdLNhDHdEHnBAz@Fz@Kl@Q@Hb@JdAItC]bHOvDy@zG]bGWn@I~FYdWBfIxA`FJzAr@hBZx@y@vAqCnDyA|AgB|AcBtAgVzRuLxJyB`C_ChEmHbOuFfLuArCc@t@m@h@I^^fAg@j@mClFoF~KkFnMkD`HaDzDyPxM}AnB{ApDk@bHFnT?|bA@jMc@fNaDhWeJho@{@~Ee@lBq@zB}@tGo@lEmCjQqAfHqLp`@mKf\\qC~KaBzKiH~f@uKzt@cCrRmBnReE`a@{Dha@sBrWoA|ScCx`@cAhQBbVBzKNpIZrCnCfQ~CrQvGl`@dDdRxCtTbFjb@tEd`@lBvKtEhSzHv]tVzhAzGpZnDlR~Gn`@hCzI~CpIhErQdCtQv@fOtCfQ`DxPhKna@|Lbf@jKx`@`CrLl@fDvApFfCnLjEhOzA|FDr@VV`BpG~B`KdClHbCrDtCxJtEvOp@zB`@vARIx@Pn@TCW~B~@zEvCjB|@l@d@d@UfAm@dAq@hA{@\\P`AhBRQVHzApC|AzCbE~G~ItK|@vA`@Hf@SlA_@jBk@~AsAdB_Dp@mA`AbBtA|C|CnGz@z@RIj@n@tBzB~BfCtAfAbCv@tBd@|HeBrEi@pCUfBa@|Cu@vQkNdCoBlAsAd@q@XwAPsEoA_D{C{GmDmMR}@f@e@dB_AzE_C|DeBxRqJ`EsBzAu@d@WZOUHpBcAfB}@`FgCvFyCdToKz[iPxJaFn@][H\\KvNkHl@a@lBi@rDsB|@S`EoBrJ_F|NqHpFqClHeCbEq@dKm@`Io@`@P?R@`Ca@l@Gz@WBNvD@bB[HM?e@FBpALnD{@XoBBqCI{C{@kCoAwBqCsAuFc@cFNqGZkFjA{EtE{LbJwSzOu[pHeMrEaFbEiDpEiB|FoBhP_B|Ri@f\\AngBtCzr@dDplAXdxBi@`pB}JhdCoW`mCw[xeCq\\`y@yLzh@{@rV|BjXhE~QbFh_@vQnJdJ~E|GfDpEZhAQtB_CrGApCf@pCvAtAbAJbBELqCNmEP[BFhAA\\BK|BTH^cBV}ERqDp@s@p@JVlA{@fHKhFEzBTbDt@xK~@vErAtD|BbEbDtFxAnAvCdA~G|@pA~@hBnClGdKz@zAx@tAb@A`AlBj@jCJxFMzGkB|BhDnGxKfSzJtPlAlBjBhBb@DfB_BZo@wCaFd@e@QWU]Yc@UAsChCe@@kDiFcBuCiAeDV}@VWRWFq@wAkBo@eAoBeD"
-        },
-        "driving": {
-          "distance": "53.8 km",
-          "duration": "47분",
-          "poly": "uvxrEw``zXO{DpLUv@?pABfBC`AAb@ADu@DuBDoBn@}S^mM@u@TK`@@bB?jC?nCAfC@v@LnCD`BHn@B~BQlDk@dBM|QIzJIbFJlE@zDBtCNdAx@^vA?`HEpQCpQHtIDhLTlO`Bji@PrKfB~OnCrQ|@dFdAlCrMvQjKlOrMnVvL`OzAnCnA~DvChJ~DvPfDtOnGhXhBxHhAtCtCtBjItElAhAd@`A^rCAt@e@lCyAnEw@`DExALtAb@pAhAxAhDlCnA|Bj@lD~@nE~AvBhDtBnDrA|AP`AGnAY|Aq@rBsArDcDrHcHxB_AbBW~CTh@VHn@z@h@|FjDjMtHbMhH`ExBl[~O`CjA`Dp@dDG`H}@vG}@bJmAdCU~AB`BXbB|@hCfDhChDdBbBhCz@dDCvQgFfSyFnUuGnRqF|CwArAsAv@}Ar@_DR_GKyLNuEvAeHjFsSlIe\\nBiHlBuDz\\_c@`CaBxBc@vGIjEo@rGaC`Eo@~Na@rVk@bJQpD\\|Bp@xC|AzGlGrEjE`G|FbBnAzAp@lDl@pEKxGcA~BMzMJdCHvB^bAZ|CbBxCzA`FzA`L~CdJdCtIzChG|CzBdBpB|B`GrIxB`DjLxPxDlErCfBzBx@nKrCdO`EpChBzAfBvKxPvA|ArCzBpOnIxJrFlN|GhHdFlGxDrRbLzCtBvDbDzDtEnAvAh@l@fBnAzAp@vCl@hEH|B@dBR~Br@zAt@fC|BxL|LvGxGbNxMrJrHrKzLrHpJnBlE~AzG~AbGtEzIxFxJjArDh@rC\\|DFfPj@`FvAbGfHxVpB`E`CxCbBtArAbAhClCpAnBxA`DxDdKnCpFvCrEhHbKnBxBdCxBnBfAtDlAjN~ClUvEfV`FjWfFfCRfC?vGg@`Hi@rFNdEj@fEfAbC`AvBrAxB`BnE~CtJjH`CdCjCtEdHpSxBbFbCxDlCnCzC~BjMhJ|RxNpKxHpK`GbRfMtGrEjHdFpI`HtEjFnF|HfEhIxD`LxAbHr@rJh@fF~@rDzAjD`DhEjB|AxBlAlO`GdJzDpL`GnGjFlBhBvFdEvC~AhC|AfFnEnTjTvI~KpKnOtFzIfD~GjCtG~BvHlDdQxAhNx@tMl@pKbAnMp@jE`C~IvDhHtAnBx@tB\\xCElBUzAy@pBcCjCiBhBaA|@cEbGmQhWuU|\\cd@hp@{b@do@yDrF{FrGiWnW{BjDkB`EeDxIcAhIKhHRhHh@nJb@dC~A|E`EhIpAzBJp@hAvBhBjD`FtI`Sl\\lCjGzArCbAvAx@tAb@t@ROFSDMFMh@k@"
-        }
-      }
+      {"time":"11:00","title":"체크아웃 및 공항리무진 탑승","place":"신한큐호텔","desc":"신한큐호텔 앞 정류장","url":"","lat":34.7050,"lng":135.4980},
+      {"time":"13:00","title":"간사이 공항 도착 및 수속","place":"간사이 국제공항 (KIX)","desc":"공항 수속 및 면세점 쇼핑, 파라타항공 WE0512 탑승 (16:15 인천 도착)","url":"","lat":34.4347,"lng":135.2441}
     ]
   }
 ];
@@ -911,843 +235,128 @@ const itinerary = [
 
 /* REF_AUTO_START */
 const refData = {
-  "food": [
-    {
-      "region": "교토 - 기온/히가시야마",
-      "cat": "마트(장보기)",
-      "name": "Fresco Higashiyama Yasui",
-      "note": "1일차 21:00 / 2일차 18:00 장보기 (도보 5분)",
-      "lat": 34.9989756,
-      "lng": 135.7770997
-    },
-    {
-      "region": "교토 - 기온/히가시야마",
-      "cat": "일식당",
-      "name": "히키니쿠토 코메 교토",
-      "note": "일식당, 평점 4.5 (2,284)",
-      "lat": 35.0050975,
-      "lng": 135.7745747
-    },
-    {
-      "region": "교토 - 기온/히가시야마",
-      "cat": "야키니쿠",
-      "name": "燒肉の名門 天壇 祇園本店",
-      "note": "야키니쿠, 평점 4.1 (1,456)",
-      "lat": 35.00249489999999,
-      "lng": 135.7719818
-    },
-    {
-      "region": "교토 - 기온/히가시야마",
-      "cat": "야키니쿠",
-      "name": "우즈라야",
-      "note": "야키니쿠, 평점 4.2 (256)",
-      "lat": 35.0045602,
-      "lng": 135.772454
-    },
-    {
-      "region": "교토 - 기온/히가시야마",
-      "cat": "우동",
-      "name": "오멘 긴카쿠지 본점",
-      "note": "우동, 평점 4.3 (1,966)",
-      "lat": 35.0262562,
-      "lng": 135.7950089
-    },
-    {
-      "region": "교토 - 기온/히가시야마",
-      "cat": "크레프리",
-      "name": "tabanenoshi ginkakuji",
-      "note": "크레프리, 평점 4.8 (760)",
-      "lat": 35.0272822,
-      "lng": 135.7955885
-    },
-    {
-      "region": "교토 - 시조/가와라마치",
-      "cat": "해산물 요리",
-      "name": "Dontsuki",
-      "note": "해산물 요리, 평점 4.3 (160)",
-      "lat": 35.00211090000001,
-      "lng": 135.7692793
-    },
-    {
-      "region": "교토 - 시조/가와라마치",
-      "cat": "제과점",
-      "name": "마루키 베이커리",
-      "note": "제과점, 평점 4.5 (2,419)",
-      "lat": 34.9986932,
-      "lng": 135.7503047
-    },
-    {
-      "region": "교토 - 시조/가와라마치",
-      "cat": "카페",
-      "name": "Le Labo Cafe Kyoto Machiya",
-      "note": "카페, 평점 3.8 (351)",
-      "lat": 35.0054242,
-      "lng": 135.7707261
-    },
-    {
-      "region": "교토 - 시조/가와라마치",
-      "cat": "초밥",
-      "name": "스시사카바 사시스 교토 요도바시점",
-      "note": "초밥, 평점 4.2 (807)",
-      "lat": 34.9882138,
-      "lng": 135.7590586
-    },
-    {
-      "region": "교토 - 시조/가와라마치",
-      "cat": "우동·튀김",
-      "name": "수타 우동&텐푸라 멘쿠이 킨야",
-      "note": "평점 4.6 (768)",
-      "lat": 35.0018067,
-      "lng": 135.7720422
-    },
-    {
-      "region": "교토 - 시조/가와라마치",
-      "cat": "만두",
-      "name": "Gyoza Hohei",
-      "note": "만두, 평점 4.2 (1,203)",
-      "lat": 35.00211090000001,
-      "lng": 135.7692793
-    },
-    {
-      "region": "교토 - 시조/가와라마치",
-      "cat": "채소 요리",
-      "name": "Tsuke-yasai Isoism",
-      "note": "채소 요리, 평점 4.4 (953)",
-      "lat": 34.9893617,
-      "lng": 135.7589784
-    },
-    {
-      "region": "교토 - 시조/가와라마치",
-      "cat": "디저트",
-      "name": "Sugitora",
-      "note": "디저트, 평점 4.3 (335)",
-      "lat": 35.00211090000001,
-      "lng": 135.7692793
-    },
-    {
-      "region": "교토 - 시조/가와라마치",
-      "cat": "우동덮밥",
-      "name": "Takedatsu-tei",
-      "note": "우동덮밥, 평점 4.2 (213)",
-      "lat": 35.0081787,
-      "lng": 135.767384
-    },
-    {
-      "region": "교토 - 시조/가와라마치",
-      "cat": "카페",
-      "name": "위켄더스 커피 도미노코지",
-      "note": "",
-      "lat": 35.0067836,
-      "lng": 135.7644831
-    },
-    {
-      "region": "교토 - 시조/가와라마치",
-      "cat": "카페/디저트",
-      "name": "Harbs",
-      "note": "",
-      "lat": 35.00211090000001,
-      "lng": 135.7692793
-    },
-    {
-      "region": "교토 - 아라시야마",
-      "cat": "스테이크",
-      "name": "아라시야마 키주로",
-      "note": "스테이크, 평점 4.5 (1,772)",
-      "lat": 35.0168382,
-      "lng": 135.6774412
-    },
-    {
-      "region": "교토 - 아라시야마",
-      "cat": "일식",
-      "name": "타이쇼 하나나",
-      "note": "일식, 평점 4.4 (1,965)",
-      "lat": 35.0180547,
-      "lng": 135.6765639
-    },
-    {
-      "region": "교토 - 아라시야마",
-      "cat": "타코야키",
-      "name": "히로코 타코야키",
-      "note": "타코야키, 평점 4.4 (604)",
-      "lat": 35.009449,
-      "lng": 135.666773
-    },
-    {
-      "region": "교토 - 아라시야마",
-      "cat": "빵·카페",
-      "name": "빵과 에스프레소와 아라시야마 정원",
-      "note": "빵·카페, 평점 4.1 (1,462)",
-      "lat": 35.0147851,
-      "lng": 135.6749472
-    },
-    {
-      "region": "교토 - 아라시야마",
-      "cat": "카페",
-      "name": "아라비카 교토 아라시야마점",
-      "note": "",
-      "lat": 35.0135422,
-      "lng": 135.6764367
-    },
-    {
-      "region": "오사카 - 난바/신사이바시/도톤보리",
-      "cat": "야키토리",
-      "name": "엔야야끼도리",
-      "note": "야키토리, 평점 4.4 (993)",
-      "lat": 34.6662741,
-      "lng": 135.4993578
-    },
-    {
-      "region": "오사카 - 난바/신사이바시/도톤보리",
-      "cat": "돈까스",
-      "name": "돈카츠 뉴 베이브 난바점",
-      "note": "평점 4.7 (1,928)",
-      "lat": 34.6629756,
-      "lng": 135.4995578
-    },
-    {
-      "region": "오사카 - 난바/신사이바시/도톤보리",
-      "cat": "스테이크",
-      "name": "키탄 히비키",
-      "note": "스테이크, 평점 4.3 (781)",
-      "lat": 34.66803590000001,
-      "lng": 135.502638
-    },
-    {
-      "region": "오사카 - 난바/신사이바시/도톤보리",
-      "cat": "야키토리",
-      "name": "이자카야 몽조",
-      "note": "야키토리, 평점 4.4 (701)",
-      "lat": 34.6617042,
-      "lng": 135.4976531
-    },
-    {
-      "region": "오사카 - 난바/신사이바시/도톤보리",
-      "cat": "우동",
-      "name": "Unotake Kasu Udon",
-      "note": "우동, 평점 4.7 (832)",
-      "lat": 34.6704939,
-      "lng": 135.4992014
-    },
-    {
-      "region": "오사카 - 난바/신사이바시/도톤보리",
-      "cat": "꼬치·튀김",
-      "name": "쿠시카츠 다루마 도톤보리점",
-      "note": "꼬치·튀김, 평점 3.8 (2,324)",
-      "lat": 34.6688351,
-      "lng": 135.502638
-    },
-    {
-      "region": "오사카 - 난바/신사이바시/도톤보리",
-      "cat": "야키니쿠",
-      "name": "야키니쿠 리키마루 난카이 난바점",
-      "note": "평점 4.4 (1,415)",
-      "lat": 34.6650212,
-      "lng": 135.5022265
-    },
-    {
-      "region": "오사카 - 난바/신사이바시/도톤보리",
-      "cat": "초밥",
-      "name": "스시 사카바 사시스 난바점",
-      "note": "초밥, 평점 4.3 (2,431)",
-      "lat": 34.6670228,
-      "lng": 135.5051447
-    },
-    {
-      "region": "오사카 - 난바/신사이바시/도톤보리",
-      "cat": "야키토리",
-      "name": "스미야 코바코",
-      "note": "야키토리, 평점 4.3 (704)",
-      "lat": 34.6724248,
-      "lng": 135.5010362
-    },
-    {
-      "region": "오사카 - 난바/신사이바시/도톤보리",
-      "cat": "카페/디저트",
-      "name": "하브스 난바파크스점",
-      "note": "카페/디저트, 평점 4.2 (1,209)",
-      "lat": 34.661587,
-      "lng": 135.5018433
-    },
-    {
-      "region": "오사카 - 난바/신사이바시/도톤보리",
-      "cat": "일본 디저트",
-      "name": "나미요시안",
-      "note": "일본 디저트, 평점 4.2 (1,209)",
-      "lat": 34.6583023,
-      "lng": 135.4997387
-    },
-    {
-      "region": "오사카 - 난바/신사이바시/도톤보리",
-      "cat": "해산물 돈부리",
-      "name": "우오이치 쇼쿠도",
-      "note": "해산물 돈부리, 평점 4.3 (1,267)",
-      "lat": 34.6570455,
-      "lng": 135.4996569
-    },
-    {
-      "region": "오사카 - 난바/신사이바시/도톤보리",
-      "cat": "돈부리",
-      "name": "Kiwamidon",
-      "note": "지역 재확인 권장",
-      "lat": 34.6724248,
-      "lng": 135.5010362
-    },
-    {
-      "region": "오사카 - 난바/신사이바시/도톤보리",
-      "cat": "시장",
-      "name": "Kuromon Market Izumo",
-      "note": "구로몬시장 인근",
-      "lat": 34.6686471,
-      "lng": 135.5030983
-    },
-    {
-      "region": "오사카 - 난바/신사이바시/도톤보리",
-      "cat": "오코노미야키",
-      "name": "아지쿠라야 오코노미야끼",
-      "note": "지역 재확인 권장",
-      "lat": 34.6662777,
-      "lng": 135.5241328
-    },
-    {
-      "region": "오사카 - 난바/신사이바시/도톤보리",
-      "cat": "카페(캐릭터)",
-      "name": "Cinnamoroll Cafe Osaka Namba Ebisubashi Store",
-      "note": "",
-      "lat": 34.6676162,
-      "lng": 135.5014228
-    },
-    {
-      "region": "오사카 - 난바/신사이바시/도톤보리",
-      "cat": "돈까스",
-      "name": "Tonkatsu Shiga",
-      "note": "",
-      "lat": 34.66374690000001,
-      "lng": 135.5052776
-    },
-    {
-      "region": "오사카 - 난바/신사이바시/도톤보리",
-      "cat": "돈까스",
-      "name": "나기카츠(NAGIKATSU)",
-      "note": "",
-      "lat": 34.6746403,
-      "lng": 135.5048329
-    },
-    {
-      "region": "오사카 - 난바/신사이바시/도톤보리",
-      "cat": "야키니쿠",
-      "name": "焼肉はぐれ雲なんば",
-      "note": "",
-      "lat": 34.6651513,
-      "lng": 135.4987256
-    },
-    {
-      "region": "오사카 - 난바/신사이바시/도톤보리",
-      "cat": "우동",
-      "name": "츠루통탄 소에몬쵸점",
-      "note": "",
-      "lat": 34.6692466,
-      "lng": 135.5059523
-    },
-    {
-      "region": "오사카 - 난바/신사이바시/도톤보리",
-      "cat": "야키니쿠",
-      "name": "토라니츠노 야끼니꾸",
-      "note": "",
-      "lat": 34.6659061,
-      "lng": 135.5046705
-    },
-    {
-      "region": "오사카 - 난바/신사이바시/도톤보리",
-      "cat": "돈까스",
-      "name": "규카츠 모토무라",
-      "note": "기존 루쿠아점·난바분점과 다른 별도 지점",
-      "lat": 34.6724248,
-      "lng": 135.5010362
-    },
-    {
-      "region": "오사카 - 우메다",
-      "cat": "야키니쿠(고기구이)",
-      "name": "야키니쿠 고리짱 우메다 본점",
-      "note": "3일차 19:00 저녁 예정",
-      "lat": 34.7037239,
-      "lng": 135.5032994
-    },
-    {
-      "region": "오사카 - 우메다",
-      "cat": "오코노미야끼",
-      "name": "Mitsui",
-      "note": "평점 4.8 (61)·저녁 5시 영업 시작",
-      "lat": 34.7005588,
-      "lng": 135.4957339
-    },
-    {
-      "region": "오사카 - 우메다",
-      "cat": "야키니쿠",
-      "name": "야키니쿠 우시가타리",
-      "note": "평점 4.8 (1,032)",
-      "lat": 34.6953907,
-      "lng": 135.4878649
-    },
-    {
-      "region": "오사카 - 우메다",
-      "cat": "이자카야(우나기)",
-      "name": "이즈모 우나기",
-      "note": "이자카야(우나기), 평점 4.7 (3,205)",
-      "lat": 34.6963563,
-      "lng": 135.4867078
-    },
-    {
-      "region": "오사카 - 우메다",
-      "cat": "야키니쿠",
-      "name": "야키니쿠 리키마루 우메다-오하츠텐진점",
-      "note": "평점 4.4 (1,415)",
-      "lat": 34.6996825,
-      "lng": 135.500852
-    },
-    {
-      "region": "오사카 - 우메다",
-      "cat": "야키니쿠",
-      "name": "야키니쿠 리키마루 우메다 히가시도리점",
-      "note": "평점 4.8 (8,006)",
-      "lat": 34.7027958,
-      "lng": 135.5014896
-    },
-    {
-      "region": "오사카 - 우메다",
-      "cat": "돈까스",
-      "name": "규카츠 모토무라 루쿠아점",
-      "note": "평점 4.9 (8,420)",
-      "lat": 34.7034717,
-      "lng": 135.4964956
-    },
-    {
-      "region": "오사카 - 우메다",
-      "cat": "프랑스 요리",
-      "name": "코하쿠 루쿠아오사카",
-      "note": "프랑스 요리, 평점 4.1 (696)·와인샵 겸함",
-      "lat": 34.7028866,
-      "lng": 135.4953236
-    },
-    {
-      "region": "오사카 - 우메다",
-      "cat": "튀김",
-      "name": "신키라쿠",
-      "note": "튀김, 평점 4.2 (305)",
-      "lat": 34.700622,
-      "lng": 135.4963
-    },
-    {
-      "region": "오사카 - 우메다",
-      "cat": "초밥",
-      "name": "스시사카바 사시스 화이티우메다점",
-      "note": "평점 4.0 (895)",
-      "lat": 34.7032301,
-      "lng": 135.4975582
-    },
-    {
-      "region": "오사카 - 우메다",
-      "cat": "이자카야",
-      "name": "타유타유 이자카야",
-      "note": "평점 4.2 (249)",
-      "lat": 34.6960657,
-      "lng": 135.4976928
-    },
-    {
-      "region": "오사카 - 우메다",
-      "cat": "초밥",
-      "name": "스시일심",
-      "note": "초밥, 평점 4.5 (760)",
-      "lat": 34.704584,
-      "lng": 135.502606
-    },
-    {
-      "region": "오사카 - 우메다",
-      "cat": "초밥",
-      "name": "Sushi Nakamise",
-      "note": "초밥, 평점 4.6 (227)",
-      "lat": 34.7005588,
-      "lng": 135.4957339
-    },
-    {
-      "region": "오사카 - 우메다",
-      "cat": "카페/디저트",
-      "name": "하브스 다이마루 우메다점",
-      "note": "카페/디저트, 평점 4.2 (533)",
-      "lat": 34.7013439,
-      "lng": 135.4960878
-    },
-    {
-      "region": "오사카 - 우메다",
-      "cat": "지중해·일식",
-      "name": "Hinata Mediterranean & Japanese Food",
-      "note": "지중해·일식, 평점 4.5 (75)",
-      "lat": 34.7005588,
-      "lng": 135.4957339
-    },
-    {
-      "region": "오사카 - 우메다",
-      "cat": "카페/디저트",
-      "name": "Torarenbo Hilton Plaza West",
-      "note": "힐튼플라자웨스트 내",
-      "lat": 34.6998354,
-      "lng": 135.4952185
-    },
-    {
-      "region": "오사카 - 우메다",
-      "cat": "디저트",
-      "name": "이모야킨지로 그랑프론트 오사카점",
-      "note": "",
-      "lat": 34.7038664,
-      "lng": 135.4949205
-    },
-    {
-      "region": "오사카 - 우메다",
-      "cat": "소바",
-      "name": "Soba restaurant Gensei",
-      "note": "기타신치",
-      "lat": 34.698074,
-      "lng": 135.497485
-    },
-    {
-      "region": "오사카 - 우메다",
-      "cat": "이자카야",
-      "name": "이사리비",
-      "note": "",
-      "lat": 34.7064892,
-      "lng": 135.4977256
-    }
+  food: [
+    {region:"교토 - 기온/히가시야마", name:"오반자이 사쿠라가와", cat:"교토 가정식(오반자이)", note:"다카세강변, 반찬 소분 제공이라 아이 나눠먹기 좋음"},
+    {region:"교토 - 기온/히가시야마", name:"교노지도리야 아키", cat:"토종닭 요리", note:"구이/전골류, 가족 단위 이용 무난"},
+    {region:"교토 - 기온/히가시야마", name:"교료리 호잔", cat:"교토요리 런치뷔페", note:"뷔페식이라 아이 취향껏 담아먹기 좋음"},
+    {region:"교토 - 기온/히가시야마", name:"분노스케 찻집", cat:"디저트/카페", note:"고사리떡 디저트, 기요미즈 근처, 좌석 여유"},
+    {region:"교토 - 기온/히가시야마", name:"우메조노 시미즈", cat:"디저트(경단)", note:"미타라시당고 등 아이 간식용 메뉴 다양"},
+    {region:"교토 - 기온/히가시야마", name:"기온 텐단", cat:"야키니쿠(고기구이)", note:"1일차 19:30 저녁 예정"},
+    {region:"교토 - 기온/히가시야마", name:"Fresco Higashiyama Nanajo", cat:"마트(장보기)", note:"1일차 21:00 / 2일차 18:00 장보기"},
+    {region:"교토 - 기온/히가시야마", name:"스타벅스 니넨자카점", cat:"카페", note:"다다미석, 이른 시간대라 대기 적음"},
+    {region:"교토 - 후시미이나리 인근", name:"Restaurant Namaste", cat:"인도 카레", note:"전 좌석 금연, 맵기 단계 조절 가능해 아이 동반 무난"},
+    {region:"교토 - 후시미이나리 인근", name:"교토가츠규 후시미이나리점", cat:"규카츠(소고기 커틀릿)", note:"덮밥류라 아이도 먹기 편함"},
+    {region:"교토 - 후시미이나리 인근", name:"ABOUT US COFFEE", cat:"카페", note:"이나리역 도보 5분, 가벼운 휴식용"},
+    {region:"교토 - 후시미이나리 인근", name:"이나리역 인근 우동집", cat:"우동", note:"카케우동/키츠네우동, 저렴하고 빠른 식사"},
+    {region:"교토 - 후시미이나리 인근", name:"Fushimi Inari DORAIMON", cat:"장어덮밥(우나기동)", note:"예약 가능, 좌석 여유 있어 대기 부담 적음"},
+    {region:"교토 - 후시미이나리 인근", name:"수바(Suba)", cat:"우동/소바", note:"후시미이나리 인근 대안 맛집"},
+    {region:"교토역 인근", name:"카츠쿠라 (이세탄 11층)", cat:"돈카츠", note:"한국어 메뉴판 있음, 백화점 내 위치로 쾌적"},
+    {region:"교토역 인근", name:"나카무라 토키치 혼텐", cat:"말차 디저트/파르페", note:"교토역 인근 명물 디저트, 대기시간 감안 필요"},
+    {region:"교토역 인근", name:"긴자 텐푸라 텐이치 (교토 포르타점)", cat:"텐동/튀김", note:"지하상가, 자리 회전 빠른 편"},
+    {region:"교토역 인근", name:"동양정", cat:"경양식(함박스테이크)", note:"3일차 12:30 점심 예정"},
+    {region:"교토역 인근", name:"551호라이 (이세탄 지하)", cat:"중화 간식", note:"부타망 등 간식류, 짧게 들르기 좋음"},
+    {region:"오사카 - 우메다", name:"XEX WEST (하비스오사카 최상층)", cat:"일식 다이닝(개별룸)", note:"완전 개별룸 있어 아이 있는 가족도 편안하게 이용"},
+    {region:"오사카 - 우메다", name:"오코노미야키 키지", cat:"오코노미야키", note:"우메다 대표 맛집, 아이도 좋아하는 철판요리"},
+    {region:"오사카 - 우메다", name:"회전초밥 사카에", cat:"회전초밥", note:"우메다역 도보 5분, 접시당 135엔대로 부담 적음"},
+    {region:"오사카 - 우메다", name:"우동 우무기", cat:"우동(튀김우동)", note:"푸짐한 튀김우동, 여성/아이도 부담 없는 분위기"},
+    {region:"오사카 - 우메다", name:"하카타 하나미도리 (우메다 힐튼점)", cat:"미즈타키(닭고기전골)", note:"단체룸 있어 가족 모임에 적합"},
+    {region:"오사카 - 우메다", name:"야키니쿠 고리짱 우메다 본점", cat:"야키니쿠(고기구이)", note:"3일차 19:00 저녁 예정"},
+    {region:"오사카 - 우메다", name:"Mitsui", cat:"오코노미야끼", note:"평점 4.8 (61) · 저녁 5시 영업 시작"},
+    {region:"오사카 - 우메다", name:"야키니쿠 우시가타리", cat:"야키니쿠", note:"평점 4.8 (1,032)"},
+    {region:"오사카 - 우메다", name:"이즈모 우나기", cat:"이자카야(우나기)", note:"평점 4.7 (3,205)"},
+    {region:"오사카 - 우메다", name:"야키니쿠 리키마루 우메다-오하츠텐진점", cat:"야키니쿠", note:"평점 4.4 (1,415)"},
+    {region:"오사카 - 우메다", name:"야키니쿠 리키마루 우메다 히가시도리점", cat:"야키니쿠", note:"평점 4.8 (8,006)"},
+    {region:"오사카 - 우메다", name:"리키마루 로바타야키 이사리비", cat:"이자카야(로바타야키)", note:"평점 3.5 (1,980)"},
+    {region:"오사카 - 우메다", name:"규카츠 모토무라 루쿠아점", cat:"돈까스", note:"평점 4.9 (8,420)"},
+    {region:"오사카 - 우메다", name:"코하쿠 루쿠아오사카", cat:"프랑스 요리", note:"평점 4.1 (696), 와인샵 겸함"},
+    {region:"오사카 - 우메다", name:"신키라쿠", cat:"튀김", note:"평점 4.2 (305)"},
+    {region:"오사카 - 우메다", name:"스시사카바 사시스 화이티 우메다점", cat:"초밥", note:"평점 4.0 (895)"},
+    {region:"오사카 - 우메다", name:"Gensei", cat:"소바", note:"평점 4.0 (649)"},
+    {region:"오사카 - 우메다", name:"타유타유 이자카야", cat:"이자카야", note:"평점 4.2 (249)"},
+    {region:"오사카 - 우메다", name:"스시일심", cat:"초밥", note:"평점 4.5 (760)"},
+    {region:"오사카 - 우메다", name:"Sushi Nakamise", cat:"초밥", note:"평점 4.6 (227)"},
+    {region:"오사카 - 우메다", name:"하브스 다이마루 우메다점", cat:"카페/디저트", note:"평점 4.2 (533)"},
+    {region:"오사카 - 우메다", name:"Hinata Mediterranean & Japanese Food", cat:"지중해·일식", note:"평점 4.5 (75)"},
+    {region:"오사카 - 우메다", name:"이모야 킨지로 그랜드프론트 오사카점", cat:"디저트", note:"평점 4.5 (243)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"Yakiniku Haguregumo Namba", cat:"야키니쿠", note:"평점 4.9 (6,943)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"엔야야끼도리", cat:"야키토리", note:"평점 4.4 (993)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"나기카츠", cat:"돈까스", note:"평점 4.8 (1,569)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"돈카츠 뉴베이브 난바점", cat:"돈까스", note:"평점 4.7 (1,928)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"키탄 히비키", cat:"스테이크", note:"평점 4.3 (781)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"이자카야 몽조", cat:"야키토리", note:"평점 4.4 (701)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"Unotake Kasu Udon", cat:"우동", note:"평점 4.7 (832)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"규카츠 모토무라 난바 분점", cat:"돈까스", note:"평점 4.9 (25,849)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"쿠시카츠 다루마 도톤보리점", cat:"꼬치·튀김", note:"평점 3.8 (2,324)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"야키니쿠 리키마루 난카이 난바점", cat:"야키니쿠", note:"평점 4.4 (1,415)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"스시 사카바 사시스 난바점", cat:"초밥", note:"평점 4.3 (2,431)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"우라난바 야키니쿠 토라니츠노 난바 본점", cat:"야키니쿠", note:"평점 4.7 (527)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"돈카츠 시가", cat:"돈까스", note:"평점 4.7 (597)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"스미야 코바코", cat:"야키토리", note:"평점 4.3 (704)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"하브스 난바파크스점", cat:"카페/디저트", note:"평점 4.2 (1,209)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"츠루동탄 소에몬초점", cat:"우동", note:"평점 4.0 (4,864)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"나미요시안", cat:"일본 디저트", note:"평점 4.2 (1,209)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"우오이치 쇼쿠도", cat:"해산물 돈부리", note:"평점 4.3 (1,267)"},
+    {region:"교토 - 아라시야마", name:"아라시야마 키주로", cat:"스테이크", note:"평점 4.5 (1,772)"},
+    {region:"교토 - 아라시야마", name:"타이쇼 하나나", cat:"일식", note:"평점 4.4 (1,965)"},
+    {region:"교토 - 아라시야마", name:"히로코 타코야키", cat:"타코야키", note:"평점 4.4 (604)"},
+    {region:"교토 - 아라시야마", name:"% 아라비카 교토 아라시야마점", cat:"카페", note:"평점 4.2 (5,664)"},
+    {region:"교토 - 아라시야마", name:"빵과 에스프레소와 아라시야마 정원", cat:"빵·카페", note:"평점 4.1 (1,462)"},
+    {region:"교토 - 시조/가와라마치", name:"혼케 오와리야 본점", cat:"소바", note:"평점 4.3 (2,369), 폐업 확인 필요"},
+    {region:"교토 - 시조/가와라마치", name:"Dontsuki", cat:"해산물 요리", note:"평점 4.3 (160)"},
+    {region:"교토 - 시조/가와라마치", name:"마루키 베이커리", cat:"제과점", note:"평점 4.5 (2,419)"},
+    {region:"교토 - 시조/가와라마치", name:"Le Labo Cafe Kyoto Machiya", cat:"카페", note:"평점 3.8 (351)"},
+    {region:"교토 - 시조/가와라마치", name:"스시사카바 사시스 교토 요도바시점", cat:"초밥", note:"평점 4.2 (807)"},
+    {region:"교토 - 시조/가와라마치", name:"수타 우동&텐푸라 멘쿠이 킨야", cat:"우동·튀김", note:"평점 4.6 (768)"},
+    {region:"교토 - 시조/가와라마치", name:"Gyoza Hohei", cat:"만두", note:"평점 4.2 (1,203)"},
+    {region:"교토 - 시조/가와라마치", name:"Tsuke-yasai Isoism", cat:"채소 요리", note:"평점 4.4 (953)"},
+    {region:"교토 - 시조/가와라마치", name:"Sugitora", cat:"디저트", note:"평점 4.3 (335)"},
+    {region:"교토 - 시조/가와라마치", name:"Takedatsu-tei", cat:"우동덮밥", note:"평점 4.2 (213)"},
+    {region:"교토 - 기온/히가시야마(추가)", name:"히키니쿠토 코메 교토", cat:"일식당", note:"평점 4.5 (2,284)"},
+    {region:"교토 - 기온/히가시야마(추가)", name:"燒肉の名門 天壇 祇園本店", cat:"야키니쿠", note:"평점 4.1 (1,456)"},
+    {region:"교토 - 기온/히가시야마(추가)", name:"우즈라야", cat:"야키니쿠", note:"평점 4.2 (256)"},
+    {region:"교토 - 기온/히가시야마(추가)", name:"오멘 긴카쿠지 본점", cat:"우동", note:"평점 4.3 (1,966)"},
+    {region:"교토 - 기온/히가시야마(추가)", name:"tabanenoshi ginkakuji", cat:"크레프리", note:"평점 4.8 (760)"}
   ],
-  "shop": [
-    {
-      "region": "교토",
-      "cat": "슈퍼마켓",
-      "name": "Happy Rokuhara",
-      "note": "슈퍼마켓, 평점 4.2 (457)",
-      "lat": 34.997232,
-      "lng": 135.774804
-    },
-    {
-      "region": "교토",
-      "cat": "의류·잡화",
-      "name": "SOU・SOU 타비",
-      "note": "의류·잡화, 평점 4.4 (342)",
-      "lat": 35.0043763,
-      "lng": 135.7681438
-    },
-    {
-      "region": "교토",
-      "cat": "천원샵",
-      "name": "Seria Kawaramachi Opa Shop",
-      "note": "천원샵, 평점 3.9 (258)",
-      "lat": 35.0044838,
-      "lng": 135.7688633
-    },
-    {
-      "region": "교토",
-      "cat": "천원샵",
-      "name": "DAISO(가와라마치)",
-      "note": "천원샵, 평점 4.0 (1,452)",
-      "lat": 35.0037565,
-      "lng": 135.7687486
-    },
-    {
-      "region": "교토",
-      "cat": "선물가게",
-      "name": "Bento&co Kyoto",
-      "note": "선물가게, 평점 4.2 (135)",
-      "lat": 35.0072875,
-      "lng": 135.7666466
-    },
-    {
-      "region": "교토",
-      "cat": "시장",
-      "name": "니시키 시장",
-      "note": "시장, 평점 4.3 (53,556)",
-      "lat": 35.0050258,
-      "lng": 135.764723
-    },
-    {
-      "region": "오사카",
-      "cat": "천원샵",
-      "name": "다이소",
-      "note": "지점 확인 필요",
-      "lat": 34.6669157,
-      "lng": 135.5038711
-    },
-    {
-      "region": "오사카",
-      "cat": "쇼핑몰",
-      "name": "파르코 신사이바시",
-      "note": "쇼핑몰, 평점 4.2 (4,903)",
-      "lat": 34.6738473,
-      "lng": 135.5009574
-    },
-    {
-      "region": "오사카",
-      "cat": "주류 판매점",
-      "name": "Liquor Mountain Suomachi",
-      "note": "주류 판매점, 평점 4.6 (429)",
-      "lat": 34.6720863,
-      "lng": 135.5046081
-    },
-    {
-      "region": "오사카",
-      "cat": "식료품",
-      "name": "라이프 센트럴 스퀘어 난바점",
-      "note": "식료품, 평점 4.1 (2,989)",
-      "lat": 34.6665993,
-      "lng": 135.4960976
-    },
-    {
-      "region": "오사카",
-      "cat": "카페",
-      "name": "포켓몬 카페 오사카 신사이바시",
-      "note": "카페, 평점 4.1 (1,405)",
-      "lat": 34.6733012,
-      "lng": 135.5007844
-    },
-    {
-      "region": "오사카",
-      "cat": "캐릭터샵",
-      "name": "산리오 기프트 게이트",
-      "note": "난바 에비스바시",
-      "lat": 34.6952474,
-      "lng": 135.5012079
-    },
-    {
-      "region": "오사카",
-      "cat": "의류점",
-      "name": "랄프로렌",
-      "note": "의류점, 평점 3.7 (116)",
-      "lat": 34.6952474,
-      "lng": 135.5012079
-    },
-    {
-      "region": "오사카",
-      "cat": "커피용품",
-      "name": "KALDI COFFEE FARM",
-      "note": "커피용품, 평점 3.8 (173)",
-      "lat": 34.6952474,
-      "lng": 135.5012079
-    },
-    {
-      "region": "오사카",
-      "cat": "쇼핑몰",
-      "name": "그랑 프론트 오사카",
-      "note": "쇼핑몰, 평점 4.0 (21,645)",
-      "lat": 34.7038664,
-      "lng": 135.4949205
-    },
-    {
-      "region": "오사카",
-      "cat": "식료품점",
-      "name": "LIFE Nakazakichō Ekimaeten",
-      "note": "식료품점, 평점 3.8 (399)",
-      "lat": 34.7054144,
-      "lng": 135.5048845
-    },
-    {
-      "region": "오사카",
-      "cat": "캐릭터샵",
-      "name": "포켓몬센터 오사카",
-      "note": "캐릭터샵, 평점 4.3 (2,856)",
-      "lat": 34.7018579,
-      "lng": 135.4964699
-    },
-    {
-      "region": "오사카",
-      "cat": "백화점",
-      "name": "다이마루 우메다점",
-      "note": "백화점, 평점 4.0 (6,499)",
-      "lat": 34.701789,
-      "lng": 135.4965763
-    },
-    {
-      "region": "오사카",
-      "cat": "할인점",
-      "name": "돈키호테 우메다본점",
-      "note": "할인점, 평점 3.6 (7,714)·24시간 영업",
-      "lat": 34.7032174,
-      "lng": 135.5009133
-    },
-    {
-      "region": "오사카",
-      "cat": "쇼핑몰",
-      "name": "링크스 우메다",
-      "note": "쇼핑몰, 평점 4.0 (5,812)",
-      "lat": 34.704704,
-      "lng": 135.4965441
-    },
-    {
-      "region": "오사카",
-      "cat": "쇼핑몰",
-      "name": "헵 파이브",
-      "note": "HEP FIVE",
-      "lat": 34.7040897,
-      "lng": 135.5004632
-    },
-    {
-      "region": "오사카",
-      "cat": "장난감(가샤폰)",
-      "name": "Gachagacha no mori Osaka Umeda Chayamachi Store",
-      "note": "",
-      "lat": 34.7079533,
-      "lng": 135.4993874
-    },
-    {
-      "region": "오사카",
-      "cat": "천원샵",
-      "name": "다이소(우메다지하)",
-      "note": "우메다역 지하",
-      "lat": 34.70475,
-      "lng": 135.4997105
-    },
-    {
-      "region": "오사카",
-      "cat": "쇼핑몰",
-      "name": "쇼핑몰 루쿠아",
-      "note": "LUCUA",
-      "lat": 34.7028866,
-      "lng": 135.4953236
-    },
-    {
-      "region": "오사카",
-      "cat": "백화점",
-      "name": "한큐백화점 우메다 본점",
-      "note": "",
-      "lat": 34.7028186,
-      "lng": 135.4985323
-    }
+  shop: [
+    {region:"오사카 - 우메다", name:"랄프로렌", cat:"의류점", note:"평점 3.7 (116)"},
+    {region:"오사카 - 우메다", name:"KALDI COFFEE FARM", cat:"커피용품", note:"평점 3.8 (173)"},
+    {region:"오사카 - 우메다", name:"루쿠아 오사카", cat:"쇼핑몰", note:"평점 4.0 (3,825)"},
+    {region:"오사카 - 우메다", name:"그랑 프론트 오사카", cat:"쇼핑몰", note:"평점 4.0 (21,645)"},
+    {region:"오사카 - 우메다", name:"LIFE Nakazakichō Ekimaeten", cat:"식료품점", note:"평점 3.8 (399)"},
+    {region:"오사카 - 우메다", name:"Gachagacha no mori Osaka Umeda Chayamachi", cat:"장난감", note:"평점 4.1 (283)"},
+    {region:"오사카 - 우메다", name:"포켓몬센터 오사카", cat:"캐릭터샵", note:"평점 4.3 (2,856)"},
+    {region:"오사카 - 우메다", name:"다이마루 우메다점", cat:"백화점", note:"평점 4.0 (6,499)"},
+    {region:"오사카 - 우메다", name:"다이소 우메다점", cat:"천원샵", note:"평점 4.0 (2,133)"},
+    {region:"오사카 - 우메다", name:"돈키호테 우메다 본점", cat:"할인점", note:"평점 3.6 (7,714), 24시간"},
+    {region:"오사카 - 우메다", name:"한큐 우메다 본점", cat:"백화점", note:"평점 4.2 (37,411)"},
+    {region:"오사카 - 우메다", name:"링크스 우메다", cat:"쇼핑몰", note:"평점 4.0 (5,812)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"파르코 신사이바시", cat:"쇼핑몰", note:"평점 4.2 (4,903)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"Sanrio Gift Gate 난바 에비스바시점", cat:"캐릭터샵", note:"평점 4.1 (318)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"Fanbi Wholesale TERAUCHI Co., Ltd.", cat:"의류 도매", note:"평점 3.8 (190)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"Liquor Mountain Suomachi", cat:"주류 판매점", note:"평점 4.6 (429)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"라이프 센트럴 스퀘어 난바점", cat:"식료품", note:"평점 4.1 (2,989)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"다이소 난바난산도리점", cat:"천원샵", note:"평점 3.9 (2,147)"},
+    {region:"오사카 - 난바/신사이바시/도톤보리", name:"포켓몬 카페 오사카 신사이바시", cat:"카페", note:"평점 4.1 (1,405)"},
+    {region:"교토 - 시조/가와라마치", name:"SOU・SOU 타비", cat:"의류·잡화", note:"평점 4.4 (342)"},
+    {region:"교토 - 시조/가와라마치", name:"Seria Kawaramachi Opa Shop", cat:"천원샵", note:"평점 3.9 (258)"},
+    {region:"교토 - 시조/가와라마치", name:"DAISO (가와라마치)", cat:"천원샵", note:"평점 4.0 (1,452)"},
+    {region:"교토 - 시조/가와라마치", name:"Bento&co Kyoto", cat:"선물가게", note:"평점 4.2 (135)"},
+    {region:"교토 - 시조/가와라마치", name:"니시키 시장", cat:"시장", note:"평점 4.3 (53,556)"},
+    {region:"교토 - 후시미/기타", name:"돈키호테 미야코지마점", cat:"할인점", note:"평점 4.0 (2,542)"},
+    {region:"교토 - 기온/히가시야마", name:"Happy Rokuhara", cat:"슈퍼마켓", note:"평점 4.2 (457)"}
   ],
-  "sight": [
-    {
-      "region": "교토",
-      "cat": "관광지",
-      "name": "기요미즈데라",
-      "note": "",
-      "lat": 34.9946662,
-      "lng": 135.784661
-    },
-    {
-      "region": "교토",
-      "cat": "관광지",
-      "name": "교토 국립박물관",
-      "note": "히가시야마 인근",
-      "lat": 34.9899887,
-      "lng": 135.773116
-    },
-    {
-      "region": "교토",
-      "cat": "관광지",
-      "name": "금각사",
-      "note": "시내 중심에서 다소 떨어짐 - 동선 확인 필요",
-      "lat": 35.03937,
-      "lng": 135.7292431
-    },
-    {
-      "region": "교토",
-      "cat": "관광지",
-      "name": "텐류지",
-      "note": "유네스코 세계문화유산, 정원 유명",
-      "lat": 35.0158379,
-      "lng": 135.6737654
-    },
-    {
-      "region": "교토",
-      "cat": "관광지",
-      "name": "아라시야마 치쿠린",
-      "note": "대나무숲 산책로",
-      "lat": 35.0168187,
-      "lng": 135.6713013
-    },
-    {
-      "region": "교토",
-      "cat": "관광지",
-      "name": "아라시야마 공원",
-      "note": "가메야마 지구, 강변 산책",
-      "lat": 35.0120683,
-      "lng": 135.6785401
-    },
-    {
-      "region": "교토",
-      "cat": "관광지",
-      "name": "교토철도박물관",
-      "note": "",
-      "lat": 34.98758249999999,
-      "lng": 135.7429507
-    },
-    {
-      "region": "오사카",
-      "cat": "관광지",
-      "name": "도톤보리",
-      "note": "글리코 상, 야경 명소",
-      "lat": 34.6686471,
-      "lng": 135.5030983
-    },
-    {
-      "region": "오사카",
-      "cat": "액티비티",
-      "name": "원더크루즈 도톤보리니혼바시선착장",
-      "note": "도톤보리 리버크루즈",
-      "lat": 34.6689201,
-      "lng": 135.5054825
-    },
-    {
-      "region": "오사카",
-      "cat": "관광지",
-      "name": "하루카스 300",
-      "note": "아베노 하루카스 전망대",
-      "lat": 34.6463062,
-      "lng": 135.5133091
-    },
-    {
-      "region": "오사카",
-      "cat": "관광지",
-      "name": "덴노지동물원",
-      "note": "",
-      "lat": 34.6510957,
-      "lng": 135.5084344
-    },
-    {
-      "region": "오사카",
-      "cat": "관광지",
-      "name": "오사카 성",
-      "note": "덴노지/우메다와는 다른 구역",
-      "lat": 34.6872571,
-      "lng": 135.5258546
-    },
-    {
-      "region": "오사카",
-      "cat": "관광지",
-      "name": "헵파이브 관람차",
-      "note": "HEP FIVE 대관람차",
-      "lat": 34.7040684,
-      "lng": 135.5000945
-    },
-    {
-      "region": "오사카",
-      "cat": "관광지",
-      "name": "유니버설 스튜디오 재팬",
-      "note": "",
-      "lat": 34.6656768,
-      "lng": 135.4323185
-    },
-    {
-      "region": "오사카",
-      "cat": "관광지",
-      "name": "컵라면 박물관 오사카",
-      "note": "이케다시, 우메다에서 다소 거리 있음 - 동선 확인 필요",
-      "lat": 34.8178846,
-      "lng": 135.4266442
-    },
-    {
-      "region": "오사카",
-      "cat": "관광지",
-      "name": "해유관",
-      "note": "오사카 아쿠아리움",
-      "lat": 34.6545182,
-      "lng": 135.4289645
-    }
+  sight: [
+    {region:"교토", name:"야사카 신사", cat:"관광", note:"밤의 야사카 신사 (제등 조명)"},
+    {region:"교토", name:"기온 거리", cat:"관광", note:"기온 신바시 골목 탐방"},
+    {region:"교토", name:"기요미즈데라(청수사)", cat:"관광", note:"실버위크 혼잡 회피 위해 이른 아침 관람 권장"},
+    {region:"교토", name:"산넨자카 & 니넨자카", cat:"관광", note:"교토 시내 전경 감상"},
+    {region:"교토", name:"후시미이나리 신사", cat:"관광", note:"붉은 토리이 길 사진 촬영"},
+    {region:"교토", name:"교토 철도박물관", cat:"관광", note:"증기기관차 '슬엔호' 탑승 체험"},
+    {region:"오사카", name:"유니버설 스튜디오 재팬 (USJ)", cat:"관광", note:"유니버설 예약 보통 2개월전 오픈"},
+    {region:"오사카", name:"유니버설 시티워크", cat:"쇼핑/식당", note:"호텔 복귀 전 식사 해결 권장"},
+    {region:"오사카", name:"닌텐도 오사카", cat:"쇼핑", note:"다이마루 우메다점 13층, 포켓몬센터·산리오 인근"},
+    {region:"오사카", name:"세리아 (Seria)", cat:"쇼핑", note:"NU 차야마치 / 우메다 인근, 디즈니/캐릭터 소품·문구"},
+    {region:"오사카", name:"헵파이브 (HEP FIVE)", cat:"쇼핑/놀이", note:"9층 가샤폰 백화점 (600대) & 대관람차"}
   ]
 };
 /* REF_AUTO_END */
