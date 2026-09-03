@@ -213,6 +213,46 @@ def load_info_sheet(sh, tab_name):
     return items
 
 
+def is_real_url(u):
+    """일정 탭 H열의 'https:// (항공권)' 같은 자리표시자를 걸러내고
+    실제로 열리는 링크만 True로 판단합니다."""
+    if not u:
+        return False
+    u = u.strip()
+    if " " in u or "(" in u:
+        return False
+    return u.lower().startswith(("http://", "https://")) and len(u) > len("https://")
+
+
+def extract_auto_vouchers(days):
+    """일정 탭에서 H열(바우처URL)에 실제 링크가 채워진 일정을 찾아
+    필수정보의 '바우처' 항목으로 자동 변환합니다.
+    (수동으로 필수정보 탭에 직접 입력할 필요 없이, 일정 탭에 이미
+    적어둔 링크를 그대로 재활용합니다.)
+
+    한 칸(셀) 안에 줄바꿈으로 링크를 여러 개 넣으면(예: 가족 3명분
+    티켓 링크 3줄) 각각 별도의 바우처 항목으로 나뉩니다."""
+    items = []
+    for d in days:
+        for s in d["stops"]:
+            raw = s.get("url", "")
+            lines = [ln.strip() for ln in raw.split("\n") if ln.strip()]
+            valid_links = [ln for ln in lines if is_real_url(ln)]
+            total = len(valid_links)
+            for idx, link in enumerate(valid_links, start=1):
+                label = s.get("title", "")
+                if total > 1:
+                    label = f"{label} ({idx}/{total})"
+                items.append({
+                    "kind": "바우처",
+                    "label": label,
+                    "value": s.get("place") or s.get("desc") or "",
+                    "detail": "",
+                    "link": link,
+                })
+    return items
+
+
 def geocode_ref_items(items):
     for it in items:
         query = f"{it['name']} {it.get('region', '')}".strip()
@@ -337,8 +377,13 @@ def main():
         print("3~5. GOOGLE_MAPS_API_KEY가 없어 좌표/경로/참고목록 계산은 건너뜁니다 (기존 값 유지).")
 
     print("6. 필수정보(숙소/항공/바우처/긴급연락처) 탭을 불러오는 중... (좌표 계산 없이 그대로 사용)")
-    info_data = load_info_sheet(sh, INFO_SHEET_NAME)
-    print(f"  - {len(info_data)}개 항목 로드")
+    manual_info = load_info_sheet(sh, INFO_SHEET_NAME)
+    auto_vouchers = extract_auto_vouchers(days)
+    # 같은 링크가 필수정보 탭에 이미 수동으로 있으면 자동 추출분은 건너뛰어 중복 방지
+    existing_links = {it["link"] for it in manual_info if it.get("link")}
+    auto_vouchers = [v for v in auto_vouchers if v["link"] not in existing_links]
+    info_data = auto_vouchers + manual_info
+    print(f"  - 일정 탭에서 자동 추출된 바우처 {len(auto_vouchers)}개 + 필수정보 탭 직접 입력 {len(manual_info)}개 = 총 {len(info_data)}개")
 
     print("7. index.html 파일을 갱신하는 중...")
     if not os.path.exists(OUTPUT_PATH):
