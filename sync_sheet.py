@@ -162,8 +162,19 @@ def get_directions(origin, destination, mode, transit_mode=None):
                 "duration": leg["duration"]["text"],
                 "poly": route["overview_polyline"]["points"],
             }
-    except Exception:
-        pass
+        else:
+            # 실패 사유를 Actions 로그에 남깁니다 (원인 진단용).
+            status = resp.get("status")
+            err_msg = resp.get("error_message", "")
+            print(
+                f"    [경로실패] mode={mode} transit_mode={transit_mode} "
+                f"origin={origin} dest={destination} status={status} {err_msg}"
+            )
+    except Exception as e:
+        print(
+            f"    [경로예외] mode={mode} transit_mode={transit_mode} "
+            f"origin={origin} dest={destination} error={e}"
+        )
     return None
 
 
